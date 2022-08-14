@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+</head>
+
+<body>
+    <h1>Menu Page</h1>
+</body>
+<div class="navBar">
+    <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="../templates/menu.html">Menu</a></li>
+        <li><a href="../templates/profile.html">Profile</a></li>
+    </ul>
+</div>
+<div class="body-wrapper">
+    <form>
+        <button type="submit" value="gin">Gin</button>
+        <button type="submit" value="vodka">Vodka</button>
+        <button type="submit" value="whiskey">Whiskey</button>
+    </form>
+    <div class="grid-container" data-th-each="cocktail: ${listOfCocktails}">
+        <div class="grid-item">
+            <img src="#" alt="">
+            <p data-th-text="${cocktail}"></p>
+        </div>
+    </div>
+
+</div>
+
+<div class="content-wrapper">
+
+</div>
+
+</html>
