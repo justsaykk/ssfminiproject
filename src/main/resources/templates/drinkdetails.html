@@ -56,19 +56,9 @@
         </nav>
     </div>
 
-    <div class="container">
-        <div class="row row-cols-4 row-cols-md-3 g-4">
-            <div class="col" data-th-each="cocktail: ${listOfCocktails}">
-                <div class="card" style="width: 18rem;">
-                    <a data-th-href="@{/drink(idDrink=${cocktail.idDrink})}">
-                        <img data-th-src="${cocktail.strDrinkThumb}" class="card-img-top">
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title" data-th-text="${cocktail.strDrink}"></h5>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="row row-cols-4 row-cols-md-3 g-4">
+        <h1>These are the details of the drink:</h1>
+        <p data-th-text="${cocktailDetails.idDrink}"></p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
