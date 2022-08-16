@@ -33,7 +33,6 @@ public class FrontEndController {
             @RequestParam(name = "idDrink") String idDrink,
             Model model) {
         Cocktail cocktail = apiSvc.fetchDrinkById(idDrink);
-        System.out.println("Adding this id to model " + cocktail.getIdDrink());
         model.addAttribute("cocktailDetails", cocktail);
         return "drinkdetails";
     }

@@ -80,14 +80,16 @@ public class Cocktail {
         n.setStrDrinkImage(jo.getString("strDrinkThumb"));
         n.setStrInstructions(jo.getString("strInstructions"));
 
-        System.out.printf("just set id: %s\n", n.getIdDrink());
-
         for (int i = 1; i < 16; i++) {
             String strKey = "strIngredient" + Integer.toString(i);
             String strValue = "strMeasure" + Integer.toString(i);
             JsonValue key = jo.get(strKey);
             JsonValue value = jo.get(strValue);
-            map.put(key.toString(), value.toString());
+            if (value.toString().equals("null")) {
+                break;
+            }
+            map.put(key.toString().replaceAll("\"", ""),
+                    value.toString().replaceAll("\"", ""));
         }
         n.setIngredients(map);
         return n;
