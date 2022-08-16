@@ -37,4 +37,6 @@ public class FrontEndController {
         return "drinkdetails";
     }
 
+    
+
 }
