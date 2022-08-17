@@ -21,7 +21,7 @@ public class Repo {
 
     public Boolean addDrink(String key, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
-        List<String> listOfValues = getDrink(key);
+        List<String> listOfValues = getProfile(key);
 
         if (!listOfValues.contains(value)) {
             listOps.rightPush(key, value);
@@ -31,7 +31,7 @@ public class Repo {
         }
     }
 
-    public List<String> getDrink(String key) {
+    public List<String> getProfile(String key) {
         ListOperations<String, String> listOps = repo.opsForList();
         return listOps.range(key, 0, listOps.size(key) + 1);
     }
