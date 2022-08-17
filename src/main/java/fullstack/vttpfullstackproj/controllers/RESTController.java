@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +35,7 @@ public class RESTController {
     @Autowired
     private ApiService apiSvc;
 
-    @PostMapping(path = "/adddrink")
+    @PostMapping(path = "/adddrink", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> addDrink(
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
@@ -55,7 +56,7 @@ public class RESTController {
         }
     }
 
-    @GetMapping(path = "/profile/{name}")
+    @GetMapping(path = "/profile/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getProfile(
             @PathVariable(value = "name") String name) {
 
