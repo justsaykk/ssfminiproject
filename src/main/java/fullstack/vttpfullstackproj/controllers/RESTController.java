@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,8 @@ import fullstack.vttpfullstackproj.models.Cocktail;
 import fullstack.vttpfullstackproj.services.ApiService;
 import fullstack.vttpfullstackproj.services.RESTService;
 import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -52,18 +55,29 @@ public class RESTController {
         }
     }
 
-    @PostMapping(path = "/profile/{name}")
+    @GetMapping(path = "/profile/{name}")
     public ResponseEntity<String> getProfile(
             @PathVariable(value = "name") String name) {
 
         List<String> listOfidDrink = restSvc.getProfile(name);
-        List<Cocktail> listOfCocktails = new LinkedList<>();
+        List<JsonObject> listOfCocktails = new LinkedList<>();
 
         for (String id : listOfidDrink) {
-            Cocktail cocktail = apiSvc.fetchDrinkById(id);
-            listOfCocktails.add(cocktail);
+            Cocktail cocktail = new Cocktail();
+            cocktail = apiSvc.fetchDrinkById(id);
+            JsonObject e = cocktail.toJsonObject(cocktail);
+            listOfCocktails.add(e);
         }
-        // TO-DO: Build Json Object from this and return it.
-        return null;
+
+        JsonArrayBuilder builder = Json.createArrayBuilder();
+        for (JsonObject jsonObject : listOfCocktails) {
+            builder.add(jsonObject);
+        }
+
+        JsonObject jo = Json.createObjectBuilder()
+                .add(name, builder)
+                .build();
+
+        return new ResponseEntity<String>(jo.toString(), HttpStatus.OK);
     }
 }

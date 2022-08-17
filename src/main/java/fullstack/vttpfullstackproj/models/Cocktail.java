@@ -2,8 +2,12 @@ package fullstack.vttpfullstackproj.models;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonValue;
 
 public class Cocktail {
@@ -93,5 +97,26 @@ public class Cocktail {
         }
         n.setIngredients(map);
         return n;
+    }
+
+    public JsonObject toJsonObject(Cocktail cocktail) {
+        JsonArrayBuilder ingredientArrBuilder = Json.createArrayBuilder();
+        JsonObjectBuilder ingredientObjBuilder = Json.createObjectBuilder();
+        Map<String, String> ingredientMap = cocktail.getIngredients();
+        Set<String> keySet = ingredientMap.keySet();
+
+        for (String key : keySet) {
+            ingredientArrBuilder
+                    .add(ingredientObjBuilder.add(key, ingredientMap.get(key)));
+        }
+
+        return Json.createObjectBuilder()
+                .add("idDrink", cocktail.getIdDrink())
+                .add("strDrink", cocktail.getStrDrink())
+                .add("strDrinkThumb", cocktail.getStrDrinkThumb())
+                .add("strDrinkImage", cocktail.getStrDrinkImage())
+                .add("strInstructions", cocktail.getStrInstructions())
+                .add("ingredients", ingredientArrBuilder)
+                .build();
     }
 }

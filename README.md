@@ -7,7 +7,7 @@
 | Requirement | Progress    |
 | ----------- | ----------- |
 | Must handle POST & GET request | Done |
-| Must include @PathVariable |  |
+| Must include @PathVariable | Done |
 | Must include both @Controller & @RestController | Done |
 | POST must consume either form or JSON data | Done |
 | Must support more than 1 user | Done |
