@@ -33,7 +33,7 @@ public class AppConfig {
     private String redisPassword;
 
     @Bean("repository")
-    public RedisTemplate initRedisTemplate() {
+    public RedisTemplate<String, String> initRedisTemplate() {
         // 1st Step: Config Redis Database
         RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
         redisConfig.setHostName(redisHost);
