@@ -1,0 +1,6 @@
+spring:
+  redis:
+    database: 0
+    host: redis-16733.c56.east-us.azure.cloud.redislabs.com
+    port: 16733
+    username: default

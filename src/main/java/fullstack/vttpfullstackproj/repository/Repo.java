@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,9 +14,6 @@ public class Repo {
     @Autowired
     @Qualifier("repository")
     private RedisTemplate<String, String> repo;
-
-    @Value("${spring.redis.cacheTime}")
-    private Long cacheTime;
 
     public Boolean addDrink(String key, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
