@@ -21,12 +21,16 @@ public class FrontEndController {
     @Autowired
     private RESTService restSvc;
 
+    private String toCaps(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
     @GetMapping(path = "/menu")
     public String menu(
             @RequestParam(defaultValue = "whiskey", name = "drinkFilter") String ingredient,
             Model model) {
         List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByIngredients(ingredient.toLowerCase());
-        model.addAttribute("ingredient", ingredient);
+        model.addAttribute("ingredient", toCaps(ingredient));
         model.addAttribute("listOfCocktails", listOfCocktails);
         return "menu";
     }
