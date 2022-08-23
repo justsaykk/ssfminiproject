@@ -4,3 +4,9 @@ spring:
     host: redis-16733.c56.east-us.azure.cloud.redislabs.com
     port: 16733
     username: default
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: 4d5d2b3208a5cda4b414
