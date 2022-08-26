@@ -3,17 +3,21 @@ package fullstack.vttpfullstackproj.controllers;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import fullstack.vttpfullstackproj.models.Cocktail;
+import fullstack.vttpfullstackproj.models.User;
 import fullstack.vttpfullstackproj.services.ApiService;
 import fullstack.vttpfullstackproj.services.RESTService;
+import fullstack.vttpfullstackproj.services.UserService;
 import jakarta.json.*;
 
 @RestController
@@ -26,20 +30,26 @@ public class RESTController {
     @Autowired
     private ApiService apiSvc;
 
+    @Autowired
+    private UserService userSvc;
+
     @PostMapping(path = "/adddrink", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> addDrink(
             @RequestBody MultiValueMap<String, String> form,
+            OAuth2AuthenticationToken token,
             HttpServletResponse response) throws IOException {
 
-        String name = form.getFirst("name");
+        User currentUser = userSvc.currentUser(token);
+        String email = currentUser.getEmail();
         String idDrink = form.getFirst("idDrink");
-        Boolean add = restSvc.addDrink(name, idDrink);
-
+        System.out.printf("user %s is trying to add drinkId %s\n", email, idDrink);
+        
+        Boolean add = restSvc.addDrink(email, idDrink);
         if (!add) {
             String body = Json.createObjectBuilder()
                     .add("successfullyAdded", false)
                     .add("reason", "Duplicated addition")
-                    .add(name, idDrink)
+                    .add(email, idDrink)
                     .build().toString();
             return new ResponseEntity<String>(body, HttpStatus.BAD_REQUEST);
         } else {
@@ -73,4 +83,10 @@ public class RESTController {
 
         return new ResponseEntity<String>(jo.toString(), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/currentuser")
+    public Map<String, Object> currentUser(OAuth2AuthenticationToken token) {
+        return token.getPrincipal().getAttributes();
+    }
+
 }
