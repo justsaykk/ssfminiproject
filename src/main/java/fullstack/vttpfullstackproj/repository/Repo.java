@@ -27,17 +27,39 @@ public class Repo {
         System.out.printf("Created %s. Email: %s. Picture: %s\n", key, email, profilePic);
     }
 
-    public Boolean checkUser(String key) {
-        System.out.printf("Checking name: %s\n", key);
-        return repo.hasKey(key);
+    public Boolean checkEmail(String email) {
+        System.out.printf("Checking email: %s\n", email);
+
+        Boolean found = repo.hasKey(email);
+
+        if (found) {
+            System.out.println("Email found!");
+            return true;
+        } else {
+            System.out.println("Email not found!");
+            return false;
+        }
     }
 
-    public Boolean addDrink(String key, String value) { // email as key
+    public Boolean checkName(String name) {
+        System.out.printf("Checking name: %s\n", name);
+        Boolean found = repo.hasKey(name);
+
+        if (found) {
+            System.out.println("Name found!");
+            return true;
+        } else {
+            System.out.println("Name not found!");
+            return false;
+        }
+    }
+
+    public Boolean addDrink(String email, String value) { // email as key
         ListOperations<String, String> listOps = repo.opsForList();
-        List<String> listOfValues = getProfile(key);
+        List<String> listOfValues = getProfile(email);
 
         if (!listOfValues.contains(value)) {
-            listOps.rightPush(key, value);
+            listOps.rightPush(email, value);
             return true;
         } else {
             return false;

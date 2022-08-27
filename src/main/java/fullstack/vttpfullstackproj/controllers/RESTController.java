@@ -40,17 +40,17 @@ public class RESTController {
             HttpServletResponse response) throws IOException {
 
         User currentUser = userSvc.currentUser(token);
-        String email = currentUser.getEmail();
         String idDrink = form.getFirst("idDrink");
-        System.out.printf("user %s is trying to add drinkId %s\n", email, idDrink);
-        
-        Boolean add = restSvc.addDrink(email, idDrink);
+        System.out.printf("user %s is trying to add drinkId %s\n", currentUser.getEmail(), idDrink);
+
+        Boolean add = restSvc.addDrink(currentUser, idDrink);
         if (!add) {
             String body = Json.createObjectBuilder()
                     .add("successfullyAdded", false)
                     .add("reason", "Duplicated addition")
-                    .add(email, idDrink)
+                    .add(currentUser.getEmail(), idDrink)
                     .build().toString();
+            response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
             return new ResponseEntity<String>(body, HttpStatus.BAD_REQUEST);
         } else {
             response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
@@ -58,11 +58,11 @@ public class RESTController {
         }
     }
 
-    @GetMapping(path = "/profile/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/profile/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getProfile(
-            @PathVariable(value = "name") String name) {
+            @PathVariable(value = "email") String email) {
 
-        List<String> listOfidDrink = restSvc.getProfile(name);
+        List<String> listOfidDrink = restSvc.getProfile(email);
         List<JsonObject> listOfCocktails = new LinkedList<>();
 
         for (String id : listOfidDrink) {
@@ -78,7 +78,7 @@ public class RESTController {
         }
 
         JsonObject jo = Json.createObjectBuilder()
-                .add(name, builder)
+                .add(email, builder)
                 .build();
 
         return new ResponseEntity<String>(jo.toString(), HttpStatus.OK);

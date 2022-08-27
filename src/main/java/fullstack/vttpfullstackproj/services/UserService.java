@@ -19,7 +19,7 @@ public class UserService {
     }
 
     public Boolean profileExists(User user) {
-        return repo.checkUser(user.getGivenName());
+        return repo.checkEmail(user.getEmail());
     }
 
     public void createUser(User user) {

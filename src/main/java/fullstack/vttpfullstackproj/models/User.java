@@ -47,15 +47,24 @@ public class User {
     public User toUserObj(OAuth2AuthenticationToken token) {
         User user = new User();
         Map<String, Object> attributes = token.getPrincipal().getAttributes();
-        user.setGivenName(attributes.get("given_name").toString());
-        user.setEmail(attributes.get("email").toString());
-        user.setProfilePic(attributes.get("picture").toString());
+
+        // Checking for github or google login:
+        if (attributes.containsKey("repos_url")) {
+            user.setGivenName(attributes.get("name").toString());
+            user.setEmail(attributes.get("email").toString());
+            user.setProfilePic(attributes.get("avatar_url").toString());
+        } else {
+            user.setGivenName(attributes.get("given_name").toString());
+            user.setEmail(attributes.get("email").toString());
+            user.setProfilePic(attributes.get("picture").toString());
+        }
+
         return user;
     }
 
     public JsonObject userToJsonObj(User user) {
         return Json.createObjectBuilder()
-                .add("given_name", user.getGivenName())
+                .add("name", user.getGivenName())
                 .add("email", user.getEmail())
                 .add("picture", user.getProfilePic())
                 .build();
