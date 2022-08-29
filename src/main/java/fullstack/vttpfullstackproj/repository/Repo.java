@@ -18,13 +18,13 @@ public class Repo {
     @Qualifier("repository")
     private RedisTemplate<String, String> repo;
 
-    public void addUser(String key, String email, String profilePic) { // name as key
+    public void addUser(String name, String email, String profilePic) {
         HashOperations<String, Object, Object> hashOps = repo.opsForHash();
         Map<String, String> m = new HashMap<>();
-        m.put("email", email);
+        m.put("name", name);
         m.put("picture", profilePic);
-        hashOps.putAll(key, m);
-        System.out.printf("Created %s. Email: %s. Picture: %s\n", key, email, profilePic);
+        hashOps.putAll(email, m);
+        System.out.printf("Created %s. Email: %s. Picture: %s\n", name, email, profilePic);
     }
 
     public Boolean checkEmail(String email) {
@@ -54,7 +54,7 @@ public class Repo {
         }
     }
 
-    public Boolean addDrink(String email, String value) { // email as key
+    public Boolean addDrink(String email, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
         List<String> listOfValues = getProfile(email);
 
@@ -66,12 +66,12 @@ public class Repo {
         }
     }
 
-    public List<String> getProfile(String key) { // email as key
+    public List<String> getProfile(String key) {
         ListOperations<String, String> listOps = repo.opsForList();
         return listOps.range(key, 0, listOps.size(key) + 1);
     }
 
-    public void removeDrink(String key, String value) { // email as key
+    public void removeDrink(String key, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
         listOps.remove(key, 0, value);
     }

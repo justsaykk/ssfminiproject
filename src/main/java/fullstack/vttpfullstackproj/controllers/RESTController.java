@@ -3,21 +3,17 @@ package fullstack.vttpfullstackproj.controllers;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import fullstack.vttpfullstackproj.models.Cocktail;
-import fullstack.vttpfullstackproj.models.User;
 import fullstack.vttpfullstackproj.services.ApiService;
 import fullstack.vttpfullstackproj.services.RESTService;
-import fullstack.vttpfullstackproj.services.UserService;
 import jakarta.json.*;
 
 @RestController
@@ -30,39 +26,37 @@ public class RESTController {
     @Autowired
     private ApiService apiSvc;
 
-    @Autowired
-    private UserService userSvc;
-
     @PostMapping(path = "/adddrink", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> addDrink(
             @RequestBody MultiValueMap<String, String> form,
-            OAuth2AuthenticationToken token,
             HttpServletResponse response) throws IOException {
 
-        User currentUser = userSvc.currentUser(token);
+        String name = form.getFirst("name");
         String idDrink = form.getFirst("idDrink");
-        System.out.printf("user %s is trying to add drinkId %s\n", currentUser.getEmail(), idDrink);
+        System.out.printf("user %s is trying to add drinkId %s\n", name, idDrink);
 
-        Boolean add = restSvc.addDrink(currentUser, idDrink);
+        Boolean add = restSvc.addDrink(name, idDrink);
         if (!add) {
+            System.out.println("Duplicated drink added. Cancelling request");
             String body = Json.createObjectBuilder()
                     .add("successfullyAdded", false)
                     .add("reason", "Duplicated addition")
-                    .add(currentUser.getEmail(), idDrink)
+                    .add(name, idDrink)
                     .build().toString();
-            response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
+            response.sendRedirect("/menu");
             return new ResponseEntity<String>(body, HttpStatus.BAD_REQUEST);
         } else {
+            System.out.printf("drinkId %s successfully added to user %s's profile\n", idDrink, name);
             response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
             return new ResponseEntity<String>(HttpStatus.OK);
         }
     }
 
-    @GetMapping(path = "/profile/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/profile/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getProfile(
-            @PathVariable(value = "email") String email) {
+            @PathVariable(value = "name") String name) {
 
-        List<String> listOfidDrink = restSvc.getProfile(email);
+        List<String> listOfidDrink = restSvc.getProfile(name);
         List<JsonObject> listOfCocktails = new LinkedList<>();
 
         for (String id : listOfidDrink) {
@@ -78,15 +72,9 @@ public class RESTController {
         }
 
         JsonObject jo = Json.createObjectBuilder()
-                .add(email, builder)
+                .add(name, builder)
                 .build();
 
         return new ResponseEntity<String>(jo.toString(), HttpStatus.OK);
     }
-
-    @GetMapping(path = "/currentuser")
-    public Map<String, Object> currentUser(OAuth2AuthenticationToken token) {
-        return token.getPrincipal().getAttributes();
-    }
-
 }
