@@ -27,7 +27,7 @@ public class FrontEndController {
 
     @GetMapping(path = "/menu")
     public String menu(
-            @RequestParam(defaultValue = "whiskey", name = "drinkFilter") String ingredient,
+            @RequestParam(defaultValue = "Scotch", name = "drinkFilter") String ingredient,
             Model model) {
         List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByIngredients(ingredient.toLowerCase());
         model.addAttribute("ingredient", toCaps(ingredient));

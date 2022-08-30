@@ -54,12 +54,13 @@ public class Repo {
         }
     }
 
-    public Boolean addDrink(String email, String value) {
+    public Boolean addDrink(String name, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
-        List<String> listOfValues = getProfile(email);
+        List<String> listOfValues = getProfile(name);
 
         if (!listOfValues.contains(value)) {
-            listOps.rightPush(email, value);
+            // If profile is not found, rightPush will automatically create new profile.
+            listOps.rightPush(name, value);
             return true;
         } else {
             return false;
@@ -68,7 +69,13 @@ public class Repo {
 
     public List<String> getProfile(String key) {
         ListOperations<String, String> listOps = repo.opsForList();
-        return listOps.range(key, 0, listOps.size(key) + 1);
+        List<String> profile = listOps.range(key, 0, listOps.size(key) + 1);
+
+        if (profile.isEmpty()) {
+            System.out.printf("Profile not found. Creating %s profile.\n", key);
+        }
+
+        return profile;
     }
 
     public void removeDrink(String key, String value) {

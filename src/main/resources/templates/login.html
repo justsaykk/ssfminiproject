@@ -52,11 +52,13 @@
 
     <div class="container-sm">
         <form method="POST" action="/profile">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
-                <label for="floatingInput">Name</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Profile" aria-label="Recipient's username"
+                    aria-describedby="button-addon2" name="name">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Submit</button>
             </div>
-        </form>
+    </div>
+    </form>
     </div>
 
     <!-- JavaScript -->
