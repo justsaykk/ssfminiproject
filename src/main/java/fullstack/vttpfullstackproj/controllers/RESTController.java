@@ -33,6 +33,14 @@ public class RESTController {
 
         String name = form.getFirst("name");
         String idDrink = form.getFirst("idDrink");
+
+        // Check if there is a name value
+        if (name.length() < 1) {
+            System.out.println("Name field cannot be empty");
+            response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         System.out.printf("user %s is trying to add drinkId %s\n", name, idDrink);
 
         Boolean add = restSvc.addDrink(name, idDrink);
