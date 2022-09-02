@@ -44,8 +44,7 @@ public class RESTController {
             response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        System.out.printf("user %s is trying to add drinkId %s\n", name, idDrink);
+        System.out.printf("user %s is trying to add drinkId %s... but is the user registered?\n", name, idDrink);
 
         Boolean add = restSvc.addDrink(name, idDrink);
         if (!add) {
@@ -58,8 +57,16 @@ public class RESTController {
             response.sendRedirect("/menu");
             return new ResponseEntity<String>(body, HttpStatus.BAD_REQUEST);
         } else {
-            System.out.printf("drinkId %s successfully added to user %s's profile\n", idDrink, name);
-            response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
+            // Check for registration
+            if (userSvc.isRegistered(name)) {
+                System.out.printf("drinkId %s successfully added to user %s's profile\n", idDrink, name);
+                response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
+            } else {
+                System.out.printf(
+                        "drinkId %s successfully added to user %s's profile. Redirecting to createprofile...\n",
+                        idDrink, name);
+                response.sendRedirect("/createprofile");
+            }
             return new ResponseEntity<String>(HttpStatus.OK);
         }
     }

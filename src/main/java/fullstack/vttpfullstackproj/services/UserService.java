@@ -23,6 +23,7 @@ public class UserService {
         m.put("country", country);
         m.put("profilePic", profilePic);
         repo.registerProfile(email);
+        repo.registerName(name);
         repo.createProfile(email, m);
 
         // Creating return JsonObject
@@ -35,4 +36,9 @@ public class UserService {
                 .add(email, innerJob)
                 .build();
     }
+
+    public Boolean isRegistered(String name) {
+        return repo.isRegisteredName(name);
+    }
+
 }

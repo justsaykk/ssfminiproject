@@ -78,7 +78,7 @@ public class Repo {
         return profile;
     }
 
-    public Boolean isRegistered(String profile) {
+    public Boolean isRegisteredEmail(String profile) {
         ListOperations<String, String> listOps = repo.opsForList();
         if (listOps.indexOf("registeredprofiles", profile) != null) {
             System.out.printf("%s profile is found in registeredprofiles.\n", profile);
@@ -89,11 +89,30 @@ public class Repo {
         }
     }
 
+    public Boolean isRegisteredName(String name) {
+        ListOperations<String, String> listOps = repo.opsForList();
+        if (listOps.indexOf("registerednames", name) != null) {
+            System.out.printf("%s profile is found in registerednames.\n", name);
+            return true;
+        } else {
+            System.out.printf("%s profile not found in registerednames.\n", name);
+            return false;
+        }
+    }
+
     public void registerProfile(String profile) {
         ListOperations<String, String> listOps = repo.opsForList();
-        if (!isRegistered(profile)) {
+        if (!isRegisteredEmail(profile)) {
             listOps.leftPush("registeredprofiles", profile);
             System.out.printf("%s profile added to registeredprofiles.\n", profile);
+        }
+    }
+
+    public void registerName(String name) {
+        ListOperations<String, String> listOps = repo.opsForList();
+        if (!isRegisteredName(name)) {
+            listOps.leftPush("registerednames", name);
+            System.out.printf("%s profile added to registerednames.\n", name);
         }
     }
 
