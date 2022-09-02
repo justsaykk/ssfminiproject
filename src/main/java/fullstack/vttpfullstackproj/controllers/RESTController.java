@@ -44,8 +44,8 @@ public class RESTController {
             response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        
         System.out.printf("user %s is trying to add drinkId %s... but is the user registered?\n", name, idDrink);
-
         Boolean add = restSvc.addDrink(name, idDrink);
         if (!add) {
             System.out.println("Duplicated drink added. Cancelling request");
