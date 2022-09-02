@@ -78,6 +78,30 @@ public class Repo {
         return profile;
     }
 
+    public Boolean isRegistered(String profile) {
+        ListOperations<String, String> listOps = repo.opsForList();
+        if (listOps.indexOf("registeredprofiles", profile) != null) {
+            System.out.printf("%s profile is found in registeredprofiles.\n", profile);
+            return true;
+        } else {
+            System.out.printf("%s profile not found in registeredprofiles.\n", profile);
+            return false;
+        }
+    }
+
+    public void registerProfile(String profile) {
+        ListOperations<String, String> listOps = repo.opsForList();
+        if (!isRegistered(profile)) {
+            listOps.leftPush("registeredprofiles", profile);
+            System.out.printf("%s profile added to registeredprofiles.\n", profile);
+        }
+    }
+
+    public void createProfile(String key, Map<String, String> m) {
+        HashOperations<String, String, String> hashOps = repo.opsForHash();
+        hashOps.putAll(key, m);
+    }
+
     public void removeDrink(String key, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
         listOps.remove(key, 0, value);

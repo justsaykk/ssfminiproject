@@ -67,4 +67,9 @@ public class FrontEndController {
         model.addAttribute("listOfCocktails", listOfCocktails);
         return "profiledetails";
     }
+
+    @GetMapping(path = "/createprofile")
+    public String createProfile() {
+        return "createprofile";
+    }
 }

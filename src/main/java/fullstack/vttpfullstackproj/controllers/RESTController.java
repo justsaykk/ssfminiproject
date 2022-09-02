@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import fullstack.vttpfullstackproj.models.Cocktail;
 import fullstack.vttpfullstackproj.services.ApiService;
 import fullstack.vttpfullstackproj.services.RESTService;
+import fullstack.vttpfullstackproj.services.UserService;
 import jakarta.json.*;
 
 @RestController
@@ -25,6 +26,9 @@ public class RESTController {
 
     @Autowired
     private ApiService apiSvc;
+
+    @Autowired
+    private UserService userSvc;
 
     @PostMapping(path = "/adddrink", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> addDrink(
@@ -85,4 +89,19 @@ public class RESTController {
 
         return new ResponseEntity<String>(jo.toString(), HttpStatus.OK);
     }
+
+    @PostMapping(path = "/createprofile")
+    public ResponseEntity<String> createProfile(
+            @RequestBody MultiValueMap<String, String> form,
+            HttpServletResponse response) {
+
+        String name = form.getFirst("name");
+        String email = form.getFirst("email");
+        String profilePic = form.getFirst("profilePicUrl");
+        String country = form.containsKey("country") ? form.getFirst("country") : "unknown";
+
+        JsonObject jo = userSvc.createProfile(name, email, country, profilePic);
+        return new ResponseEntity<String>(jo.toString(), HttpStatus.OK);
+    }
+
 }
