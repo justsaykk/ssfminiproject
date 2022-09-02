@@ -90,7 +90,7 @@ public class RESTController {
         return new ResponseEntity<String>(jo.toString(), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/createprofile")
+    @PostMapping(path = "/createprofile", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createProfile(
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) {
