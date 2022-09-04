@@ -21,6 +21,9 @@ public class FrontEndController {
     @Autowired
     private RESTService restSvc;
 
+    @Autowired
+    private UserService userSvc;
+
     private String toCaps(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
@@ -62,7 +65,10 @@ public class FrontEndController {
             Cocktail cocktail = apiSvc.fetchDrinkById(id);
             listOfCocktails.add(cocktail);
         }
-
+        String email = userSvc.getEmailfromName(name);
+        Map<String, String> profileDetails = userSvc.getProfileDetails(email);
+        model.addAttribute("email", email);
+        model.addAttribute("profileDetails", profileDetails);
         model.addAttribute("name", toCaps(name.toLowerCase()));
         model.addAttribute("listOfCocktails", listOfCocktails);
         return "profiledetails";
@@ -71,5 +77,16 @@ public class FrontEndController {
     @GetMapping(path = "/createprofile")
     public String createProfile() {
         return "createprofile";
+    }
+
+    @PostMapping(path = "/editprofile")
+    public String editProfile(
+            @RequestBody MultiValueMap<String, String> form,
+            Model model) {
+
+        String email = form.getFirst("email");
+        Map<String, String> profileDetails = userSvc.getProfileDetails(email);
+        model.addAttribute("profileDetails", profileDetails);
+        return "editprofile";
     }
 }

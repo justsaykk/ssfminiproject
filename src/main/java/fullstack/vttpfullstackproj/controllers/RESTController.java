@@ -1,8 +1,10 @@
 package fullstack.vttpfullstackproj.controllers;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -44,7 +46,7 @@ public class RESTController {
             response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        
+
         System.out.printf("user %s is trying to add drinkId %s... but is the user registered?\n", name, idDrink);
         Boolean add = restSvc.addDrink(name, idDrink);
         if (!add) {
@@ -100,7 +102,7 @@ public class RESTController {
     @PostMapping(path = "/createprofile", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createProfile(
             @RequestBody MultiValueMap<String, String> form,
-            HttpServletResponse response) {
+            HttpServletResponse response) throws IOException {
 
         String name = form.getFirst("name");
         String email = form.getFirst("email");
@@ -108,7 +110,34 @@ public class RESTController {
         String country = form.containsKey("country") ? form.getFirst("country") : "unknown";
 
         JsonObject jo = userSvc.createProfile(name, email, country, profilePic);
+        response.sendRedirect("/");
         return new ResponseEntity<String>(jo.toString(), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/editprofile", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> editProfile(
+            @RequestBody MultiValueMap<String, String> form,
+            HttpServletResponse response) throws IOException {
+        Map<String, String> m = new HashMap<>();
+        String name = form.getFirst("name");
+
+        // Email changes
+        m.put("oldEmail", form.getFirst("oldEmail"));
+        m.put("formEmail", form.getFirst("email"));
+
+        // Country changes
+        m.put("oldCountry", form.getFirst("oldCountry"));
+        m.put("formCountry", form.getFirst("country"));
+
+        // ProfilePic changes
+        m.put("oldProfilePic", form.getFirst("oldProfilePicUrl"));
+        m.put("formProfilePic", form.getFirst("profilePicUrl"));
+
+        // Send info to userService
+        userSvc.editUserProfile(name, m);
+
+        response.sendRedirect("/");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

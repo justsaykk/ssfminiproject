@@ -12,8 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class Repo {
-
+public class ProfileRepo {
     @Autowired
     @Qualifier("repository")
     private RedisTemplate<String, String> repo;
@@ -67,58 +66,15 @@ public class Repo {
         }
     }
 
-    public List<String> getProfile(String key) {
+    public List<String> getProfile(String name) {
         ListOperations<String, String> listOps = repo.opsForList();
-        List<String> profile = listOps.range(key, 0, listOps.size(key) + 1);
+        List<String> profile = listOps.range(name, 0, listOps.size(name) + 1);
 
         if (profile.isEmpty()) {
-            System.out.printf("Profile not found. Creating %s profile.\n", key);
+            System.out.printf("No drinks found in %s profile.\n", name);
         }
 
         return profile;
-    }
-
-    public Boolean isRegisteredEmail(String profile) {
-        ListOperations<String, String> listOps = repo.opsForList();
-        if (listOps.indexOf("registeredprofiles", profile) != null) {
-            System.out.printf("%s profile is found in registeredprofiles.\n", profile);
-            return true;
-        } else {
-            System.out.printf("%s profile not found in registeredprofiles.\n", profile);
-            return false;
-        }
-    }
-
-    public Boolean isRegisteredName(String name) {
-        ListOperations<String, String> listOps = repo.opsForList();
-        if (listOps.indexOf("registerednames", name) != null) {
-            System.out.printf("%s profile is found in registerednames.\n", name);
-            return true;
-        } else {
-            System.out.printf("%s profile not found in registerednames.\n", name);
-            return false;
-        }
-    }
-
-    public void registerProfile(String profile) {
-        ListOperations<String, String> listOps = repo.opsForList();
-        if (!isRegisteredEmail(profile)) {
-            listOps.leftPush("registeredprofiles", profile);
-            System.out.printf("%s profile added to registeredprofiles.\n", profile);
-        }
-    }
-
-    public void registerName(String name) {
-        ListOperations<String, String> listOps = repo.opsForList();
-        if (!isRegisteredName(name)) {
-            listOps.leftPush("registerednames", name);
-            System.out.printf("%s profile added to registerednames.\n", name);
-        }
-    }
-
-    public void createProfile(String key, Map<String, String> m) {
-        HashOperations<String, String, String> hashOps = repo.opsForHash();
-        hashOps.putAll(key, m);
     }
 
     public void removeDrink(String key, String value) {

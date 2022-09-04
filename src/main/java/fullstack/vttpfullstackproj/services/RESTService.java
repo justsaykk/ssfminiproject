@@ -5,19 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fullstack.vttpfullstackproj.repository.Repo;
+import fullstack.vttpfullstackproj.repository.ProfileRepo;
 
 @Service
 public class RESTService {
 
     @Autowired
-    private Repo repo;
+    private ProfileRepo profileRepo;
 
     public Boolean addDrink(String name, String idDrink) {
-        return repo.addDrink(name, idDrink);
+        return profileRepo.addDrink(name, idDrink);
     }
 
     public List<String> getProfile(String name) {
-        return repo.getProfile(name);
+        return profileRepo.getProfile(name);
     }
+
 }
