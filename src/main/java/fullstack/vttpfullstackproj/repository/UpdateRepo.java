@@ -32,7 +32,7 @@ public class UpdateRepo {
 
         // Update userHashMap (Map)
         repo.rename(oldEmail, newEmail);
-        System.out.printf("Changed email from %s to %s in repo.\n", oldEmail, newEmail);
+        System.out.printf("Updated email from %s to %s in repo.\n", oldEmail, newEmail);
 
     }
 
