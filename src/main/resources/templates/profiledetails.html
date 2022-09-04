@@ -61,6 +61,8 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title" data-th-text="${name}"></h5>
+                        <h6 class="card-text" data-th-text="${email}"></h6>
+                        <p class="card-text" data-th-text="${profileDetails.country}"></p>
                     </div>
                     <form method="post" action="/editprofile">
                         <input type="hidden" name="name" data-th-value="${profileDetails.name}">
