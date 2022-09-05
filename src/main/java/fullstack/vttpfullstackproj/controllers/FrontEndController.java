@@ -66,7 +66,7 @@ public class FrontEndController {
             listOfCocktails.add(cocktail);
         }
         String email = userSvc.getEmailfromName(name);
-        Map<String, String> profileDetails = userSvc.getProfileDetails(email);
+        Map<String, String> profileDetails = userSvc.getProfileDetails(email).toMap();
         model.addAttribute("email", email);
         model.addAttribute("profileDetails", profileDetails);
         model.addAttribute("name", toCaps(name.toLowerCase()));
@@ -85,7 +85,7 @@ public class FrontEndController {
             Model model) {
 
         String email = form.getFirst("email");
-        Map<String, String> profileDetails = userSvc.getProfileDetails(email);
+        Map<String, String> profileDetails = userSvc.getProfileDetails(email).toMap();
         model.addAttribute("profileDetails", profileDetails);
         return "editprofile";
     }

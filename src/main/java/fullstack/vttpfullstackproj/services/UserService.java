@@ -6,11 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fullstack.vttpfullstackproj.models.User;
 import fullstack.vttpfullstackproj.repository.UpdateRepo;
 import fullstack.vttpfullstackproj.repository.UserRepo;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
 
 @Service
 public class UserService {
@@ -21,7 +19,12 @@ public class UserService {
     @Autowired
     private UpdateRepo updateRepo;
 
-    public JsonObject createProfile(String name, String email, String country, String profilePic) {
+    public void createProfile(User user) {
+        String name = user.getName();
+        String email = user.getEmail();
+        String country = user.getCountry();
+        String profilePic = user.getProfilePic();
+
         Map<String, String> m = new HashMap<>();
         m.put("name", name);
         m.put("country", country);
@@ -31,42 +34,34 @@ public class UserService {
         userRepo.updateProfileMapping(name, email);
         userRepo.createProfile(email, m);
 
-        // Creating return JsonObject
-        JsonObjectBuilder innerJob = Json.createObjectBuilder()
-                .add("name", name)
-                .add("country", country)
-                .add("profilePic", profilePic);
-
-        return Json.createObjectBuilder()
-                .add(email, innerJob)
-                .build();
     }
 
-    public void editUserProfile(String name, Map<String, String> m) {
+    public void editUserProfile(User oldUser, User editedUser) {
         // Email changes
-        String oldEmail = m.get("oldEmail");
-        String formEmail = m.get("formEmail");
+        String name = editedUser.getName();
+        String oldEmail = oldUser.getEmail();
+        String formEmail = editedUser.getEmail();
 
         if (!oldEmail.equals(formEmail))
             updateRepo.updateEmail(name, oldEmail, formEmail);
 
         // Country changes
-        String oldCountry = m.get("oldCountry");
-        String formCountry = m.get("formCountry");
+        String oldCountry = oldUser.getCountry();
+        String formCountry = editedUser.getCountry();
         String currentEmail = userRepo.getEmailFromName(name);
 
         if (!oldCountry.equals(formCountry))
             updateRepo.updateCountry(currentEmail, formCountry);
 
         // ProfilePic changes
-        String oldProfilePic = m.get("oldProfilePic");
-        String formProfilePic = m.get("formProfilePic");
+        String oldProfilePic = oldUser.getProfilePic();
+        String formProfilePic = editedUser.getProfilePic();
 
         if (!oldProfilePic.equals(formProfilePic))
             updateRepo.updateProfilePic(currentEmail, formProfilePic);
     }
 
-    public Map<String, String> getProfileDetails(String email) {
+    public User getProfileDetails(String email) {
         return userRepo.getProfileDetails(email);
     }
 

@@ -1,6 +1,5 @@
 package fullstack.vttpfullstackproj.repository;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,8 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
+
+import fullstack.vttpfullstackproj.models.User;
 
 @Repository
 public class UserRepo {
@@ -70,14 +71,15 @@ public class UserRepo {
         return hashOps.get("profilemap", name);
     }
 
-    public Map<String, String> getProfileDetails(String email) {
+    public User getProfileDetails(String email) {
         HashOperations<String, String, String> hashOps = repo.opsForHash();
 
-        Map<String, String> m = new HashMap<>();
-        m.put("email", email);
-        m.put("name", hashOps.get(email, "name"));
-        m.put("profilePic", hashOps.get(email, "profilePic"));
-        m.put("country", hashOps.get(email, "country"));
-        return m;
+        User user = new User();
+        user.setEmail(email);
+        user.setName(hashOps.get(email, "name"));
+        user.setCountry(hashOps.get(email, "country"));
+        user.setProfilePic(hashOps.get(email, "profilePic"));
+
+        return user;
     }
 }

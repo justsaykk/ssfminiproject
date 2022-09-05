@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import fullstack.vttpfullstackproj.models.Cocktail;
+import fullstack.vttpfullstackproj.models.User;
 import fullstack.vttpfullstackproj.services.ApiService;
 import fullstack.vttpfullstackproj.services.RESTService;
 import fullstack.vttpfullstackproj.services.UserService;
@@ -104,37 +105,33 @@ public class RESTController {
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
 
-        String name = form.getFirst("name");
-        String email = form.getFirst("email");
-        String profilePic = form.getFirst("profilePicUrl");
-        String country = form.containsKey("country") ? form.getFirst("country") : "unknown";
+        User user = new User();
+        user.setName(form.getFirst("name"));
+        user.setEmail(form.getFirst("email"));
+        user.setProfilePic(form.getFirst("profilePicUrl"));
+        user.setCountry(form.containsKey("country") ? form.getFirst("country") : "unknown");
+        userSvc.createProfile(user);
 
-        JsonObject jo = userSvc.createProfile(name, email, country, profilePic);
         response.sendRedirect("/");
-        return new ResponseEntity<String>(jo.toString(), HttpStatus.OK);
+        return new ResponseEntity<String>(user.toJson(user).toString(), HttpStatus.OK);
     }
 
     @PostMapping(path = "/editprofile", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> editProfile(
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
-        Map<String, String> m = new HashMap<>();
-        String name = form.getFirst("name");
 
-        // Email changes
-        m.put("oldEmail", form.getFirst("oldEmail"));
-        m.put("formEmail", form.getFirst("email"));
+        User oldUser = new User();
+        oldUser.setName(form.getFirst("name"));
+        oldUser.setEmail(form.getFirst("oldEmail"));
+        oldUser.setCountry(form.getFirst("oldCountry"));
+        oldUser.setProfilePic(form.getFirst("oldProfilePicUrl"));
 
-        // Country changes
-        m.put("oldCountry", form.getFirst("oldCountry"));
-        m.put("formCountry", form.getFirst("country"));
-
-        // ProfilePic changes
-        m.put("oldProfilePic", form.getFirst("oldProfilePicUrl"));
-        m.put("formProfilePic", form.getFirst("profilePicUrl"));
+        User editedUser = new User();
+        editedUser.setUser(form);
 
         // Send info to userService
-        userSvc.editUserProfile(name, m);
+        userSvc.editUserProfile(oldUser, editedUser);
 
         response.sendRedirect("/");
         return new ResponseEntity<>(HttpStatus.OK);
