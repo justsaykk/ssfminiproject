@@ -86,7 +86,7 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
                                                 <form action="/drink" method="get">
-                                                    <input class="btn btn-sm btn-outline-secondary" type="submit"
+                                                    <input class="btn btn-sm btn-outline-info" type="submit"
                                                         value="View Details" />
                                                     <input type="hidden" name="idDrink"
                                                         data-th-value="${cocktail.idDrink}">
@@ -94,7 +94,7 @@
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <form action="/api/deletedrink" method="post">
-                                                    <input class="btn btn-sm btn-outline-secondary" type="submit"
+                                                    <input class="btn btn-sm btn-outline-danger" type="submit"
                                                         value="Delete" />
                                                     <input type="hidden" name="idDrink"
                                                         data-th-value="${cocktail.idDrink}">

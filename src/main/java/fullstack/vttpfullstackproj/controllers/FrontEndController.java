@@ -81,6 +81,14 @@ public class FrontEndController {
         return "createprofile";
     }
 
+    @GetMapping(path = "/createprofile2/{name}")
+    public String createProfile2(
+            @PathVariable(value = "name") String name,
+            Model model) {
+        model.addAttribute("name", name);
+        return "createprofile2";
+    }
+
     @PostMapping(path = "/editprofile/{email}")
     public String editProfile(
             @PathVariable(value = "email") String email,

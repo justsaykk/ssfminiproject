@@ -59,7 +59,7 @@ public class RESTController {
             if (userSvc.isRegistered(name)) {
                 response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
             } else {
-                response.sendRedirect("/createprofile");
+                response.sendRedirect("/createprofile2/%s".formatted(name));
             }
             return new ResponseEntity<String>(HttpStatus.OK);
         }
