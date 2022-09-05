@@ -79,12 +79,11 @@ public class FrontEndController {
         return "createprofile";
     }
 
-    @PostMapping(path = "/editprofile")
+    @PostMapping(path = "/editprofile/{email}")
     public String editProfile(
-            @RequestBody MultiValueMap<String, String> form,
+            @PathVariable(value = "email") String email,
             Model model) {
 
-        String email = form.getFirst("email");
         Map<String, String> profileDetails = userSvc.getProfileDetails(email).toMap();
         model.addAttribute("profileDetails", profileDetails);
         return "editprofile";

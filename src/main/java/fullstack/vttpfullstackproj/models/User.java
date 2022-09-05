@@ -71,7 +71,7 @@ public class User {
     public void setUser(MultiValueMap<String, String> form) {
         this.name = form.getFirst("name");
         this.email = form.getFirst("email");
-        this.country = form.getFirst("country");
+        this.country = form.containsKey("country") ? form.getFirst("country") : "unknown";
         this.profilePic = form.getFirst("profilePicUrl");
     }
 }

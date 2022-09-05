@@ -1,10 +1,8 @@
 package fullstack.vttpfullstackproj.controllers;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -106,10 +104,7 @@ public class RESTController {
             HttpServletResponse response) throws IOException {
 
         User user = new User();
-        user.setName(form.getFirst("name"));
-        user.setEmail(form.getFirst("email"));
-        user.setProfilePic(form.getFirst("profilePicUrl"));
-        user.setCountry(form.containsKey("country") ? form.getFirst("country") : "unknown");
+        user.setUser(form);
         userSvc.createProfile(user);
 
         response.sendRedirect("/");

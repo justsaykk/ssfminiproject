@@ -64,11 +64,7 @@
                         <h6 class="card-text" data-th-text="${email}"></h6>
                         <p class="card-text" data-th-text="${profileDetails.country}"></p>
                     </div>
-                    <form method="post" action="/editprofile">
-                        <input type="hidden" name="name" data-th-value="${profileDetails.name}">
-                        <input type="hidden" name="email" data-th-value="${email}">
-                        <input type="hidden" name="profilePic" data-th-value="${profileDetails.profilePic}">
-                        <input type="hidden" name="country" data-th-value="${profileDetails.country}">
+                    <form method="post" data-th-action="@{/editprofile/{email}(email = ${email})}">
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Edit
                             Profile</button>
                     </form>
