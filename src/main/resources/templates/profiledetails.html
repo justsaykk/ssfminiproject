@@ -91,6 +91,12 @@
                                                     <input type="hidden" name="idDrink"
                                                         data-th-value="${cocktail.idDrink}">
                                                 </form>
+                                                <form action="/api/deletedrink" method="post">
+                                                    <input class="btn btn-sm btn-outline-secondary" type="submit"
+                                                        value="Delete" />
+                                                    <input type="hidden" name="idDrink"
+                                                        data-th-value="${cocktail.idDrink}">
+                                                </form>
                                             </div>
                                         </div>
                                     </div>

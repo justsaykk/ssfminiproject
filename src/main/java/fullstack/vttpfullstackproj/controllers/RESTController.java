@@ -132,4 +132,11 @@ public class RESTController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping(path = "/profile")
+    public void getProfile(
+            @RequestBody MultiValueMap<String, String> form,
+            HttpServletResponse response) throws IOException {
+        String name = form.getFirst("name").toLowerCase();
+        response.sendRedirect("/profile/%s".formatted(name));
+    }
 }

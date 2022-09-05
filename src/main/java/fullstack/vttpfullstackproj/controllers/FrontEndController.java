@@ -5,7 +5,6 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import fullstack.vttpfullstackproj.models.*;
@@ -52,12 +51,11 @@ public class FrontEndController {
         return "login";
     }
 
-    @PostMapping(path = "/profile")
+    @GetMapping(path = "/profile/{name}")
     public String name(
-            @RequestBody MultiValueMap<String, String> form,
+            @PathVariable(value = "name") String name,
             Model model) {
 
-        String name = form.getFirst("name");
         System.out.printf("Accessing %s's profile.\n", name);
         List<String> listOfidDrink = restSvc.getProfile(name);
         List<Cocktail> listOfCocktails = new LinkedList<>();
