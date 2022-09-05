@@ -93,11 +93,11 @@
                                                 </form>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <form action="/api/deletedrink" method="post">
+                                                <form
+                                                    data-th-action="@{/api/delete/{name}/{idDrink}(idDrink = ${cocktail.idDrink}, name = ${name})}"
+                                                    method="post">
                                                     <input class="btn btn-sm btn-outline-danger" type="submit"
                                                         value="Delete" />
-                                                    <input type="hidden" name="idDrink"
-                                                        data-th-value="${cocktail.idDrink}">
                                                 </form>
                                             </div>
                                         </div>

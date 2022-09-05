@@ -61,7 +61,7 @@ public class ProfileRepo {
         return listOps.range(name, 0, listOps.size(name) + 1);
     }
 
-    public void removeDrink(String key, String value) {
+    public void deleteDrink(String key, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
         listOps.remove(key, 0, value);
     }

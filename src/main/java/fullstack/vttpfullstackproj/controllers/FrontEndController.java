@@ -53,8 +53,9 @@ public class FrontEndController {
 
     @GetMapping(path = "/profile/{name}")
     public String getProfileDetails(
-            @PathVariable(value = "name") String name,
+            @PathVariable(value = "name") String rawName,
             Model model) {
+        String name = rawName.toLowerCase();
 
         // Get list of drinks from name
         List<String> listOfidDrink = restSvc.getProfile(name);

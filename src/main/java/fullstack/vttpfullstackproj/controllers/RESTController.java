@@ -36,7 +36,7 @@ public class RESTController {
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
 
-        String name = form.getFirst("name");
+        String name = form.getFirst("name").toLowerCase();
         String idDrink = form.getFirst("idDrink");
 
         // Check if there is a name value
@@ -67,8 +67,9 @@ public class RESTController {
 
     @GetMapping(path = "/profile/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getProfile(
-            @PathVariable(value = "name") String name) {
+            @PathVariable(value = "name") String rawName) {
 
+        String name = rawName.toLowerCase();
         List<String> listOfidDrink = restSvc.getProfile(name);
         List<JsonObject> listOfCocktails = new LinkedList<>();
 
@@ -110,10 +111,10 @@ public class RESTController {
             HttpServletResponse response) throws IOException {
 
         User oldUser = new User();
-        oldUser.setName(form.getFirst("name"));
-        oldUser.setEmail(form.getFirst("oldEmail"));
-        oldUser.setCountry(form.getFirst("oldCountry"));
-        oldUser.setProfilePic(form.getFirst("oldProfilePicUrl"));
+        oldUser.setName(form.getFirst("name").toLowerCase());
+        oldUser.setEmail(form.getFirst("oldEmail").toLowerCase());
+        oldUser.setCountry(form.getFirst("oldCountry").toLowerCase());
+        oldUser.setProfilePic(form.getFirst("oldProfilePicUrl").toLowerCase());
 
         User editedUser = new User();
         editedUser.setUser(form);
@@ -126,13 +127,21 @@ public class RESTController {
     }
 
     @PostMapping(path = "/profile")
-    public ResponseEntity<String> getProfile(
+    public void getProfile(
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
 
         String name = form.getFirst("name").toLowerCase();
         response.sendRedirect("/profile/%s".formatted(name));
+    }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PostMapping(path = "/delete/{name}/{idDrink}")
+    public void deleteDrink(
+            @PathVariable(value = "name") String rawName,
+            @PathVariable(value = "idDrink") String idDrink,
+            HttpServletResponse response) throws IOException {
+        String name = rawName.toLowerCase();
+        restSvc.deleteDrink(name.toLowerCase(), idDrink);
+        response.sendRedirect("/profile/%s".formatted(name.toLowerCase()));
     }
 }

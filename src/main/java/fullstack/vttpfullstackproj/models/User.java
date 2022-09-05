@@ -49,9 +49,9 @@ public class User {
 
     public JsonObject toJson(User user) {
         JsonObjectBuilder innerJob = Json.createObjectBuilder()
-                .add("name", name)
-                .add("country", country)
-                .add("profilePic", profilePic);
+                .add("name", name.toLowerCase())
+                .add("country", country.toLowerCase())
+                .add("profilePic", profilePic.toLowerCase());
 
         return Json.createObjectBuilder()
                 .add(email, innerJob)
@@ -69,9 +69,9 @@ public class User {
     }
 
     public void setUser(MultiValueMap<String, String> form) {
-        this.name = form.getFirst("name");
-        this.email = form.getFirst("email");
-        this.country = form.containsKey("country") ? form.getFirst("country") : "unknown";
-        this.profilePic = form.getFirst("profilePicUrl");
+        this.name = form.getFirst("name").toLowerCase();
+        this.email = form.getFirst("email").toLowerCase();
+        this.country = form.containsKey("country") ? form.getFirst("country").toLowerCase() : "unknown";
+        this.profilePic = form.getFirst("profilePicUrl").toLowerCase();
     }
 }
