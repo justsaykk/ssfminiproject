@@ -26,8 +26,8 @@ public class AppConfig {
     /*
      * For Redis password, use this CLI command:
      * export REDIS_PASSWORD="<password here>"
-     * at the root folder before performing ./mvnw package and/or ./mvnw
-     * spring-boot:run
+     * at the root folder before performing ./mvnw package
+     * and/or ./mvnw spring-boot:run
      */
     @Value("${REDIS_PASSWORD}")
     private String redisPassword;
