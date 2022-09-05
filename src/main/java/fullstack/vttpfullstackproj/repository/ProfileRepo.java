@@ -23,32 +23,22 @@ public class ProfileRepo {
         m.put("name", name);
         m.put("picture", profilePic);
         hashOps.putAll(email, m);
-        System.out.printf("Created %s. Email: %s. Picture: %s\n", name, email, profilePic);
     }
 
     public Boolean checkEmail(String email) {
-        System.out.printf("Checking email: %s\n", email);
-
         Boolean found = repo.hasKey(email);
-
         if (found) {
-            System.out.println("Email found!");
             return true;
         } else {
-            System.out.println("Email not found!");
             return false;
         }
     }
 
     public Boolean checkName(String name) {
-        System.out.printf("Checking name: %s\n", name);
         Boolean found = repo.hasKey(name);
-
         if (found) {
-            System.out.println("Name found!");
             return true;
         } else {
-            System.out.println("Name not found!");
             return false;
         }
     }
@@ -68,13 +58,7 @@ public class ProfileRepo {
 
     public List<String> getProfile(String name) {
         ListOperations<String, String> listOps = repo.opsForList();
-        List<String> profile = listOps.range(name, 0, listOps.size(name) + 1);
-
-        if (profile.isEmpty()) {
-            System.out.printf("No drinks found in %s profile.\n", name);
-        }
-
-        return profile;
+        return listOps.range(name, 0, listOps.size(name) + 1);
     }
 
     public void removeDrink(String key, String value) {

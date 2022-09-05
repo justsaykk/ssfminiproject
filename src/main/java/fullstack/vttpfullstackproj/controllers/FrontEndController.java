@@ -52,19 +52,23 @@ public class FrontEndController {
     }
 
     @GetMapping(path = "/profile/{name}")
-    public String name(
+    public String getProfileDetails(
             @PathVariable(value = "name") String name,
             Model model) {
 
-        System.out.printf("Accessing %s's profile.\n", name);
+        // Get list of drinks from name
         List<String> listOfidDrink = restSvc.getProfile(name);
         List<Cocktail> listOfCocktails = new LinkedList<>();
         for (String id : listOfidDrink) {
             Cocktail cocktail = apiSvc.fetchDrinkById(id);
             listOfCocktails.add(cocktail);
         }
+
+        // Get user details
         String email = userSvc.getEmailfromName(name);
-        Map<String, String> profileDetails = userSvc.getProfileDetails(email).toMap();
+        Map<String, String> profileDetails = userSvc.getUserDetails(email).toMap();
+
+        // Add to model
         model.addAttribute("email", email);
         model.addAttribute("profileDetails", profileDetails);
         model.addAttribute("name", toCaps(name.toLowerCase()));
@@ -82,7 +86,7 @@ public class FrontEndController {
             @PathVariable(value = "email") String email,
             Model model) {
 
-        Map<String, String> profileDetails = userSvc.getProfileDetails(email).toMap();
+        Map<String, String> profileDetails = userSvc.getUserDetails(email).toMap();
         model.addAttribute("profileDetails", profileDetails);
         return "editprofile";
     }

@@ -21,10 +21,8 @@ public class UserRepo {
     public Boolean isRegisteredEmail(String profile) {
         ListOperations<String, String> listOps = repo.opsForList();
         if (listOps.indexOf("registeredprofiles", profile) != null) {
-            System.out.printf("%s profile is found in registeredprofiles.\n", profile);
             return true;
         } else {
-            System.out.printf("%s profile not found in registeredprofiles.\n", profile);
             return false;
         }
     }
@@ -32,10 +30,8 @@ public class UserRepo {
     public Boolean isRegisteredName(String name) {
         ListOperations<String, String> listOps = repo.opsForList();
         if (listOps.indexOf("registerednames", name) != null) {
-            System.out.printf("%s profile is found in registerednames.\n", name);
             return true;
         } else {
-            System.out.printf("%s profile not found in registerednames.\n", name);
             return false;
         }
     }
@@ -44,7 +40,6 @@ public class UserRepo {
         ListOperations<String, String> listOps = repo.opsForList();
         if (!isRegisteredEmail(email)) {
             listOps.leftPush("registeredprofiles", email);
-            System.out.printf("%s profile added to registeredprofiles.\n", email);
         }
     }
 
@@ -52,7 +47,6 @@ public class UserRepo {
         ListOperations<String, String> listOps = repo.opsForList();
         if (!isRegisteredName(name)) {
             listOps.leftPush("registerednames", name);
-            System.out.printf("%s profile added to registerednames.\n", name);
         }
     }
 
@@ -71,9 +65,8 @@ public class UserRepo {
         return hashOps.get("profilemap", name);
     }
 
-    public User getProfileDetails(String email) {
+    public User getUserDetails(String email) {
         HashOperations<String, String, String> hashOps = repo.opsForHash();
-
         User user = new User();
         user.setEmail(email);
         user.setName(hashOps.get(email, "name"));

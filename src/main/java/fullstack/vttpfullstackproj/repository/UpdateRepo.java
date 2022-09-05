@@ -22,30 +22,23 @@ public class UpdateRepo {
 
         // Update registeredProfiles (List)
         listOps.remove("registeredprofiles", 1, oldEmail);
-        System.out.printf("Removed %s from registeredprofiles.\n", oldEmail);
         userRepo.registerEmail(newEmail);
-        System.out.printf("Added email from %s to %s in registeredProfiles.\n", oldEmail, newEmail);
 
         // Update profileMap (Map)
         hmOps.put("profilemap", name, newEmail);
-        System.out.printf("Updated email from %s to %s in profileMap.\n", oldEmail, newEmail);
 
         // Update userHashMap (Map)
         repo.rename(oldEmail, newEmail);
-        System.out.printf("Updated email from %s to %s in repo.\n", oldEmail, newEmail);
 
     }
 
     public void updateCountry(String email, String newCountry) {
         HashOperations<String, String, String> hmOps = repo.opsForHash();
         hmOps.put(email, "country", newCountry);
-        System.out.printf("Updated country to %s in %s.\n", newCountry, email);
-
     }
 
     public void updateProfilePic(String email, String newProfilePic) {
         HashOperations<String, String, String> hmOps = repo.opsForHash();
         hmOps.put(email, "profilePic", newProfilePic);
-        System.out.printf("Updated profilePic to %s in %s.\n", newProfilePic, email);
     }
 }

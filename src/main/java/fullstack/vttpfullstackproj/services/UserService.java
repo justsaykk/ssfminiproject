@@ -61,8 +61,8 @@ public class UserService {
             updateRepo.updateProfilePic(currentEmail, formProfilePic);
     }
 
-    public User getProfileDetails(String email) {
-        return userRepo.getProfileDetails(email);
+    public User getUserDetails(String email) {
+        return userRepo.getUserDetails(email);
     }
 
     public Boolean isRegistered(String name) {

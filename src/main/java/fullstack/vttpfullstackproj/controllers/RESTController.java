@@ -41,15 +41,12 @@ public class RESTController {
 
         // Check if there is a name value
         if (name.length() < 1) {
-            System.out.println("Name field cannot be empty");
+            System.out.println("RESTController: Name field cannot be empty");
             response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        System.out.printf("user %s is trying to add drinkId %s... but is the user registered?\n", name, idDrink);
         Boolean add = restSvc.addDrink(name, idDrink);
         if (!add) {
-            System.out.println("Duplicated drink added. Cancelling request");
             String body = Json.createObjectBuilder()
                     .add("successfullyAdded", false)
                     .add("reason", "Duplicated addition")
@@ -60,12 +57,8 @@ public class RESTController {
         } else {
             // Check for registration
             if (userSvc.isRegistered(name)) {
-                System.out.printf("drinkId %s successfully added to user %s's profile\n", idDrink, name);
                 response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
             } else {
-                System.out.printf(
-                        "drinkId %s successfully added to user %s's profile. Redirecting to createprofile...\n",
-                        idDrink, name);
                 response.sendRedirect("/createprofile");
             }
             return new ResponseEntity<String>(HttpStatus.OK);
@@ -133,10 +126,13 @@ public class RESTController {
     }
 
     @PostMapping(path = "/profile")
-    public void getProfile(
+    public ResponseEntity<String> getProfile(
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
+
         String name = form.getFirst("name").toLowerCase();
         response.sendRedirect("/profile/%s".formatted(name));
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
