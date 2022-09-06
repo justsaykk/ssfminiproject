@@ -7,7 +7,6 @@ import org.springframework.util.MultiValueMap;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
 
 public class User {
     private String profilePic;
@@ -47,14 +46,12 @@ public class User {
         this.country = country;
     }
 
-    public JsonObject toJson(User user) {
-        JsonObjectBuilder innerJob = Json.createObjectBuilder()
-                .add("name", name.toLowerCase())
-                .add("country", country.toLowerCase())
-                .add("profilePic", profilePic.toLowerCase());
-
+    public JsonObject toJsonObject() {
         return Json.createObjectBuilder()
-                .add(email, innerJob)
+                .add(this.email, Json.createObjectBuilder()
+                        .add("name", this.name)
+                        .add("country", this.country)
+                        .add("profilePic", this.profilePic))
                 .build();
     }
 

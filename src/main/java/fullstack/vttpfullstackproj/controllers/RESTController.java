@@ -41,10 +41,13 @@ public class RESTController {
 
         // Check if there is a name value
         if (name.length() < 1) {
-            System.out.println("RESTController: Name field cannot be empty");
+            String noName = Json.createObjectBuilder()
+                    .add("error", "Name field cannot be empty")
+                    .build().toString();
             response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(noName, HttpStatus.BAD_REQUEST);
         }
+
         Boolean add = restSvc.addDrink(name, idDrink);
         if (!add) {
             String body = Json.createObjectBuilder()
@@ -56,7 +59,7 @@ public class RESTController {
             return new ResponseEntity<String>(body, HttpStatus.BAD_REQUEST);
         } else {
             // Check for registration
-            if (userSvc.isRegistered(name)) {
+            if (userSvc.isRegisteredName(name)) {
                 response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
             } else {
                 response.sendRedirect("/createprofile2/%s".formatted(name));
@@ -65,7 +68,7 @@ public class RESTController {
         }
     }
 
-    @GetMapping(path = "/profile/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/profile/json/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getProfile(
             @PathVariable(value = "name") String rawName) {
 
@@ -99,10 +102,19 @@ public class RESTController {
 
         User user = new User();
         user.setUser(form);
-        userSvc.createProfile(user);
 
-        response.sendRedirect("/");
-        return new ResponseEntity<String>(user.toJson(user).toString(), HttpStatus.OK);
+        Boolean createProfile = userSvc.createProfile(user);
+        if (!createProfile) {
+            return new ResponseEntity<String>(
+                    Json.createObjectBuilder()
+                            .add("error", "Profile Already Exists")
+                            .build().toString(),
+                    HttpStatus.BAD_REQUEST);
+        } else {
+            response.sendRedirect("/profile/%s".formatted(user.getName()));
+            return new ResponseEntity<String>(user.toJsonObject().toString(), HttpStatus.OK);
+        }
+
     }
 
     @PostMapping(path = "/editprofile", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -122,7 +134,7 @@ public class RESTController {
         // Send info to userService
         userSvc.editUserProfile(oldUser, editedUser);
 
-        response.sendRedirect("/");
+        response.sendRedirect("/profile/%s".formatted(editedUser.getName()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -132,7 +144,14 @@ public class RESTController {
             HttpServletResponse response) throws IOException {
 
         String name = form.getFirst("name").toLowerCase();
-        response.sendRedirect("/profile/%s".formatted(name));
+
+        // Check if name is registered
+        if (userSvc.isRegisteredName(name)) {
+            response.sendRedirect("/profile/%s".formatted(name));
+        } else {
+            response.sendRedirect("/createprofile");
+        }
+
     }
 
     @PostMapping(path = "/delete/{name}/{idDrink}")
@@ -141,7 +160,7 @@ public class RESTController {
             @PathVariable(value = "idDrink") String idDrink,
             HttpServletResponse response) throws IOException {
         String name = rawName.toLowerCase();
-        restSvc.deleteDrink(name.toLowerCase(), idDrink);
-        response.sendRedirect("/profile/%s".formatted(name.toLowerCase()));
+        restSvc.deleteDrink(name, idDrink);
+        response.sendRedirect("/profile/%s".formatted(name));
     }
 }

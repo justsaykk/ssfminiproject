@@ -63,19 +63,19 @@
                         <h5 class="card-title" data-th-text="${name}"></h5>
                         <h6 class="card-text" data-th-text="${email}"></h6>
                         <p class="card-text" data-th-text="${profileDetails.country}"></p>
+                        <form method="post" data-th-action="@{/editprofile/{email}(email = ${email})}">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Edit
+                                Profile</button>
+                        </form>
                     </div>
-                    <form method="post" data-th-action="@{/editprofile/{email}(email = ${email})}">
-                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Edit
-                            Profile</button>
-                    </form>
                 </div>
             </div>
 
             <div class="col-8">
                 <div class="album py-5 bg-light">
                     <div class="container">
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                            <div class="col" data-th-each="cocktail: ${listOfCocktails}">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" th:switch="${emptyListOfCocktails}">
+                            <div class="col" th:case="'false'" data-th-each="cocktail: ${listOfCocktails}">
                                 <div class="card shadow-sm">
                                     <a data-th-href="@{/drink(idDrink=${cocktail.idDrink})}">
                                         <img data-th-src="${cocktail.strDrinkThumb}" class="card-img-top">
@@ -102,6 +102,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="container align-items-center" th:case="'true'">
+                                <div class="text-center">
+                                    <h5 class="text-center">Your List is Empty!</h5>
+                                    <a href="/menu" class="btn btn-primary">Browse Drinks</a>
                                 </div>
                             </div>
                         </div>

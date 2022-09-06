@@ -19,20 +19,25 @@ public class UserService {
     @Autowired
     private UpdateRepo updateRepo;
 
-    public void createProfile(User user) {
+    public Boolean createProfile(User user) {
         String name = user.getName();
         String email = user.getEmail();
         String country = user.getCountry();
         String profilePic = user.getProfilePic();
 
-        Map<String, String> m = new HashMap<>();
-        m.put("name", name);
-        m.put("country", country);
-        m.put("profilePic", profilePic);
-        userRepo.registerEmail(email);
-        userRepo.registerName(name);
-        userRepo.updateProfileMapping(name, email);
-        userRepo.createProfile(email, m);
+        if (isRegisteredName(name)) {
+            return false;
+        } else {
+            Map<String, String> m = new HashMap<>();
+            m.put("name", name);
+            m.put("country", country);
+            m.put("profilePic", profilePic);
+            userRepo.registerEmail(email);
+            userRepo.registerName(name);
+            userRepo.updateProfileMapping(name, email);
+            userRepo.createProfile(email, m);
+            return true;
+        }
 
     }
 
@@ -65,7 +70,7 @@ public class UserService {
         return userRepo.getUserDetails(email);
     }
 
-    public Boolean isRegistered(String name) {
+    public Boolean isRegisteredName(String name) {
         return userRepo.isRegisteredName(name);
     }
 

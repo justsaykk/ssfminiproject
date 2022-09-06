@@ -55,6 +55,7 @@ public class FrontEndController {
     public String getProfileDetails(
             @PathVariable(value = "name") String rawName,
             Model model) {
+
         String name = rawName.toLowerCase();
 
         // Get list of drinks from name
@@ -74,6 +75,7 @@ public class FrontEndController {
         model.addAttribute("profileDetails", profileDetails);
         model.addAttribute("name", toCaps(name.toLowerCase()));
         model.addAttribute("listOfCocktails", listOfCocktails);
+        model.addAttribute("emptyListOfCocktails", (listOfCocktails.isEmpty()) ? "true" : "false");
         return "profiledetails";
     }
 
