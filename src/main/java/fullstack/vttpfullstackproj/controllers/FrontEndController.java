@@ -23,6 +23,9 @@ public class FrontEndController {
     @Autowired
     private UserService userSvc;
 
+    @Autowired
+    private Country country;
+
     private String toCaps(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
@@ -80,7 +83,9 @@ public class FrontEndController {
     }
 
     @GetMapping(path = "/createprofile")
-    public String createProfile() {
+    public String createProfile(Model model) {
+        String[] listOfCountries = country.getCountries();
+        model.addAttribute("listOfCountries", listOfCountries);
         return "createprofile";
     }
 
@@ -88,7 +93,9 @@ public class FrontEndController {
     public String createProfile2(
             @PathVariable(value = "name") String name,
             Model model) {
+        String[] listOfCountries = country.getCountries();
         model.addAttribute("name", name);
+        model.addAttribute("listOfCountries", listOfCountries);
         return "createprofile2";
     }
 

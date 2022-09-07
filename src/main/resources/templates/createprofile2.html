@@ -63,7 +63,11 @@
             <div class="col-12">
                 <label for="country" class="form-label">Country of Residence <span
                         class="text-muted">(Optional)</span></label>
-                <input type="text" class="form-control" id="country" placeholder="Singapore" name="country">
+                <select type="text" class="form-select" id="country" name="country">
+                    <option selected value=""></option>
+                    <option data-th-each="country: ${listOfCountries}" data-th-value="${country}"
+                        data-th-text="${country}"></option>
+                </select>
             </div>
             <div class="col-12">
                 <label for="profilePicUrl" class="form-label">Profile Picture URL</label>
