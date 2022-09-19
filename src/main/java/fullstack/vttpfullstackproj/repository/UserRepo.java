@@ -18,6 +18,10 @@ public class UserRepo {
     @Qualifier("repository")
     private RedisTemplate<String, String> repo;
 
+    private String toCaps(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
     public Boolean isRegisteredEmail(String profile) {
         ListOperations<String, String> listOps = repo.opsForList();
         if (listOps.indexOf("registeredprofiles", profile) != null) {
@@ -70,9 +74,8 @@ public class UserRepo {
         User user = new User();
         user.setEmail(email);
         user.setName(hashOps.get(email, "name"));
-        user.setCountry(hashOps.get(email, "country"));
+        user.setCountry(toCaps(hashOps.get(email, "country")));
         user.setProfilePic(hashOps.get(email, "profilePic"));
-
         return user;
     }
 }
