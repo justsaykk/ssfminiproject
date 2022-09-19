@@ -38,7 +38,6 @@ public class UserService {
             userRepo.createProfile(email, m);
             return true;
         }
-
     }
 
     public void editUserProfile(User oldUser, User editedUser) {
