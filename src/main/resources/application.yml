@@ -4,6 +4,10 @@ spring:
     host: redis-16733.c56.east-us.azure.cloud.redislabs.com
     port: 16733
     username: default
+server:
+  error:
+    whitelabel:
+      enabled: false
   # security:
   #   oauth2:
   #     client:
