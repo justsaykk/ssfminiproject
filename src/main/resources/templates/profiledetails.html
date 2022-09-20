@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Drink Factory</a>
+                <a class="navbar-brand" href="/">Drink Factory</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -74,40 +74,44 @@
             <div class="col-8">
                 <div class="album py-5 bg-light">
                     <div class="container">
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" th:switch="${emptyListOfCocktails}">
-                            <div class="col" th:case="'false'" data-th-each="cocktail: ${listOfCocktails}">
-                                <div class="card shadow-sm">
-                                    <a data-th-href="@{/drink(idDrink=${cocktail.idDrink})}">
-                                        <img data-th-src="${cocktail.strDrinkThumb}" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <p class="card-text" data-th-text="${cocktail.strDrink}">
-                                        <p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <form action="/drink" method="get">
-                                                    <input class="btn btn-sm btn-outline-info" type="submit"
-                                                        value="View Details" />
-                                                    <input type="hidden" name="idDrink"
-                                                        data-th-value="${cocktail.idDrink}">
-                                                </form>
-                                            </div>
+                        <div th:switch="${emptyListOfCocktails}">
+                            <div th:case="'false'" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                                <div class="col" data-th-each="cocktail: ${listOfCocktails}">
+                                    <div class="card shadow-sm">
+                                        <a data-th-href="@{/drink(idDrink=${cocktail.idDrink})}">
+                                            <img data-th-src="${cocktail.strDrinkThumb}" class="card-img-top">
+                                        </a>
+                                        <div class="card-body">
+                                            <p class="card-text" data-th-text="${cocktail.strDrink}">
+                                            <p>
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <form
-                                                    data-th-action="@{/api/delete/{name}/{idDrink}(idDrink = ${cocktail.idDrink}, name = ${name})}"
-                                                    method="post">
-                                                    <input class="btn btn-sm btn-outline-danger" type="submit"
-                                                        value="Delete" />
-                                                </form>
+                                                <div class="btn-group">
+                                                    <form action="/drink" method="get">
+                                                        <input type="hidden" name="idDrink"
+                                                            data-th-value="${cocktail.idDrink}">
+                                                        <button class="btn btn-sm btn-outline-info" type="submit">View
+                                                            Details</button>
+                                                    </form>
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <form
+                                                        data-th-action="@{/api/delete/{name}/{idDrink}(idDrink = ${cocktail.idDrink}, name = ${name})}"
+                                                        method="post">
+                                                        <button class="btn btn-sm btn-outline-danger"
+                                                            type="submit">Delete</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="container align-items-center" th:case="'true'">
-                                <div class="text-center">
-                                    <h5 class="text-center">Your List is Empty!</h5>
-                                    <a href="/menu" class="btn btn-primary">Browse Drinks</a>
+                            <div th:case="'true'" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                                <div class="container align-items-center">
+                                    <div class="text-center">
+                                        <h5 class="text-center">Your List is Empty!</h5>
+                                        <a href="/menu" class="btn btn-primary">Browse Drinks</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

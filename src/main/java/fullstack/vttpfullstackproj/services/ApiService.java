@@ -21,10 +21,8 @@ import jakarta.json.JsonReader;
 public class ApiService {
 
     private ResponseEntity<String> fetch(String url) {
-
         RestTemplate template = new RestTemplate();
         RequestEntity<Void> req = RequestEntity.get(url).build();
-
         try {
             ResponseEntity<String> res = template.exchange(req, String.class);
             return res;
@@ -59,7 +57,6 @@ public class ApiService {
             JsonObject jsonDrinkElement = jsonArray.getJsonObject(i);
             listOfCocktails.add(n.createSimpleCocktail(jsonDrinkElement));
         }
-
         return listOfCocktails;
     }
 

@@ -60,14 +60,16 @@ public class FrontEndController {
             Model model) {
 
         String name = rawName.toLowerCase();
-
-        // Get list of drinks from name
         List<String> listOfidDrink = restSvc.getProfile(name);
+        
+        // Get list of drinks from name
         List<Cocktail> listOfCocktails = new LinkedList<>();
         for (String id : listOfidDrink) {
             Cocktail cocktail = apiSvc.fetchDrinkById(id);
             listOfCocktails.add(cocktail);
         }
+
+        System.out.println("List of Cocktails: " + listOfCocktails); // <-- This print will fire twice for unknown reasons.
 
         // Get user details
         String email = userSvc.getEmailfromName(name);

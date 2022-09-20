@@ -1,6 +1,9 @@
 # Server Side Foundation (VTTP) mini project
 
-## Highlights
+## App Introduction
+1. This application is a "bookmark" app. Users will be able to find a cocktail of their choice and add it to their repertoire.
+2. The API used for this application is https://www.thecocktaildb.com/
+3. The search function is a search via ingredient. It will return a list of drinks that has the search variable as an ingredient.
 
 
 
