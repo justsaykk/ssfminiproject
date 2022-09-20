@@ -61,7 +61,6 @@ public class User {
         m.put("name", this.name);
         m.put("country", this.country);
         m.put("profilePic", this.profilePic);
-
         return m;
     }
 
@@ -70,5 +69,12 @@ public class User {
         this.email = form.getFirst("email").toLowerCase();
         this.country = form.containsKey("country") ? form.getFirst("country").toLowerCase() : "unknown";
         this.profilePic = form.getFirst("profilePicUrl").toLowerCase();
+    }
+
+    public void setOldUser(MultiValueMap<String, String> form) {
+        this.name = form.getFirst("name").toLowerCase();
+        this.email = form.getFirst("oldEmail").toLowerCase();
+        this.country = form.getFirst("oldCountry").toLowerCase();
+        this.profilePic = form.getFirst("oldProfilePicUrl").toLowerCase();
     }
 }

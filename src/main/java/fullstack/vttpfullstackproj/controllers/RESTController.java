@@ -36,6 +36,10 @@ public class RESTController {
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
 
+        // Null Check
+        if (form.isEmpty())
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
         String name = form.getFirst("name").toLowerCase();
         String idDrink = form.getFirst("idDrink");
 
@@ -48,23 +52,25 @@ public class RESTController {
             return new ResponseEntity<String>(noName, HttpStatus.BAD_REQUEST);
         }
 
-        Boolean add = restSvc.addDrink(name, idDrink);
-        if (!add) {
-            String body = Json.createObjectBuilder()
-                    .add("successfullyAdded", false)
-                    .add("reason", "Duplicated addition")
-                    .add(name, idDrink)
-                    .build().toString();
-            response.sendRedirect("/menu");
-            return new ResponseEntity<String>(body, HttpStatus.BAD_REQUEST);
-        } else {
-            // Check for registration
-            if (userSvc.isRegisteredName(name)) {
-                response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
-            } else {
-                response.sendRedirect("/createprofile2/%s".formatted(name));
-            }
+        // Check for registration
+        if (!userSvc.isRegisteredName(name)) {
+            response.sendRedirect("/createprofile2/%s".formatted(name));
             return new ResponseEntity<String>(HttpStatus.OK);
+        } else {
+            // Add drink to profile
+            Boolean add = restSvc.addDrink(name, idDrink);
+            if (!add) {
+                String body = Json.createObjectBuilder()
+                        .add("successfullyAdded", false)
+                        .add("reason", "Duplicated addition")
+                        .add(name, idDrink)
+                        .build().toString();
+                response.sendRedirect("/menu");
+                return new ResponseEntity<String>(body, HttpStatus.BAD_REQUEST);
+            } else {
+                response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
+                return new ResponseEntity<String>(HttpStatus.OK);
+            }
         }
     }
 
@@ -100,6 +106,10 @@ public class RESTController {
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
 
+        // Null Check
+        if (form.isEmpty())
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
         User user = new User();
         user.setUser(form);
 
@@ -123,10 +133,7 @@ public class RESTController {
             HttpServletResponse response) throws IOException {
 
         User oldUser = new User();
-        oldUser.setName(form.getFirst("name").toLowerCase());
-        oldUser.setEmail(form.getFirst("oldEmail").toLowerCase());
-        oldUser.setCountry(form.getFirst("oldCountry").toLowerCase());
-        oldUser.setProfilePic(form.getFirst("oldProfilePicUrl").toLowerCase());
+        oldUser.setOldUser(form);
 
         User editedUser = new User();
         editedUser.setUser(form);

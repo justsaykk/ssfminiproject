@@ -26,21 +26,11 @@ public class ProfileRepo {
     }
 
     public Boolean checkEmail(String email) {
-        Boolean found = repo.hasKey(email);
-        if (found) {
-            return true;
-        } else {
-            return false;
-        }
+        return repo.hasKey(email);
     }
 
     public Boolean checkName(String name) {
-        Boolean found = repo.hasKey(name);
-        if (found) {
-            return true;
-        } else {
-            return false;
-        }
+        return repo.hasKey(name);
     }
 
     public Boolean addDrink(String name, String value) {

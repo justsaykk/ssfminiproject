@@ -24,5 +24,4 @@ public class RESTService {
     public List<String> getProfile(String name) {
         return profileRepo.getProfile(name);
     }
-
 }

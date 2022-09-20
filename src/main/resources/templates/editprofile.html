@@ -63,11 +63,16 @@
                     data-th-value="${profileDetails.email}">
             </div>
             <div class="col-12">
-                <label for="country" class="form-label">Country of Residence<span
+                <label for="country" class="form-label">Country of Residence <span
                         class="text-muted">(Optional)</span></label>
                 <input type="hidden" name="oldCountry" data-th-value="${profileDetails.country}">
-                <input type="text" class="form-control" id="country" data-th-value="${profileDetails.country}"
-                    name="country">
+                <select type="text" class="form-select" id="country" name="country">
+                    <option data-th-value="${profileDetails.country}" data-th-text="${profileDetails.country}" selected>
+                    </option>
+                    <option data-th-each="country: ${listOfCountries}" data-th-value="${country}"
+                        data-th-text="${country}">
+                    </option>
+                </select>
             </div>
             <div class="col-12">
                 <label for="profilePicUrl" class="form-label">Profile Picture URL</label>

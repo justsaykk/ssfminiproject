@@ -94,6 +94,7 @@ public class FrontEndController {
             @PathVariable(value = "name") String name,
             Model model) {
         String[] listOfCountries = country.getCountries();
+
         model.addAttribute("name", name);
         model.addAttribute("listOfCountries", listOfCountries);
         return "createprofile2";
@@ -103,8 +104,10 @@ public class FrontEndController {
     public String editProfile(
             @PathVariable(value = "email") String email,
             Model model) {
-
         Map<String, String> profileDetails = userSvc.getUserDetails(email).toMap();
+        String[] listOfCountries = country.getCountries();
+
+        model.addAttribute("listOfCountries", listOfCountries);
         model.addAttribute("profileDetails", profileDetails);
         return "editprofile";
     }
