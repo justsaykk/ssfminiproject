@@ -37,6 +37,7 @@ public class FrontEndController {
         List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByIngredients(ingredient.toLowerCase());
         model.addAttribute("ingredient", toCaps(ingredient));
         model.addAttribute("listOfCocktails", listOfCocktails);
+        model.addAttribute("emptyListOfCocktails", (listOfCocktails.isEmpty()) ? "true" : "false");
         return "menu";
     }
 
@@ -61,15 +62,13 @@ public class FrontEndController {
 
         String name = rawName.toLowerCase();
         List<String> listOfidDrink = restSvc.getProfile(name);
-        
+
         // Get list of drinks from name
         List<Cocktail> listOfCocktails = new LinkedList<>();
         for (String id : listOfidDrink) {
             Cocktail cocktail = apiSvc.fetchDrinkById(id);
             listOfCocktails.add(cocktail);
         }
-
-        System.out.println("List of Cocktails: " + listOfCocktails); // <-- This print will fire twice for unknown reasons.
 
         // Get user details
         String email = userSvc.getEmailfromName(name);

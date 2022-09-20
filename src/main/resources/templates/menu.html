@@ -56,23 +56,40 @@
 
     <div class="album py-5 bg-light">
         <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div class="col" data-th-each="cocktail: ${listOfCocktails}">
-                    <div class="card shadow-sm">
-                        <a data-th-href="@{/drink(idDrink=${cocktail.idDrink})}">
-                            <img data-th-src="${cocktail.strDrinkThumb}" class="card-img-top">
-                        </a>
-                        <div class="card-body">
-                            <p class="card-text" data-th-text="${cocktail.strDrink}">
-                            <p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <form action="/drink" method="get">
-                                        <input class="btn btn-sm btn-outline-info" type="submit" value="View Details" />
-                                        <input type="hidden" name="idDrink" data-th-value="${cocktail.idDrink}">
-                                    </form>
+            <div th:switch="${emptyListOfCocktails}">
+                <div th:case="'false'" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <div class="col" data-th-each="cocktail: ${listOfCocktails}">
+                        <div class="card shadow-sm">
+                            <a data-th-href="@{/drink(idDrink=${cocktail.idDrink})}">
+                                <img data-th-src="${cocktail.strDrinkThumb}" class="card-img-top">
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text" data-th-text="${cocktail.strDrink}">
+                                <p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <form action="/drink" method="get">
+                                            <input class="btn btn-sm btn-outline-info" type="submit"
+                                                value="View Details" />
+                                            <input type="hidden" name="idDrink" data-th-value="${cocktail.idDrink}">
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:case="'true'" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <div class="container align-items-center">
+                        <div class="text-center">
+                            <h5 class="text-center">There are no drinks with the ingredient: <span
+                                    data-th-text="${ingredient}"></span></h5>
+                            </br>
+                            <form class="d-flex" role="search" action="/menu" method="get">
+                                <input class="form-control me-2" type="search" placeholder="Ingredient"
+                                    aria-label="Search" name="drinkFilter">
+                                <button class="btn btn-primary" type="submit">Search</button>
+                            </form>
                         </div>
                     </div>
                 </div>

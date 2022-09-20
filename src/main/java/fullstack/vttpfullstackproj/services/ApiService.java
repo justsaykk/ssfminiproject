@@ -47,11 +47,14 @@ public class ApiService {
                 .toUriString();
 
         ResponseEntity<String> apiResponse = fetch(url);
-        JsonObject jo = readApiResponse(apiResponse);
-        JsonArray jsonArray = jo.getJsonArray("drinks");
+        List<Cocktail> listOfCocktails = new LinkedList<>();
+        if (null == apiResponse.getBody()) {
+            return listOfCocktails;
+        }
 
         // Manipulating output
-        List<Cocktail> listOfCocktails = new LinkedList<>();
+        JsonObject jo = readApiResponse(apiResponse);
+        JsonArray jsonArray = jo.getJsonArray("drinks");
         for (int i = 0; i < jsonArray.size(); i++) {
             Cocktail n = new Cocktail();
             JsonObject jsonDrinkElement = jsonArray.getJsonObject(i);
