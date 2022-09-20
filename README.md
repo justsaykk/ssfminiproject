@@ -87,9 +87,9 @@ At least once a week
 
 | Requirement | Progress    |
 | ----------- | ----------- |
-| Aug 15-19   | v1.0-aplha.1 released|
-| Aug 22-26   | v1.0-aplha.2 released|
-| Aug 29 - Sep 02   | v1.0.3            |
-| Sep 05-09   |             |
-| Sep 12-16   |             |
-| Sep 19-23   |             |
+| Aug 15-19   | v1.0-aplha.1|
+| Aug 22-26   | v1.0-aplha.2|
+| Aug 29-02   | v1.0.3      |
+| Sep 05-09   | No releases |
+| Sep 12-16   | No releases |
+| Sep 19-23   | v2.0.0      |
