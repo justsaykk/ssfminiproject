@@ -13,7 +13,8 @@
 ### Detailed Drinks Page
 1. In the detailed drinks page, users will be able to see the ingredent list and the preparation instructions of the drink.
 2. Users will also be able to add the drink to their profile.
-3. If the profile has not be set-up, clicking "add to profile" will send users to the create profile page
+3. If the profile does not exists, clicking "add to profile" will send users to the create profile page.
+4. If the drink has already been added before (Duplicated), user will be redirected to the drinks page.
 
 ### Create profile Page 
 1. There are 2 versions of this page. If users are redirected here due to the addition of a drink to an uninitiated profile, the name will be greyed out.
@@ -25,7 +26,7 @@
     - The name will be added to the key: "registerednames"
     - The profilemap will be updated
     - The email will be used as a key to store all the other information
-    - Users will be redirected to their profile page
+    - Users will be redirected to their profile page. Duplicated entries will skip all the above steps upon submission and enter profile page
 
 ### Profile Page
 1. This is a page where users will be able to view the drinks that was added to their profile

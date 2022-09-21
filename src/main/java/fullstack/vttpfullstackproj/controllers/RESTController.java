@@ -112,19 +112,10 @@ public class RESTController {
 
         User user = new User();
         user.setUser(form);
-
-        Boolean createProfile = userSvc.createProfile(user);
-        if (!createProfile) {
-            return new ResponseEntity<String>(
-                    Json.createObjectBuilder()
-                            .add("error", "Profile Already Exists")
-                            .build().toString(),
-                    HttpStatus.BAD_REQUEST);
-        } else {
-            response.sendRedirect("/profile/%s".formatted(user.getName()));
-            return new ResponseEntity<String>(user.toJsonObject().toString(), HttpStatus.OK);
-        }
-
+        userSvc.createProfile(user);
+        /* if profile exist, redirect to existing profile page */
+        response.sendRedirect("/profile/%s".formatted(user.getName()));
+        return new ResponseEntity<String>(user.toJsonObject().toString(), HttpStatus.OK);
     }
 
     @PostMapping(path = "/editprofile", produces = MediaType.APPLICATION_JSON_VALUE)
