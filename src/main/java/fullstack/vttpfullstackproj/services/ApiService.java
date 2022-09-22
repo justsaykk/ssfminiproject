@@ -79,4 +79,27 @@ public class ApiService {
         Cocktail newDetailedCocktail = n.createDetailedCocktail(jsonDrinkElement);
         return newDetailedCocktail;
     }
+
+    public List<Cocktail> fetchDrinksByName(String drinkName) {
+        // Build API call URL
+        String uri = "https://www.thecocktaildb.com/api/json/v1/1/search.php";
+        String url = UriComponentsBuilder.fromUriString(uri)
+                .queryParam("s", drinkName)
+                .toUriString();
+        ResponseEntity<String> apiResponse = fetch(url);
+        List<Cocktail> listOfCocktails = new LinkedList<>();
+        if (null == apiResponse.getBody()) {
+            return listOfCocktails;
+        }
+        // Manipulating output
+        JsonObject jo = readApiResponse(apiResponse);
+        JsonArray jsonArray = jo.getJsonArray("drinks");
+        for (int i = 0; i < jsonArray.size(); i++) {
+            Cocktail n = new Cocktail();
+            JsonObject jsonDrinkElement = jsonArray.getJsonObject(i);
+            listOfCocktails.add(n.createSimpleCocktail(jsonDrinkElement));
+        }
+        System.out.println(listOfCocktails);
+        return listOfCocktails;
+    }
 }

@@ -34,9 +34,9 @@
                             <a class="nav-link" href="/createprofile">Create Profile</a>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search" action="/menu" method="get">
-                        <input class="form-control me-2" type="search" placeholder="Search by Ingredient"
-                            aria-label="Search" name="drinkFilter">
+                    <form class="d-flex" role="search" action="/drinkname" method="get">
+                        <input class="form-control me-2" type="search" placeholder="Search Drink" aria-label="Search"
+                            name="drinkName">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
@@ -47,9 +47,14 @@
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light"><span data-th-text="${ingredient}"></span> Mixes</h1>
+                <h1 class="fw-light"><span data-th-text="${ingredient}"></span> Drinks</h1>
                 <p class="lead text-muted">Learn more about each drink my clicking the "View Details" button or the
                     on the picture of the drink. You can search for specific ingredients too!</p>
+                <form class="d-flex" role="search" action="/menu" method="get">
+                    <input class="form-control me-2" type="search" placeholder="Search by Ingredient"
+                        aria-label="Search" name="drinkFilter">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
             </div>
         </div>
     </section>
@@ -82,14 +87,8 @@
                 <div th:case="'true'" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <div class="container align-items-center">
                         <div class="text-center">
-                            <h5 class="text-center">There are no drinks with the ingredient: <span
-                                    data-th-text="${ingredient}"></span></h5>
+                            <h5 class="text-center">No drinks found</br>Please try another search term</h5>
                             </br>
-                            <form class="d-flex" role="search" action="/menu" method="get">
-                                <input class="form-control me-2" type="search" placeholder="Ingredient"
-                                    aria-label="Search" name="drinkFilter">
-                                <button class="btn btn-primary" type="submit">Search</button>
-                            </form>
                         </div>
                     </div>
                 </div>

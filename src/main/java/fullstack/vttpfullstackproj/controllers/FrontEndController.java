@@ -41,6 +41,18 @@ public class FrontEndController {
         return "menu";
     }
 
+    @GetMapping(path = "/drinkname")
+    public String getDrinkByName(
+            @RequestParam(name = "drinkName") String drinkName,
+            Model model) {
+        String searchTerm = drinkName.toLowerCase().replaceAll(" ", "+");
+        List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByName(searchTerm.toLowerCase());
+        model.addAttribute("ingredient", toCaps(drinkName));
+        model.addAttribute("listOfCocktails", listOfCocktails);
+        model.addAttribute("emptyListOfCocktails", (listOfCocktails.isEmpty()) ? "true" : "false");
+        return "menu";
+    }
+
     @GetMapping(path = "/drink")
     public String getDrinkById(
             @RequestParam(name = "idDrink") String idDrink,

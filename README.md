@@ -29,20 +29,21 @@
     - Users will be redirected to their profile page. Duplicated entries will skip all the above steps upon submission and enter profile page
 
 ### Profile Page
-1. This is a page where users will be able to view the drinks that was added to their profile
-2. Users can view the drink details
-3. Users can delete the drink from their profile
-4. Users can edit their profile details
-5. Users will be able to see their profile picture, name, email and country of residence
-6. If users have no drinks in their profile, a button to browse drinks will be in place
+1. This is a page where users will be able to view the drinks that was added to their profile.
+2. Users can view the drink details.
+3. Users can delete the drink from their profile.
+4. Users can edit their profile details.
+5. Users will be able to see their profile picture, name, email and country of residence.
+6. If users have no drinks in their profile, a button to browse drinks will be in place.
+7. Users will be able to delete their profile.
 
 ### Edit Profile Page
-1. The previous information has been autofilled
-2. Only the name cannot be edited
+1. The previous information has been autofilled.
+2. Only the name cannot be edited.
 3. Upon submission:
-    - Hidden fields will capture old values
-    - The service will compare old and new values from individual fields
-    - The service will update if old value != new value
+    - Hidden fields will capture old values.
+    - The service will compare old and new values from individual fields.
+    - The service will update if old value != new value.
 
 ### Error Handling
 1. 404 Errors have its own cute ghostly page (credits to [Diogo Gomes](https://codepen.io/diogo_ml_gomes/pen/PyWdLb)).
