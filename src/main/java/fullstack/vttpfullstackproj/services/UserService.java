@@ -50,7 +50,7 @@ public class UserService {
         String oldEmail = oldUser.getEmail();
         String formEmail = editedUser.getEmail();
 
-        if (!oldEmail.equals(formEmail))
+        if (!oldEmail.equals(formEmail) && !userRepo.isRegisteredEmail(formEmail))
             updateRepo.updateEmail(name, oldEmail, formEmail);
 
         // Country changes

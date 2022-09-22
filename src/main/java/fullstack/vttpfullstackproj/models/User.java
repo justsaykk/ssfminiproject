@@ -78,7 +78,7 @@ public class User {
         String profilePicUrl = form.getFirst("profilePicUrl").toLowerCase();
         this.name = form.getFirst("name").toLowerCase();
         this.email = form.getFirst("email").toLowerCase();
-        this.country = form.containsKey("country") ? form.getFirst("country").toLowerCase() : "unknown";
+        this.country = (form.getFirst("country").isEmpty()) ? "unknown" : form.getFirst("country").toLowerCase();
         this.profilePic = (urlValidator(profilePicUrl))
                 ? profilePicUrl.toLowerCase()
                 : "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
