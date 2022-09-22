@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fullstack.vttpfullstackproj.models.User;
+import fullstack.vttpfullstackproj.repository.ProfileRepo;
 import fullstack.vttpfullstackproj.repository.UpdateRepo;
 import fullstack.vttpfullstackproj.repository.UserRepo;
 
@@ -18,6 +19,9 @@ public class UserService {
 
     @Autowired
     private UpdateRepo updateRepo;
+
+    @Autowired
+    private ProfileRepo profileRepo;
 
     public Boolean createProfile(User user) {
         String name = user.getName();
@@ -63,6 +67,14 @@ public class UserService {
 
         if (!oldProfilePic.equals(formProfilePic))
             updateRepo.updateProfilePic(currentEmail, formProfilePic);
+    }
+
+    public void deleteUser(String name, String email) {
+        userRepo.deleteEmail(email);
+        profileRepo.deleteName(name);
+        userRepo.deleteProfileMapping(name);
+        userRepo.deregisterEmail(email);
+        userRepo.deregisterName(name);
     }
 
     public User getUserDetails(String email) {

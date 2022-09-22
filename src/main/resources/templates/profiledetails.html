@@ -44,11 +44,11 @@
         </nav>
     </header>
 
-    <section class="py-5 text-center container">
+    <section class="py-2 text-center container">
         <div class="row py-lg-5">
-            <div class="col-lg-6 col-md-8 mx-auto">
+            <!-- <div class="col-lg-6 col-md-8 mx-auto">
                 <h1 class="fw-light"><span data-th-text="${name}"></span>'s Profile</h1>
-            </div>
+            </div> -->
         </div>
     </section>
 
@@ -63,19 +63,37 @@
                         <h5 class="card-title" data-th-text="${name}"></h5>
                         <h6 class="card-text" data-th-text="${email}"></h6>
                         <p class="card-text" data-th-text="${profileDetails.country}"></p>
-                        <form method="post" data-th-action="@{/editprofile/{email}(email = ${email})}">
-                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Edit
-                                Profile</button>
-                        </form>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <form method="post" data-th-action="@{/editprofile/{email}(email = ${email})}">
+                                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Edit
+                                    Profile</button>
+                            </form>
+                            <form data-th-action="@{/api/deleteuser/{name}/{email}(name = ${name}, email = ${email})}"
+                                method="post">
+                                <button class="btn btn-outline-danger" type="submit" id="button-addon2">Delete
+                                    Profile</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-8">
-                <div class="album py-5 bg-light">
-                    <div class="container">
-                        <div th:switch="${emptyListOfCocktails}">
-                            <div th:case="'false'" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col-8" th:switch="${emptyListOfCocktails}">
+                <div th:case="'true'">
+                    <div class="album py-5 bg-light">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            <div class="container align-items-center">
+                                <div class="text-center">
+                                    <h5 class="text-center">Your List is Empty!</h5>
+                                    <a href="/menu" class="btn btn-primary">Browse Drinks</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:case="'false'">
+                    <div class="album py-2 bg-light">
+                        <div class="container">
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                                 <div class="col" data-th-each="cocktail: ${listOfCocktails}">
                                     <div class="card shadow-sm">
                                         <a data-th-href="@{/drink(idDrink=${cocktail.idDrink})}">
@@ -106,14 +124,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div th:case="'true'" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                                <div class="container align-items-center">
-                                    <div class="text-center">
-                                        <h5 class="text-center">Your List is Empty!</h5>
-                                        <a href="/menu" class="btn btn-primary">Browse Drinks</a>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -122,9 +133,9 @@
 
 
         <!-- FOOTER -->
-        <footer class="container">
+        <footer class="container" style="padding-top: 50px;">
             <p class="float-end"><a href="#">Back to top</a></p>
-            <p>&copy; 2017–2022 Drink Factory, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+            <p>&copy; 2017–2022 Drink Factory, Inc.</p>
         </footer>
 
         <!-- JavaScript -->

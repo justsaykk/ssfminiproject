@@ -47,6 +47,11 @@ public class UserRepo {
         }
     }
 
+    public void deregisterEmail(String email) {
+        ListOperations<String, String> listOps = repo.opsForList();
+        listOps.remove("registeredprofiles", 0, email);
+    }
+
     public void registerName(String name) {
         ListOperations<String, String> listOps = repo.opsForList();
         if (!isRegisteredName(name)) {
@@ -54,14 +59,28 @@ public class UserRepo {
         }
     }
 
-    public void createProfile(String key, Map<String, String> m) {
+    public void deregisterName(String name) {
+        ListOperations<String, String> listOps = repo.opsForList();
+        listOps.remove("registerednames", 0, name);
+    }
+
+    public void createProfile(String email, Map<String, String> m) {
         HashOperations<String, String, String> hashOps = repo.opsForHash();
-        hashOps.putAll(key, m);
+        hashOps.putAll(email, m);
+    }
+
+    public void deleteEmail(String email) {
+        repo.delete(email);
     }
 
     public void updateProfileMapping(String name, String email) {
         HashOperations<String, String, String> hashOps = repo.opsForHash();
         hashOps.put("profilemap", name, email);
+    }
+
+    public void deleteProfileMapping(String name) {
+        HashOperations<String, String, String> hashOps = repo.opsForHash();
+        hashOps.delete("profilemap", name);
     }
 
     public String getEmailFromName(String name) {

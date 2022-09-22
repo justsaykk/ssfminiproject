@@ -149,7 +149,6 @@ public class RESTController {
         } else {
             response.sendRedirect("/createprofile");
         }
-
     }
 
     @PostMapping(path = "/delete/{name}/{idDrink}")
@@ -160,5 +159,14 @@ public class RESTController {
         String name = rawName.toLowerCase();
         restSvc.deleteDrink(name, idDrink);
         response.sendRedirect("/profile/%s".formatted(name));
+    }
+
+    @PostMapping(path = "/deleteuser/{name}/{email}")
+    public void deleteUser(
+            @PathVariable(value = "name") String name,
+            @PathVariable(value = "email") String email,
+            HttpServletResponse response) throws IOException {
+        userSvc.deleteUser(name.toLowerCase(), email.toLowerCase());
+        response.sendRedirect("/");
     }
 }
