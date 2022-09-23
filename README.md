@@ -9,6 +9,7 @@
     - If the API returns null, an empty page will show with a message and a search box.
 2. Clicking "View Details" will bring users to a more in-depth page of the drink.
 3. The default value is set to "Scotch".
+4. Users will be able to find drinks based on the drink name via the search at the nav bar.
 
 ### Detailed Drinks Page
 1. In the detailed drinks page, users will be able to see the ingredent list and the preparation instructions of the drink.
