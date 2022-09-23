@@ -40,6 +40,11 @@ public class UserRepo {
         }
     }
 
+    public Boolean isMapped(String name) {
+        HashOperations<String, String, String> hashOps = repo.opsForHash();
+        return hashOps.hasKey("profilemap", name);
+    }
+
     public void registerEmail(String email) {
         ListOperations<String, String> listOps = repo.opsForList();
         if (!isRegisteredEmail(email)) {

@@ -70,11 +70,22 @@ public class UserService {
     }
 
     public void deleteUser(String name, String email) {
-        userRepo.deleteEmail(email);
-        profileRepo.deleteName(name);
-        userRepo.deleteProfileMapping(name);
-        userRepo.deregisterEmail(email);
-        userRepo.deregisterName(name);
+        if (userExists(name)) {
+            userRepo.deleteEmail(email);
+            profileRepo.deleteName(name);
+            userRepo.deleteProfileMapping(name);
+            userRepo.deregisterEmail(email);
+            userRepo.deregisterName(name);
+        }
+    }
+
+    public Boolean userExists(String name) {
+        Boolean isMapped = userRepo.isMapped(name);
+        Boolean isRegisteredName = userRepo.isRegisteredName(name);
+        String email = (isMapped) ? userRepo.getEmailFromName(name) : "unknown";
+        Boolean hasEmail = profileRepo.hasEmail(email);
+        Boolean isRegisteredEmail = userRepo.isRegisteredEmail(email);
+        return (isMapped && isRegisteredName && isRegisteredEmail && hasEmail) ? true : false;
     }
 
     public User getUserDetails(String email) {

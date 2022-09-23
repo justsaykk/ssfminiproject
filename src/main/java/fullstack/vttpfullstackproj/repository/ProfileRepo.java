@@ -25,11 +25,11 @@ public class ProfileRepo {
         hashOps.putAll(email, m);
     }
 
-    public Boolean checkEmail(String email) {
+    public Boolean hasEmail(String email) {
         return repo.hasKey(email);
     }
 
-    public Boolean checkName(String name) {
+    public Boolean hasName(String name) {
         return repo.hasKey(name);
     }
 
