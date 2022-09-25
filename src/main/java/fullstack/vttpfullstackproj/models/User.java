@@ -57,6 +57,10 @@ public class User {
         }
     }
 
+    private String format(String s) {
+        return s.toString().trim().replaceAll(" ", "").toLowerCase();
+    }
+
     public JsonObject toJsonObject() {
         return Json.createObjectBuilder()
                 .add(this.email, Json.createObjectBuilder()
@@ -77,26 +81,30 @@ public class User {
 
     public void setUser(MultiValueMap<String, String> form) {
         String profilePicUrl = form.getFirst("profilePicUrl").toLowerCase();
-        this.name = form.getFirst("name").toLowerCase();
-        this.email = form.getFirst("email").toLowerCase();
-        this.country = (form.getFirst("country").isEmpty()) ? "unknown" : form.getFirst("country").toLowerCase();
+        this.name = format(form.getFirst("name"));
+        this.email = format(form.getFirst("email"));
+        this.country = (form.getFirst("country").isEmpty()) ? "unknown" : format(form.getFirst("country"));
         this.profilePic = (urlValidator(profilePicUrl))
-                ? profilePicUrl.toLowerCase()
+                ? format(profilePicUrl)
                 : "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
     }
 
     public void setOAuthUser(OAuth2User user) {
         Boolean isGoogleAuthenticated = user.getAttributes().containsKey("at_hash");
-        this.name = user.getAttribute("name");
-        this.email = user.getAttribute("email");
-        this.country = isGoogleAuthenticated ? "unknown" : user.getAttribute("location");
-        this.profilePic = isGoogleAuthenticated ? user.getAttribute("picture") : user.getAttribute("avatar_url");
+        this.name = format(user.getAttribute("name"));
+        this.email = format(user.getAttribute("email"));
+        this.country = isGoogleAuthenticated
+                ? "unknown"
+                : format(user.getAttribute("location"));
+        this.profilePic = isGoogleAuthenticated
+                ? format(user.getAttribute("picture"))
+                : format(user.getAttribute("avatar_url"));
     }
 
     public void setOldUser(MultiValueMap<String, String> form) {
-        this.name = form.getFirst("name").toLowerCase();
-        this.email = form.getFirst("oldEmail").toLowerCase();
-        this.country = form.getFirst("oldCountry").toLowerCase();
-        this.profilePic = form.getFirst("oldProfilePicUrl").toLowerCase();
+        this.name = format(form.getFirst("name"));
+        this.email = format(form.getFirst("oldEmail"));
+        this.country = format(form.getFirst("oldCountry"));
+        this.profilePic = format(form.getFirst("oldProfilePicUrl"));
     }
 }

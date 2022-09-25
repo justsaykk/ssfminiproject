@@ -23,25 +23,20 @@ public class UserService {
     @Autowired
     private ProfileRepo profileRepo;
 
-    public Boolean createProfile(User user) {
+    public void createProfile(User user) {
         String name = user.getName();
         String email = user.getEmail();
         String country = user.getCountry();
         String profilePic = user.getProfilePic();
 
-        if (isRegisteredName(name)) {
-            return false;
-        } else {
-            Map<String, String> m = new HashMap<>();
-            m.put("name", name);
-            m.put("country", country);
-            m.put("profilePic", profilePic);
-            userRepo.registerEmail(email);
-            userRepo.registerName(name);
-            userRepo.updateProfileMapping(name, email);
-            userRepo.createProfile(email, m);
-            return true;
-        }
+        Map<String, String> m = new HashMap<>();
+        m.put("name", name);
+        m.put("country", country);
+        m.put("profilePic", profilePic);
+        userRepo.registerEmail(email);
+        userRepo.registerName(name);
+        userRepo.updateProfileMapping(name, email);
+        userRepo.createProfile(email, m);
     }
 
     public void editUserProfile(User oldUser, User editedUser) {
@@ -69,23 +64,36 @@ public class UserService {
             updateRepo.updateProfilePic(currentEmail, formProfilePic);
     }
 
-    public void deleteUser(String name, String email) {
-        if (userExists(name)) {
-            userRepo.deleteEmail(email);
-            profileRepo.deleteName(name);
-            userRepo.deleteProfileMapping(name);
-            userRepo.deregisterEmail(email);
-            userRepo.deregisterName(name);
+    public void deleteUser(User user) {
+        if (userExists(user)) {
+            userRepo.deleteEmail(user.getEmail());
+            profileRepo.deleteName(user.getName());
+            userRepo.deleteProfileMapping(user.getName());
+            userRepo.deregisterEmail(user.getEmail());
+            userRepo.deregisterName(user.getName());
         }
     }
 
-    public Boolean userExists(String name) {
+    public Boolean userNameExists(String name) {
+        System.out.println("Checking is userNameExists >> " + name);
         Boolean isMapped = userRepo.isMapped(name);
         Boolean isRegisteredName = userRepo.isRegisteredName(name);
         String email = (isMapped) ? userRepo.getEmailFromName(name) : "unknown";
         Boolean hasEmail = profileRepo.hasEmail(email);
         Boolean isRegisteredEmail = userRepo.isRegisteredEmail(email);
         return (isMapped && isRegisteredName && isRegisteredEmail && hasEmail) ? true : false;
+    }
+
+    public Boolean userEmailExists(String email) {
+        Boolean hasEmail = profileRepo.hasEmail(email);
+        Boolean isRegisteredEmail = userRepo.isRegisteredEmail(email);
+        return (isRegisteredEmail && hasEmail) ? true : false;
+    }
+
+    public Boolean userExists(User user) {
+        String email = user.getEmail();
+        String name = user.getName();
+        return (userEmailExists(email) && userNameExists(name)) ? true : false;
     }
 
     public User getUserDetails(String email) {
@@ -96,8 +104,15 @@ public class UserService {
         return userRepo.isRegisteredName(name);
     }
 
+    public Boolean isRegisteredEmail(String email) {
+        return userRepo.isRegisteredEmail(email);
+    }
+
     public String getEmailfromName(String name) {
         return userRepo.getEmailFromName(name);
     }
 
+    public String getNamefromEmail(String email) {
+        return userRepo.getNameFromEmail(email);
+    }
 }

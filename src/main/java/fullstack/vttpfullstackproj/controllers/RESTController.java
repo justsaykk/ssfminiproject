@@ -33,20 +33,11 @@ public class RESTController {
             RedirectAttributes redirectAttributes,
             HttpServletResponse response) throws IOException {
 
-        System.out.println(user);
-
-        String name = user.getAttribute("name").toString().toLowerCase();
+        User currentUser = new User();
+        currentUser.setOAuthUser(user);
         String idDrink = form.getFirst("idDrink");
+        Boolean add = restSvc.addDrink(currentUser, idDrink);
 
-        // Check for registration
-        if (!userSvc.isRegisteredName(name)) {
-            User newUser = new User();
-            newUser.setOAuthUser(user);
-            userSvc.createProfile(newUser);
-        }
-
-        // Add drink to profile
-        Boolean add = restSvc.addDrink(name, idDrink);
         if (!add) {
             String message = "Duplicated entry, please add another drink";
             redirectAttributes.addFlashAttribute("message", message);
@@ -82,16 +73,16 @@ public class RESTController {
             @AuthenticationPrincipal OAuth2User user,
             HttpServletResponse response) throws IOException {
 
-        String name = user.getAttribute("name").toString().toLowerCase();
+        User currentUser = new User();
+        currentUser.setOAuthUser(user);
 
         // Check if name is registered
-        if (userSvc.isRegisteredName(name)) {
+        if (userSvc.userExists(currentUser)) {
+            String name = userSvc.getNamefromEmail(currentUser.getEmail());
             response.sendRedirect("/profile/%s".formatted(name));
         } else {
-            User newUser = new User();
-            newUser.setOAuthUser(user);
-            userSvc.createProfile(newUser);
-            response.sendRedirect("/profile/%s".formatted(name));
+            userSvc.createProfile(currentUser);
+            response.sendRedirect("/profile/%s".formatted(currentUser.getName()));
         }
     }
 
@@ -99,6 +90,7 @@ public class RESTController {
     public void deleteDrink(
             @PathVariable(value = "name") String rawName,
             @PathVariable(value = "idDrink") String idDrink,
+            @AuthenticationPrincipal OAuth2User user,
             HttpServletResponse response) throws IOException {
         String name = rawName.toLowerCase();
         restSvc.deleteDrink(name, idDrink);
@@ -109,8 +101,13 @@ public class RESTController {
     public void deleteUser(
             @PathVariable(value = "name") String name,
             @PathVariable(value = "email") String email,
+            @AuthenticationPrincipal OAuth2User user,
             HttpServletResponse response) throws IOException {
-        userSvc.deleteUser(name.toLowerCase(), email.toLowerCase());
+
+        User currentUser = new User();
+        currentUser.setOAuthUser(user);
+
+        userSvc.deleteUser(currentUser);
         response.sendRedirect("/");
     }
 }

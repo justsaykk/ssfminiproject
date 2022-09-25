@@ -30,24 +30,30 @@ public class FrontEndController {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
+    @GetMapping(path = "/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping(path = "/menu")
     public String menu(
             @RequestParam(defaultValue = "Scotch", name = "drinkFilter") String ingredient,
             Model model) {
-        List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByIngredients(ingredient.toLowerCase());
-        model.addAttribute("ingredient", toCaps(ingredient));
+        String searchTerm = ingredient.toLowerCase().replaceAll(" ", "+");
+        List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByIngredients(searchTerm);
+        model.addAttribute("ingredient", toCaps(ingredient.toLowerCase()));
         model.addAttribute("listOfCocktails", listOfCocktails);
         model.addAttribute("emptyListOfCocktails", (listOfCocktails.isEmpty()) ? "true" : "false");
         return "menu";
     }
 
     @GetMapping(path = "/drinkname")
-    public String getDrinkByName(
+    public String search(
             @RequestParam(name = "drinkName") String drinkName,
             Model model) {
         String searchTerm = drinkName.toLowerCase().replaceAll(" ", "+");
-        List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByName(searchTerm.toLowerCase());
-        model.addAttribute("ingredient", toCaps(drinkName));
+        List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByName(searchTerm);
+        model.addAttribute("ingredient", toCaps(drinkName.toLowerCase()));
         model.addAttribute("listOfCocktails", listOfCocktails);
         model.addAttribute("emptyListOfCocktails", (listOfCocktails.isEmpty()) ? "true" : "false");
         return "menu";

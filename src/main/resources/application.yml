@@ -18,3 +18,8 @@ server:
   error:
     whitelabel:
       enabled: false
+# logging:
+#   level:
+#     org:
+#       springframework:
+#         security: trace
