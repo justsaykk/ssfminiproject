@@ -28,10 +28,7 @@
                             <a class="nav-link" href="/menu">Drinks</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/profile">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/createprofile">Create Profile</a>
+                            <a class="nav-link" href="/api/profile">Profile</a>
                         </li>
                     </ul>
                 </div>
@@ -59,8 +56,8 @@
             <div class="col-12">
                 <label for="email" class="form-label">Email</label>
                 <input type="hidden" name="oldEmail" data-th-value="${profileDetails.email}">
-                <input type="email" class="form-control" id="email" name="email"
-                    data-th-value="${profileDetails.email}">
+                <input type="email" class="form-control" id="email" name="email" data-th-value="${profileDetails.email}"
+                    readonly disabled>
             </div>
             <div class="col-12">
                 <label for="country" class="form-label">Country of Residence <span

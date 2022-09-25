@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.util.MultiValueMap;
 
 import jakarta.json.Json;
@@ -82,6 +83,14 @@ public class User {
         this.profilePic = (urlValidator(profilePicUrl))
                 ? profilePicUrl.toLowerCase()
                 : "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
+    }
+
+    public void setOAuthUser(OAuth2User user) {
+        Boolean isGoogleAuthenticated = user.getAttributes().containsKey("at_hash");
+        this.name = user.getAttribute("name");
+        this.email = user.getAttribute("email");
+        this.country = isGoogleAuthenticated ? "unknown" : user.getAttribute("location");
+        this.profilePic = isGoogleAuthenticated ? user.getAttribute("picture") : user.getAttribute("avatar_url");
     }
 
     public void setOldUser(MultiValueMap<String, String> form) {

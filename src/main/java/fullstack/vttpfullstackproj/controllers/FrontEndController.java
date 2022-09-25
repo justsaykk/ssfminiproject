@@ -62,11 +62,6 @@ public class FrontEndController {
         return "drinkdetails";
     }
 
-    @GetMapping(path = "/profile")
-    public String profilePage() {
-        return "login";
-    }
-
     @GetMapping(path = "/profile/{name}")
     public String getProfileDetails(
             @PathVariable(value = "name") String rawName,
@@ -93,24 +88,6 @@ public class FrontEndController {
         model.addAttribute("listOfCocktails", listOfCocktails);
         model.addAttribute("emptyListOfCocktails", (listOfCocktails.isEmpty()) ? "true" : "false");
         return "profiledetails";
-    }
-
-    @GetMapping(path = "/createprofile")
-    public String createProfile(Model model) {
-        String[] listOfCountries = country.getCountries();
-        model.addAttribute("listOfCountries", listOfCountries);
-        return "createprofile";
-    }
-
-    @GetMapping(path = "/createprofile2/{name}")
-    public String createProfile2(
-            @PathVariable(value = "name") String name,
-            Model model) {
-        String[] listOfCountries = country.getCountries();
-
-        model.addAttribute("name", name);
-        model.addAttribute("listOfCountries", listOfCountries);
-        return "createprofile2";
     }
 
     @PostMapping(path = "/editprofile/{email}")
