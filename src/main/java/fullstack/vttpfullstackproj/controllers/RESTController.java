@@ -9,7 +9,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fullstack.vttpfullstackproj.models.User;
 import fullstack.vttpfullstackproj.services.RESTService;
@@ -41,13 +40,9 @@ public class RESTController {
         if (!add) {
             message = "Duplicated entry, please add another drink";
             successful = "false";
-            // redirectAttributes.addFlashAttribute("message", message);
-            // redirectAttributes.addFlashAttribute("successful", false);
         } else {
             message = "Drink Added!";
             successful = "true";
-            // redirectAttributes.addFlashAttribute("message", message);
-            // redirectAttributes.addFlashAttribute("successful", true);
         }
         response.sendRedirect("/drink?idDrink=%s&successful=%s&message=%s".formatted(idDrink, successful, message));
     }

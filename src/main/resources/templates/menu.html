@@ -27,11 +27,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="/menu">Drinks</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/api/profile">Profile
-                                <span data-th-if="${loggedin == true}">(
-                                    <span data-th-text="${name}"></span>)</span>
-                            </a>
+                        <li class="nav-item" data-th-if="${loggedin == false}">
+                            <a class="nav-link" href="/api/profile">Profile</a>
+                        </li>
+                        <li class="nav-item" data-th-if="${loggedin == true}">
+                            <a class="nav-link" href="/api/profile" data-th-text="${name}"></a>
                         </li>
                     </ul>
                     <div data-th-if="${loggedin == false}">

@@ -28,7 +28,7 @@
                             <a class="nav-link" href="/menu">Drinks</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/api/profile">Profile</a>
+                            <a class="nav-link" href="/api/profile" data-th-text="${profileDetails.name}"></a>
                         </li>
                     </ul>
                     <div data-th-if="${loggedin == true}">
