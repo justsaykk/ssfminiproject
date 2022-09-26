@@ -48,7 +48,18 @@
             </div>
         </nav>
     </header>
-
+    <div class="alert alert-success d-flex align-items-center" role="alert" data-th-if="${successful == true}">
+        <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:">
+            <use xlink:href="#check-circle-fill" />
+        </svg>
+        <div data-th-text="${message}"></div>
+    </div>
+    <div class="alert alert-danger d-flex align-items-center" role="alert" data-th-if="${successful == false}">
+        <svg class=" bi flex-shrink-0 me-2" role="img" aria-label="Danger:">
+            <use xlink:href="#exclamation-triangle-fill" />
+        </svg>
+        <div data-th-text="${message}"></div>
+    </div>
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
@@ -73,7 +84,6 @@
             </div>
         </div>
     </section>
-
     <div class="container">
         <div class="row align-items-start gx-1">
             <div class="col">

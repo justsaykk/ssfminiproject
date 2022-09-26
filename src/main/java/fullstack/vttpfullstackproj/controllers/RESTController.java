@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.util.MultiValueMap;
@@ -41,9 +40,11 @@ public class RESTController {
         if (!add) {
             String message = "Duplicated entry, please add another drink";
             redirectAttributes.addFlashAttribute("message", message);
+            redirectAttributes.addFlashAttribute("successful", false);
         } else {
             String message = "Drink Added!";
             redirectAttributes.addFlashAttribute("message", message);
+            redirectAttributes.addFlashAttribute("successful", true);
         }
         response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
     }
