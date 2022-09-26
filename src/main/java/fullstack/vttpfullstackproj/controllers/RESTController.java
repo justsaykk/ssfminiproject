@@ -32,8 +32,10 @@ public class RESTController {
 
         User currentUser = new User();
         currentUser.setOAuthUser(user);
+        User dbUser = new User();
+        dbUser = userSvc.getUser(currentUser.getEmail());
         String idDrink = form.getFirst("idDrink");
-        Boolean add = restSvc.addDrink(currentUser, idDrink);
+        Boolean add = restSvc.addDrink(dbUser, idDrink);
 
         String message;
         String successful;
