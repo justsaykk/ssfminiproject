@@ -26,16 +26,14 @@ public class UserService {
     public void createProfile(User user) {
         String name = user.getName();
         String email = user.getEmail();
-        String country = user.getCountry();
-        String profilePic = user.getProfilePic();
-
-        Map<String, String> m = new HashMap<>();
-        m.put("name", name);
-        m.put("country", country);
-        m.put("profilePic", profilePic);
         userRepo.registerEmail(email);
         userRepo.registerName(name);
         userRepo.updateProfileMapping(name, email);
+
+        Map<String, String> m = new HashMap<>();
+        m.put("name", name);
+        m.put("country", user.getCountry());
+        m.put("profilePic", user.getProfilePic());
         userRepo.createProfile(email, m);
     }
 

@@ -14,14 +14,6 @@ public class ProfileRepo {
     @Qualifier("repository")
     private RedisTemplate<String, String> repo;
 
-    // public void addUser(String name, String email, String profilePic) {
-    // HashOperations<String, Object, Object> hashOps = repo.opsForHash();
-    // Map<String, String> m = new HashMap<>();
-    // m.put("name", name);
-    // m.put("picture", profilePic);
-    // hashOps.putAll(email, m);
-    // }
-
     public Boolean hasEmail(String email) {
         return repo.hasKey(email);
     }
