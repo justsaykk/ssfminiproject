@@ -31,6 +31,11 @@
                             <a class="nav-link" href="/api/profile">Profile</a>
                         </li>
                     </ul>
+                    <div data-th-if="${loggedin == true}">
+                        <form action="/logout" method="get">
+                            <button class="btn btn-primary" type="submit">Logout</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </nav>

@@ -26,8 +26,8 @@ public class RESTController {
     @Autowired
     private UserService userSvc;
 
-    @PostMapping(path = "/adddrink", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> addDrink(
+    @PostMapping(path = "/adddrink")
+    public void addDrink(
             @AuthenticationPrincipal OAuth2User user,
             @RequestBody MultiValueMap<String, String> form,
             RedirectAttributes redirectAttributes,
@@ -45,13 +45,11 @@ public class RESTController {
             String message = "Drink Added!";
             redirectAttributes.addFlashAttribute("message", message);
         }
-
         response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
-        return new ResponseEntity<String>(HttpStatus.OK);
     }
 
-    @PostMapping(path = "/editprofile", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> editProfile(
+    @PostMapping(path = "/editprofile")
+    public void editProfile(
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
 
@@ -63,9 +61,7 @@ public class RESTController {
 
         // Send info to userService
         userSvc.editUserProfile(oldUser, editedUser);
-
         response.sendRedirect("/profile/%s".formatted(editedUser.getName()));
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(path = "/profile")

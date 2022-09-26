@@ -56,7 +56,21 @@ public class FrontEndController {
     @GetMapping(path = "/menu")
     public String menu(
             @RequestParam(defaultValue = "Scotch", name = "drinkFilter") String ingredient,
+            @AuthenticationPrincipal OAuth2User user,
             Model model) {
+
+        if (null == user) {
+            model.addAttribute("loggedin", false);
+        } else {
+            User curUser = new User();
+            curUser.setOAuthUser(user);
+            User dbUser = new User();
+            dbUser = userSvc.getUser(curUser.getEmail());
+            String userName = dbUser.getName();
+            model.addAttribute("loggedin", true);
+            model.addAttribute("name", userName);
+        }
+
         String searchTerm = ingredient.toLowerCase().replaceAll(" ", "+");
         List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByIngredients(searchTerm);
         model.addAttribute("ingredient", toCaps(ingredient.toLowerCase()));
@@ -68,7 +82,21 @@ public class FrontEndController {
     @GetMapping(path = "/drinkname")
     public String search(
             @RequestParam(name = "drinkName") String drinkName,
+            @AuthenticationPrincipal OAuth2User user,
             Model model) {
+
+        if (null == user) {
+            model.addAttribute("loggedin", false);
+        } else {
+            User curUser = new User();
+            curUser.setOAuthUser(user);
+            User dbUser = new User();
+            dbUser = userSvc.getUser(curUser.getEmail());
+            String userName = dbUser.getName();
+            model.addAttribute("loggedin", true);
+            model.addAttribute("name", userName);
+        }
+
         String searchTerm = drinkName.toLowerCase().replaceAll(" ", "+");
         List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByName(searchTerm);
         model.addAttribute("ingredient", toCaps(drinkName.toLowerCase()));
@@ -80,7 +108,21 @@ public class FrontEndController {
     @GetMapping(path = "/drink")
     public String getDrinkById(
             @RequestParam(name = "idDrink") String idDrink,
+            @AuthenticationPrincipal OAuth2User user,
             Model model) {
+
+        if (null == user) {
+            model.addAttribute("loggedin", false);
+        } else {
+            User curUser = new User();
+            curUser.setOAuthUser(user);
+            User dbUser = new User();
+            dbUser = userSvc.getUser(curUser.getEmail());
+            String userName = dbUser.getName();
+            model.addAttribute("loggedin", true);
+            model.addAttribute("name", userName);
+        }
+
         Cocktail cocktail = apiSvc.fetchDrinkById(idDrink);
         model.addAttribute("cocktailDetails", cocktail);
         return "drinkdetails";
@@ -106,6 +148,7 @@ public class FrontEndController {
         Map<String, String> profileDetails = userSvc.getUser(email).toMap();
 
         // Add to model
+        model.addAttribute("loggedin", true);
         model.addAttribute("email", email);
         model.addAttribute("profileDetails", profileDetails);
         model.addAttribute("name", toCaps(name.toLowerCase()));
@@ -121,6 +164,7 @@ public class FrontEndController {
         Map<String, String> profileDetails = userSvc.getUser(email).toMap();
         String[] listOfCountries = country.getCountries();
 
+        model.addAttribute("loggedin", true);
         model.addAttribute("listOfCountries", listOfCountries);
         model.addAttribute("profileDetails", profileDetails);
         return "editprofile";
