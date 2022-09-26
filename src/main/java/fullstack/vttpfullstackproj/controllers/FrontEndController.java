@@ -44,11 +44,8 @@ public class FrontEndController {
         } else {
             User curUser = new User();
             curUser.setOAuthUser(user);
-            User dbUser = new User();
-            dbUser = userSvc.getUser(curUser.getEmail());
-            String userName = dbUser.getName();
             model.addAttribute("loggedin", true);
-            model.addAttribute("name", userName);
+            model.addAttribute("name", curUser.getName());
         }
         return "index";
     }
@@ -64,11 +61,8 @@ public class FrontEndController {
         } else {
             User curUser = new User();
             curUser.setOAuthUser(user);
-            User dbUser = new User();
-            dbUser = userSvc.getUser(curUser.getEmail());
-            String userName = dbUser.getName();
             model.addAttribute("loggedin", true);
-            model.addAttribute("name", userName);
+            model.addAttribute("name", curUser.getName());
         }
 
         String searchTerm = ingredient.toLowerCase().replaceAll(" ", "+");
@@ -90,11 +84,8 @@ public class FrontEndController {
         } else {
             User curUser = new User();
             curUser.setOAuthUser(user);
-            User dbUser = new User();
-            dbUser = userSvc.getUser(curUser.getEmail());
-            String userName = dbUser.getName();
             model.addAttribute("loggedin", true);
-            model.addAttribute("name", userName);
+            model.addAttribute("name", curUser.getName());
         }
 
         String searchTerm = drinkName.toLowerCase().replaceAll(" ", "+");
@@ -116,11 +107,8 @@ public class FrontEndController {
         } else {
             User curUser = new User();
             curUser.setOAuthUser(user);
-            User dbUser = new User();
-            dbUser = userSvc.getUser(curUser.getEmail());
-            String userName = dbUser.getName();
             model.addAttribute("loggedin", true);
-            model.addAttribute("name", userName);
+            model.addAttribute("name", curUser.getName());
         }
 
         Cocktail cocktail = apiSvc.fetchDrinkById(idDrink);

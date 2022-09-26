@@ -74,12 +74,12 @@ public class UserService {
         }
     }
 
-    public Boolean userNameExists(String name) {
-        System.out.println("Checking is userNameExists >> " + name);
-        Boolean isMapped = userRepo.isMapped(name);
-        Boolean isRegisteredName = userRepo.isRegisteredName(name);
-        return (isMapped && isRegisteredName) ? true : false;
-    }
+    // public Boolean userNameExists(String name) {
+    // System.out.println("Checking is userNameExists >> " + name);
+    // Boolean isMapped = userRepo.isMapped(name);
+    // Boolean isRegisteredName = userRepo.isRegisteredName(name);
+    // return (isMapped && isRegisteredName) ? true : false;
+    // }
 
     public Boolean userEmailExists(String email) {
         Boolean hasEmail = profileRepo.hasEmail(email);
@@ -89,8 +89,7 @@ public class UserService {
 
     public Boolean userExists(User user) {
         String email = user.getEmail();
-        String name = user.getName();
-        return (userEmailExists(email) && userNameExists(name)) ? true : false;
+        return userEmailExists(email);
     }
 
     public User getUser(String email) {
