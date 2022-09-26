@@ -29,7 +29,6 @@ public class RESTController {
     public void addDrink(
             @AuthenticationPrincipal OAuth2User user,
             @RequestBody MultiValueMap<String, String> form,
-            RedirectAttributes redirectAttributes,
             HttpServletResponse response) throws IOException {
 
         User currentUser = new User();
@@ -37,16 +36,20 @@ public class RESTController {
         String idDrink = form.getFirst("idDrink");
         Boolean add = restSvc.addDrink(currentUser, idDrink);
 
+        String message;
+        String successful;
         if (!add) {
-            String message = "Duplicated entry, please add another drink";
-            redirectAttributes.addFlashAttribute("message", message);
-            redirectAttributes.addFlashAttribute("successful", false);
+            message = "Duplicated entry, please add another drink";
+            successful = "false";
+            // redirectAttributes.addFlashAttribute("message", message);
+            // redirectAttributes.addFlashAttribute("successful", false);
         } else {
-            String message = "Drink Added!";
-            redirectAttributes.addFlashAttribute("message", message);
-            redirectAttributes.addFlashAttribute("successful", true);
+            message = "Drink Added!";
+            successful = "true";
+            // redirectAttributes.addFlashAttribute("message", message);
+            // redirectAttributes.addFlashAttribute("successful", true);
         }
-        response.sendRedirect("/drink?idDrink=%s".formatted(idDrink));
+        response.sendRedirect("/drink?idDrink=%s&successful=%s&message=%s".formatted(idDrink, successful, message));
     }
 
     @PostMapping(path = "/editprofile")

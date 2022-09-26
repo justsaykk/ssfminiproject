@@ -48,13 +48,13 @@
             </div>
         </nav>
     </header>
-    <div class="alert alert-success d-flex align-items-center" role="alert" data-th-if="${successful == true}">
+    <div class="alert alert-success d-flex align-items-center" role="alert" data-th-if="${successful == 'true'}">
         <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:">
             <use xlink:href="#check-circle-fill" />
         </svg>
         <div data-th-text="${message}"></div>
     </div>
-    <div class="alert alert-danger d-flex align-items-center" role="alert" data-th-if="${successful == false}">
+    <div class="alert alert-danger d-flex align-items-center" role="alert" data-th-if="${successful == 'false'}">
         <svg class=" bi flex-shrink-0 me-2" role="img" aria-label="Danger:">
             <use xlink:href="#exclamation-triangle-fill" />
         </svg>
