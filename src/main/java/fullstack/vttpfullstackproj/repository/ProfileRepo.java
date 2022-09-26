@@ -1,12 +1,9 @@
 package fullstack.vttpfullstackproj.repository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,13 +14,13 @@ public class ProfileRepo {
     @Qualifier("repository")
     private RedisTemplate<String, String> repo;
 
-    public void addUser(String name, String email, String profilePic) {
-        HashOperations<String, Object, Object> hashOps = repo.opsForHash();
-        Map<String, String> m = new HashMap<>();
-        m.put("name", name);
-        m.put("picture", profilePic);
-        hashOps.putAll(email, m);
-    }
+    // public void addUser(String name, String email, String profilePic) {
+    // HashOperations<String, Object, Object> hashOps = repo.opsForHash();
+    // Map<String, String> m = new HashMap<>();
+    // m.put("name", name);
+    // m.put("picture", profilePic);
+    // hashOps.putAll(email, m);
+    // }
 
     public Boolean hasEmail(String email) {
         return repo.hasKey(email);
@@ -55,8 +52,8 @@ public class ProfileRepo {
         repo.delete(name);
     }
 
-    public void deleteDrink(String key, String value) {
+    public void deleteDrink(String name, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
-        listOps.remove(key, 0, value);
+        listOps.remove(name, 0, value);
     }
 }

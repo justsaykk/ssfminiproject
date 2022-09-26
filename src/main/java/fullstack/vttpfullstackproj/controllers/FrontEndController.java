@@ -3,6 +3,8 @@ package fullstack.vttpfullstackproj.controllers;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,22 @@ public class FrontEndController {
     @GetMapping(path = "/login")
     public String login() {
         return "login";
+    }
+
+    @GetMapping(path = "/")
+    public String index(Model model, @AuthenticationPrincipal OAuth2User user) {
+        if (null == user) {
+            model.addAttribute("loggedin", false);
+        } else {
+            User curUser = new User();
+            curUser.setOAuthUser(user);
+            User dbUser = new User();
+            dbUser = userSvc.getUser(curUser.getEmail());
+            String userName = dbUser.getName();
+            model.addAttribute("loggedin", true);
+            model.addAttribute("name", userName);
+        }
+        return "index";
     }
 
     @GetMapping(path = "/menu")
@@ -85,7 +103,7 @@ public class FrontEndController {
 
         // Get user details
         String email = userSvc.getEmailfromName(name);
-        Map<String, String> profileDetails = userSvc.getUserDetails(email).toMap();
+        Map<String, String> profileDetails = userSvc.getUser(email).toMap();
 
         // Add to model
         model.addAttribute("email", email);
@@ -100,7 +118,7 @@ public class FrontEndController {
     public String editProfile(
             @PathVariable(value = "email") String email,
             Model model) {
-        Map<String, String> profileDetails = userSvc.getUserDetails(email).toMap();
+        Map<String, String> profileDetails = userSvc.getUser(email).toMap();
         String[] listOfCountries = country.getCountries();
 
         model.addAttribute("listOfCountries", listOfCountries);

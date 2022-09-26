@@ -49,10 +49,11 @@ public class UserRepo {
         return hashOps.hasKey("profilemap", repoFormat(name));
     }
 
-    public void registerEmail(String email) {
+    public void registerEmail(String rawEmail) {
         ListOperations<String, String> listOps = repo.opsForList();
+        String email = repoFormat(rawEmail);
         if (!isRegisteredEmail(email)) {
-            listOps.leftPush("registeredprofiles", repoFormat(email));
+            listOps.leftPush("registeredprofiles", email);
         }
     }
 
@@ -61,10 +62,11 @@ public class UserRepo {
         listOps.remove("registeredprofiles", 0, repoFormat(email));
     }
 
-    public void registerName(String name) {
+    public void registerName(String rawName) {
         ListOperations<String, String> listOps = repo.opsForList();
+        String name = repoFormat(rawName);
         if (!isRegisteredName(name)) {
-            listOps.leftPush("registerednames", repoFormat(name));
+            listOps.leftPush("registerednames", name);
         }
     }
 
@@ -102,7 +104,7 @@ public class UserRepo {
         return hashOps.get(repoFormat(email), "name");
     }
 
-    public User getUserDetails(String email) {
+    public User getUser(String email) {
         HashOperations<String, String, String> hashOps = repo.opsForHash();
         User user = new User();
         user.setEmail(email);

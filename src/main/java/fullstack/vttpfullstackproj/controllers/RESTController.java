@@ -92,9 +92,16 @@ public class RESTController {
             @PathVariable(value = "idDrink") String idDrink,
             @AuthenticationPrincipal OAuth2User user,
             HttpServletResponse response) throws IOException {
-        String name = rawName.toLowerCase();
-        restSvc.deleteDrink(name, idDrink);
-        response.sendRedirect("/profile/%s".formatted(name));
+
+        User currentUser = new User();
+        currentUser.setOAuthUser(user);
+
+        // Pull DB user
+        User dbUser = new User();
+        dbUser = userSvc.getUser(currentUser.getEmail());
+
+        restSvc.deleteDrink(dbUser, idDrink);
+        response.sendRedirect("/profile/%s".formatted(dbUser.getName()));
     }
 
     @PostMapping(path = "/deleteuser/{name}/{email}")
@@ -107,7 +114,11 @@ public class RESTController {
         User currentUser = new User();
         currentUser.setOAuthUser(user);
 
-        userSvc.deleteUser(currentUser);
+        // Pull DB user
+        User dbUser = new User();
+        dbUser = userSvc.getUser(currentUser.getEmail());
+
+        userSvc.deleteUser(dbUser);
         response.sendRedirect("/");
     }
 }

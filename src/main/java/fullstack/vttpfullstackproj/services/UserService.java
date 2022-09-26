@@ -66,11 +66,11 @@ public class UserService {
 
     public void deleteUser(User user) {
         if (userExists(user)) {
-            userRepo.deleteEmail(user.getEmail());
-            profileRepo.deleteName(user.getName());
-            userRepo.deleteProfileMapping(user.getName());
             userRepo.deregisterEmail(user.getEmail());
             userRepo.deregisterName(user.getName());
+            userRepo.deleteProfileMapping(user.getName());
+            profileRepo.deleteName(user.getName());
+            userRepo.deleteEmail(user.getEmail());
         }
     }
 
@@ -78,10 +78,7 @@ public class UserService {
         System.out.println("Checking is userNameExists >> " + name);
         Boolean isMapped = userRepo.isMapped(name);
         Boolean isRegisteredName = userRepo.isRegisteredName(name);
-        String email = (isMapped) ? userRepo.getEmailFromName(name) : "unknown";
-        Boolean hasEmail = profileRepo.hasEmail(email);
-        Boolean isRegisteredEmail = userRepo.isRegisteredEmail(email);
-        return (isMapped && isRegisteredName && isRegisteredEmail && hasEmail) ? true : false;
+        return (isMapped && isRegisteredName) ? true : false;
     }
 
     public Boolean userEmailExists(String email) {
@@ -96,8 +93,8 @@ public class UserService {
         return (userEmailExists(email) && userNameExists(name)) ? true : false;
     }
 
-    public User getUserDetails(String email) {
-        return userRepo.getUserDetails(email);
+    public User getUser(String email) {
+        return userRepo.getUser(email);
     }
 
     public Boolean isRegisteredName(String name) {

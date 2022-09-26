@@ -178,9 +178,22 @@
                             <a class="nav-link" href="/menu">Drinks</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/api/profile">Profile</a>
+                            <a class="nav-link" href="/api/profile">Profile
+                                <span data-th-if="${loggedin == true}">(
+                                    <span data-th-text="${name}"></span>)</span>
+                            </a>
                         </li>
                     </ul>
+                    <div data-th-if="${loggedin == false}">
+                        <form action="/login" method="get">
+                            <button class="btn btn-primary" type="submit">Login</button>
+                        </form>
+                    </div>
+                    <div data-th-if="${loggedin == true}">
+                        <form action="/logout" method="get">
+                            <button class="btn btn-primary" type="submit">Logout</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </nav>

@@ -26,8 +26,8 @@ public class RESTService {
         return profileRepo.addDrink(name, idDrink);
     }
 
-    public void deleteDrink(String name, String idDrink) {
-        profileRepo.deleteDrink(name, idDrink);
+    public void deleteDrink(User user, String idDrink) {
+        profileRepo.deleteDrink(user.getName(), idDrink);
     }
 
     public List<String> getProfile(String name) {

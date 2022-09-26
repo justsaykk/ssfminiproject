@@ -15,9 +15,10 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(
                                                 (a) -> a.antMatchers("/", "/menu", "/drinkname", "/drink")
                                                                 .permitAll().anyRequest().authenticated())
-
                                 .oauth2Login()
-                                .loginPage("/login").permitAll();
+                                .loginPage("/login").permitAll().and()
+                                .logout().logoutUrl("/logout").logoutSuccessUrl("/")
+                                .invalidateHttpSession(true).deleteCookies("JSESSIONID");
 
                 http.csrf().disable();
                 http.cors().disable();
