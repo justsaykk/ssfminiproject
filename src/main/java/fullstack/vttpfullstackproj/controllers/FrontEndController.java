@@ -99,8 +99,8 @@ public class FrontEndController {
     @GetMapping(path = "/drink")
     public String getDrinkById(
             @RequestParam(name = "idDrink") String idDrink,
-            @RequestParam(name = "successful") String successful,
-            @RequestParam(name = "message") String message,
+            @RequestParam(name = "successful", required = false) String successful,
+            @RequestParam(name = "message", required = false) String message,
             @AuthenticationPrincipal OAuth2User user,
             Model model) {
 
@@ -114,8 +114,10 @@ public class FrontEndController {
         }
 
         Cocktail cocktail = apiSvc.fetchDrinkById(idDrink);
-        model.addAttribute("successful", successful);
-        model.addAttribute("message", message);
+        if (null != successful) {
+            model.addAttribute("successful", successful);
+            model.addAttribute("message", message);
+        }
         model.addAttribute("cocktailDetails", cocktail);
         return "drinkdetails";
     }
