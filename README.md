@@ -48,45 +48,65 @@
 
 ## Project Requirements
 
-### Springboot
+| Requirements                                    | Status                       |
+| ----------------------------------------------- | ---------------------------- |
+| Must handle POST & GET request                  | :white_check_mark: Completed |
+| Must include @PathVariable                      | :white_check_mark: Completed |
+| Must include both @Controller & @RestController | :white_check_mark: Completed |
+| POST must consume either form or JSON data      | :white_check_mark: Completed |
+| Must support more than 1 user                   | :white_check_mark: Completed |
+| Must include a min. of 3 views                  | :white_check_mark: Completed |
+| Must make request to external API               | :white_check_mark: Completed |
+| Must use a new API                              | :white_check_mark: Completed |
+| Bootstrap v5.x                                  | :white_check_mark: Completed |
+| Use redis database                              | :white_check_mark: Completed |
 
-| Requirement | Progress    |
-| ----------- | ----------- |
-| Must handle POST & GET request | Done |
-| Must include @PathVariable | Done |
-| Must include both @Controller & @RestController | Done |
-| POST must consume either form or JSON data | Done |
-| Must support more than 1 user | Done |
-| Must include a min. of 3 views | Done |
+## Difficulties and Learnings
 
-### RESTful API
+#### Database
+The use of redis as a persistent storage meant that only simple key-value pairs can be stored. The method of storage, therefore, influenced heavily on what could or could not be done.
+This application requires a more SQL-like storage mechanism. Therefore, a key-to-key map was needed. 
+The map is called `profilemap` and is a map linking the user's email to its name and would look something like this:
 
-| Requirement | Progress    |
-| ----------- | ----------- |
-| Must make request to external API | Done |
-| Must use a new API | Done |
+```javascript
+profilemap = {
+    "user01": "user01@user.com",
+    "user02": "user02@user.com"
+}
+```
 
-### HTML & CSS
+This allows for services to have a fixed *"table"* to reference from. It also prevents the database from having individual keys floating around. 
 
-| Requirement | Progress    |
-| ----------- | ----------- |
-| Bootstrap v5.x | Done |
 
-### Database
+#### @RestController
+Unlike an application with separate front and back-end components, this application is a single, app that encompases both front and back end stuff. 
+This brings forth an interesting scenario whereby the `@RestController` is not strictly needed as the typical `@Controller` would have access to the same resources as the *"backend"* `@RestController` would have. 
+Therefore, most of the routes from `@RestController` redirects to a view. 
 
-| Requirement | Progress    |
-| ----------- | ----------- |
-| Use redis database | Done |
+The way the redirection works is through the use of `HttpServletResponse response` and a `response.sendRedirect()` to form something like this:
 
-### Release Schedule
+```java
+    @PostMapping(path = "/route")
+    public void route(HttpServletResponse response) throws IOException {
+        // Some code here...
+        response.sendRedirect("/another_route");
+    }
+```
 
-At least once a week
+Even though all of the `@RestController` routes look like this, I recognize that normally, the `@RestController` would return a `JSON` format response.
 
-| Requirement | Progress    |
-| ----------- | ----------- |
-| Aug 15-19   | v1.0-aplha.1|
-| Aug 22-26   | v1.0-aplha.2|
-| Aug 29-02   | v1.0.3      |
-| Sep 05-09   | No releases |
-| Sep 12-16   | No releases |
-| Sep 19-23   | v2.0.0      |
+#### OAuth2 login
+From the initial release to v2.0.0, the application had a cumbersome workflow to store user's profile and saved cocktails. 
+
+Assuming the user's profile has been created, users would need to:
+1. Input name and save drink to profile (one drink at a time)
+2. Go to *login* page and input name
+
+Therefore, if a user wanted to save 5 drinks, the user would need 5 name inputs and 5 clicks on every input.
+
+By delegating the login to Google and/or Github, users would only need to login once and save on all the name inputs to save a drink to the profile. Furthermore, the profiles are automatically created upon accessing the profile page. 
+
+**Problems:**
+By default, *OAuth2* would only authenticate non-state-changing requests (i.e. only "GET"), having multiple forms that utilize `method = "POST"` would prompt a `403 Forbidden` error. 
+
+To circumvent this, I needed to disable cross-site-request-forgery (csrf) setting. By doing so, I'm compromising the safety of the application. However, the risk is low as the app does not save any confidential information about the user. 
