@@ -81,7 +81,6 @@ public class ApiService {
     }
 
     public List<Cocktail> fetchDrinksByName(String drinkName) {
-        // Build API call URL
         String uri = "https://www.thecocktaildb.com/api/json/v1/1/search.php";
         String url = UriComponentsBuilder.fromUriString(uri)
                 .queryParam("s", drinkName)
@@ -91,8 +90,10 @@ public class ApiService {
         if (null == apiResponse.getBody()) {
             return listOfCocktails;
         }
-        // Manipulating output
         JsonObject jo = readApiResponse(apiResponse);
+        if (null == jo.get("drinks")) {
+            return listOfCocktails;
+        }
         JsonArray jsonArray = jo.getJsonArray("drinks");
         for (int i = 0; i < jsonArray.size(); i++) {
             Cocktail n = new Cocktail();
