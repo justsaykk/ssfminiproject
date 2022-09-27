@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import fullstack.vttpfullstackproj.models.Cocktail;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -86,12 +88,13 @@ public class ApiService {
                 .queryParam("s", drinkName)
                 .toUriString();
         ResponseEntity<String> apiResponse = fetch(url);
+
         List<Cocktail> listOfCocktails = new LinkedList<>();
         if (null == apiResponse.getBody()) {
             return listOfCocktails;
         }
         JsonObject jo = readApiResponse(apiResponse);
-        if (null == jo.get("drinks")) {
+        if (jo.isNull("drinks")) {
             return listOfCocktails;
         }
         JsonArray jsonArray = jo.getJsonArray("drinks");
