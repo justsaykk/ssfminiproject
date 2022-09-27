@@ -48,7 +48,7 @@
 The database has a few *key* keys:
 1. registeredprofiles
 2. registerednames
-3. profilemap (see [here](#database-db-learning))
+3. profilemap (see [here](#data-storage))
 4. user's email
 5. user's name
 
@@ -89,7 +89,7 @@ user's `email` and `name` are expected to keep duplicating as more and more user
 
 ## Difficulties and Learnings
 
-#### Database {#db-learning}
+#### Data Storage
 The use of redis as a persistent storage meant that only simple key-value pairs can be stored. The method of storage, therefore, influenced heavily on what could or could not be done.
 This application requires a more SQL-like storage mechanism. Therefore, a key-to-key map was needed. 
 The map is called `profilemap` and is a map linking the user's email to its name and would look something like this:
