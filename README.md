@@ -44,11 +44,37 @@
 1. 404 Errors have its own cute ghostly page (credits to [Diogo Gomes](https://codepen.io/diogo_ml_gomes/pen/PyWdLb)).
 2. As much as possible, no internal server error (500) should occur.
 
+### Database
+The database has a few *key* keys:
+1. registeredprofiles
+2. registerednames
+3. profilemap (see [here](#database-db-learning))
+4. user's email
+5. user's name
 
+
+```javascript
+// registeredprofiles & registerednames looks like this:
+registeredprofile = ["user01@user.com", "user02@user.com", "user03@user.com"]
+registeredname = ["user01", "user02", "user03"]
+/* They serve as a quick way to check if a user has been registered in the database */
+
+// user's email looks like this:
+user01@user.com = {
+    name: "user01",
+    profilePic: "https://someurl.com.jpg",
+    country: "Singapore"
+}
+
+// user's name looks like this:
+user01 = ["11121", "12345", "56789"] // <-- stores drink ids
+```
+
+user's `email` and `name` are expected to keep duplicating as more and more users utilize the app. However, the other 3 keys will only expand within.
 
 ## Project Requirements
 
-| Requirements                                        | Status                       |
+| Requirements                                        |            Status            |
 | --------------------------------------------------- | :--------------------------: |
 | Must handle `POST` & `GET` request                  | :white_check_mark: Completed |
 | Must include `@PathVariable`                        | :white_check_mark: Completed |
@@ -63,7 +89,7 @@
 
 ## Difficulties and Learnings
 
-#### Database
+#### Database {#db-learning}
 The use of redis as a persistent storage meant that only simple key-value pairs can be stored. The method of storage, therefore, influenced heavily on what could or could not be done.
 This application requires a more SQL-like storage mechanism. Therefore, a key-to-key map was needed. 
 The map is called `profilemap` and is a map linking the user's email to its name and would look something like this:
@@ -104,9 +130,9 @@ Assuming the user's profile has been created, users would need to:
 
 Therefore, if a user wanted to save 5 drinks, the user would need 5 name inputs and 5 clicks on every input.
 
-By delegating the login to Google and/or Github, users would only need to login once and save on all the name inputs to save a drink to the profile. Furthermore, the profiles are automatically created upon accessing the profile page. 
+By delegating the login to Google and/or Github, users would only need to login once and save on all the name inputs to save a drink to the profile. Furthermore, the profiles are automatically created upon accessing the profile page. In addition, I did not need to use `HttpSession` as a method to store user data when traversing the app. 
 
-**Problems:**
+##### Problems:
 By default, *OAuth2* would only authenticate non-state-changing requests (i.e. only "GET"), having multiple forms that utilize `method = "POST"` would prompt a `403 Forbidden` error. 
 
 To circumvent this, I needed to disable cross-site-request-forgery (csrf) setting. By doing so, I'm compromising the safety of the application. However, the risk is low as the app does not save any confidential information about the user. 
