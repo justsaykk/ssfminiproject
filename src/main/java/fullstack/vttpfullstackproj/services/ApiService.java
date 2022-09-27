@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 import fullstack.vttpfullstackproj.models.Cocktail;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;

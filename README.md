@@ -9,25 +9,14 @@
     - If the API returns null, an empty page will show with a message and a search box.
 2. Clicking "View Details" will bring users to a more in-depth page of the drink.
 3. The default value is set to "Scotch".
-4. Users will be able to find drinks based on the drink name via the search at the nav bar.
+4. Users will be able to find drinks based on the drink name.
 
 ### Detailed Drinks Page
 1. In the detailed drinks page, users will be able to see the ingredent list and the preparation instructions of the drink.
 2. Users will also be able to add the drink to their profile.
-3. If the profile does not exists, clicking "add to profile" will send users to the create profile page.
-4. If the drink has already been added before (Duplicated), user will be redirected to the drinks page.
-
-### Create profile Page 
-1. There are 2 versions of this page. If users are redirected here due to the addition of a drink to an uninitiated profile, the name will be greyed out.
-2. Users will be able to add their email, country of residence and their profile picture url.
-3. If the supplied picture url is not a valid url, a placeholder image will be inserted.
-4. Upon submission:
-    - A User profile will be created
-    - The email will be added to the key: "registeredprofile"
-    - The name will be added to the key: "registerednames"
-    - The profilemap will be updated
-    - The email will be used as a key to store all the other information
-    - Users will be redirected to their profile page. Duplicated entries will skip all the above steps upon submission and enter profile page
+3. If the user is not logged in, the "Add to profile" button will not appear.
+4. If the drink has already been added before (Duplicated), an error message will prompt.
+5. If the drink has been successfully added, a success message will prompt.
 
 ### Profile Page
 1. This is a page where users will be able to view the drinks that was added to their profile.
@@ -40,11 +29,16 @@
 
 ### Edit Profile Page
 1. The previous information has been autofilled.
-2. Only the name cannot be edited.
+2. Name & Email cannot be edited.
 3. Upon submission:
     - Hidden fields will capture old values.
     - The service will compare old and new values from individual fields.
     - The service will update if old value != new value.
+
+### Login Page
+1. Login can only be done via Github or Google
+2. With this OAuth2 implementation, the profile creation page & the old login page has been obsoleted.
+3. Users do not need to key in any details and profiles will be retrieved automatically.
 
 ### Error Handling
 1. 404 Errors have its own cute ghostly page (credits to [Diogo Gomes](https://codepen.io/diogo_ml_gomes/pen/PyWdLb)).
