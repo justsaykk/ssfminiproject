@@ -111,19 +111,21 @@ public class FrontEndController {
 
         Cocktail cocktail = apiSvc.fetchDrinkById(idDrink);
         String message;
-        switch (successful) {
-            case "true":
-                message = "Drink Added!";
-                model.addAttribute("successful", successful);
-                model.addAttribute("message", message);
-                break;
-            case "false":
-                message = "Duplicated entry, please add another drink";
-                model.addAttribute("successful", successful);
-                model.addAttribute("message", message);
-                break;
-            default:
-                break;
+        if (null != successful) {
+            switch (successful) {
+                case "true":
+                    message = "Drink Added!";
+                    model.addAttribute("successful", successful);
+                    model.addAttribute("message", message);
+                    break;
+                case "false":
+                    message = "Duplicated entry, please add another drink";
+                    model.addAttribute("successful", successful);
+                    model.addAttribute("message", message);
+                    break;
+                default:
+                    break;
+            }
         }
         model.addAttribute("cocktailDetails", cocktail);
         return "drinkdetails";
