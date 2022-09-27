@@ -25,9 +25,6 @@ public class FrontEndController {
     @Autowired
     private UserService userSvc;
 
-    @Autowired
-    private Country country;
-
     private String toCaps(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
@@ -166,6 +163,7 @@ public class FrontEndController {
             @PathVariable(value = "email") String email,
             Model model) {
         Map<String, String> profileDetails = userSvc.getUser(email).toMap();
+        Country country = new Country();
         String[] listOfCountries = country.getCountries();
 
         model.addAttribute("loggedin", true);
