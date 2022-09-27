@@ -121,6 +121,6 @@ public class RESTController {
         dbUser = userSvc.getUser(currentUser.getEmail());
 
         userSvc.deleteUser(dbUser);
-        response.sendRedirect("/");
+        response.sendRedirect("/logout");
     }
 }
