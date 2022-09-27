@@ -49,6 +49,11 @@ public class RESTController {
         response.sendRedirect("/drink?idDrink=%s&successful=%s&message=%s".formatted(idDrink, successful, message));
     }
 
+    @GetMapping(path = "/adddrink")
+    public void redirectToMainPage(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/");
+    }
+
     @PostMapping(path = "/editprofile")
     public void editProfile(
             @RequestBody MultiValueMap<String, String> form,
