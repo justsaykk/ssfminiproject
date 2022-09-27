@@ -103,7 +103,7 @@ public class User {
 
     public void setOldUser(MultiValueMap<String, String> form) {
         this.name = format(form.getFirst("name"));
-        this.email = format(form.getFirst("oldEmail"));
+        this.email = format(form.getFirst("email"));
         this.country = format(form.getFirst("oldCountry"));
         this.profilePic = format(form.getFirst("oldProfilePicUrl"));
     }
