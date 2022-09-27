@@ -48,18 +48,18 @@
 
 ## Project Requirements
 
-| Requirements                                    | Status                       |
-| ----------------------------------------------- | ---------------------------- |
-| Must handle POST & GET request                  | :white_check_mark: Completed |
-| Must include @PathVariable                      | :white_check_mark: Completed |
-| Must include both @Controller & @RestController | :white_check_mark: Completed |
-| POST must consume either form or JSON data      | :white_check_mark: Completed |
-| Must support more than 1 user                   | :white_check_mark: Completed |
-| Must include a min. of 3 views                  | :white_check_mark: Completed |
-| Must make request to external API               | :white_check_mark: Completed |
-| Must use a new API                              | :white_check_mark: Completed |
-| Bootstrap v5.x                                  | :white_check_mark: Completed |
-| Use redis database                              | :white_check_mark: Completed |
+| Requirements                                        | Status                       |
+| --------------------------------------------------- | :--------------------------: |
+| Must handle `POST` & `GET` request                  | :white_check_mark: Completed |
+| Must include `@PathVariable`                        | :white_check_mark: Completed |
+| Must include both `@Controller` & `@RestController` | :white_check_mark: Completed |
+| POST must consume either form or `JSON` data        | :white_check_mark: Completed |
+| Must support more than 1 user                       | :white_check_mark: Completed |
+| Must include a min. of 3 views                      | :white_check_mark: Completed |
+| Must make request to external API                   | :white_check_mark: Completed |
+| Must use a new API                                  | :white_check_mark: Completed |
+| Bootstrap v5.x                                      | :white_check_mark: Completed |
+| Use redis database                                  | :white_check_mark: Completed |
 
 ## Difficulties and Learnings
 
