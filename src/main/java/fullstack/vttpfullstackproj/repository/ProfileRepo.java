@@ -27,7 +27,6 @@ public class ProfileRepo {
         List<String> listOfValues = getProfile(name);
 
         if (!listOfValues.contains(value)) {
-            // If name is not found, rightPush will automatically create new profile.
             listOps.rightPush(name, value);
             return true;
         } else {

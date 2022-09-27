@@ -1,11 +1,9 @@
 package fullstack.vttpfullstackproj.models;
 
-import org.springframework.stereotype.Service;
-
-@Service
 public class Country {
 
-    private String[] countries = new String[] { "Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola",
+    private String[] countries = new String[] { "Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra",
+            "Angola",
             "Anguilla", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria",
             "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin",
             "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegowina", "Botswana", "Bouvet Island", "Brazil",

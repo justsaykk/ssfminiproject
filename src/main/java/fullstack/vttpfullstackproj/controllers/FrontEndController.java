@@ -100,7 +100,6 @@ public class FrontEndController {
     public String getDrinkById(
             @RequestParam(name = "idDrink") String idDrink,
             @RequestParam(name = "successful", required = false) String successful,
-            @RequestParam(name = "message", required = false) String message,
             @AuthenticationPrincipal OAuth2User user,
             Model model) {
 
@@ -114,9 +113,20 @@ public class FrontEndController {
         }
 
         Cocktail cocktail = apiSvc.fetchDrinkById(idDrink);
-        if (null != successful) {
-            model.addAttribute("successful", successful);
-            model.addAttribute("message", message);
+        String message;
+        switch (successful) {
+            case "true":
+                message = "Drink Added!";
+                model.addAttribute("successful", successful);
+                model.addAttribute("message", message);
+                break;
+            case "false":
+                message = "Duplicated entry, please add another drink";
+                model.addAttribute("successful", successful);
+                model.addAttribute("message", message);
+                break;
+            default:
+                break;
         }
         model.addAttribute("cocktailDetails", cocktail);
         return "drinkdetails";

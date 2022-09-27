@@ -24,29 +24,22 @@ public class RESTController {
     @Autowired
     private UserService userSvc;
 
+    public User getDbUser(OAuth2User user) {
+        User currentUser = new User();
+        currentUser.setOAuthUser(user);
+        return userSvc.getUser(currentUser.getEmail());
+    }
+
     @PostMapping(path = "/adddrink")
     public void addDrink(
             @AuthenticationPrincipal OAuth2User user,
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
-
-        User currentUser = new User();
-        currentUser.setOAuthUser(user);
-        User dbUser = new User();
-        dbUser = userSvc.getUser(currentUser.getEmail());
+        User dbUser = getDbUser(user);
         String idDrink = form.getFirst("idDrink");
         Boolean add = restSvc.addDrink(dbUser, idDrink);
-
-        String message;
-        String successful;
-        if (!add) {
-            message = "Duplicated entry, please add another drink";
-            successful = "false";
-        } else {
-            message = "Drink Added!";
-            successful = "true";
-        }
-        response.sendRedirect("/drink?idDrink=%s&successful=%s&message=%s".formatted(idDrink, successful, message));
+        String successful = (add) ? "true" : "false";
+        response.sendRedirect("/drink?idDrink=%s&successful=%s".formatted(idDrink, successful));
     }
 
     @GetMapping(path = "/adddrink")
@@ -58,14 +51,10 @@ public class RESTController {
     public void editProfile(
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
-
         User oldUser = new User();
         oldUser.setOldUser(form);
-
         User editedUser = new User();
         editedUser.setUser(form);
-
-        // Send info to userService
         userSvc.editUserProfile(oldUser, editedUser);
         response.sendRedirect("/profile/%s".formatted(editedUser.getName()));
     }
@@ -74,11 +63,8 @@ public class RESTController {
     public void getProfile(
             @AuthenticationPrincipal OAuth2User user,
             HttpServletResponse response) throws IOException {
-
         User currentUser = new User();
         currentUser.setOAuthUser(user);
-
-        // Check if name is registered
         if (userSvc.userExists(currentUser)) {
             String name = userSvc.getNamefromEmail(currentUser.getEmail());
             response.sendRedirect("/profile/%s".formatted(name));
@@ -94,14 +80,7 @@ public class RESTController {
             @PathVariable(value = "idDrink") String idDrink,
             @AuthenticationPrincipal OAuth2User user,
             HttpServletResponse response) throws IOException {
-
-        User currentUser = new User();
-        currentUser.setOAuthUser(user);
-
-        // Pull DB user
-        User dbUser = new User();
-        dbUser = userSvc.getUser(currentUser.getEmail());
-
+        User dbUser = getDbUser(user);
         restSvc.deleteDrink(dbUser, idDrink);
         response.sendRedirect("/profile/%s".formatted(dbUser.getName()));
     }
@@ -112,14 +91,7 @@ public class RESTController {
             @PathVariable(value = "email") String email,
             @AuthenticationPrincipal OAuth2User user,
             HttpServletResponse response) throws IOException {
-
-        User currentUser = new User();
-        currentUser.setOAuthUser(user);
-
-        // Pull DB user
-        User dbUser = new User();
-        dbUser = userSvc.getUser(currentUser.getEmail());
-
+        User dbUser = getDbUser(user);
         userSvc.deleteUser(dbUser);
         response.sendRedirect("/logout");
     }

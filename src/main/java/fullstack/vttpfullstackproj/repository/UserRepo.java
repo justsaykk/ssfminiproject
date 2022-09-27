@@ -18,7 +18,7 @@ public class UserRepo {
     @Qualifier("repository")
     private RedisTemplate<String, String> repo;
 
-    private String repoFormat(String s) {
+    public String repoFormat(String s) {
         return s.trim().toLowerCase().replaceAll(" ", "");
     }
 

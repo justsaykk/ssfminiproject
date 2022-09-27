@@ -38,28 +38,21 @@ public class UserService {
     }
 
     public void editUserProfile(User oldUser, User editedUser) {
-        // Email changes
-        String name = editedUser.getName();
-        String oldEmail = oldUser.getEmail();
-        String formEmail = editedUser.getEmail();
-
-        if (!oldEmail.equals(formEmail) && !userRepo.isRegisteredEmail(formEmail))
-            updateRepo.updateEmail(name, oldEmail, formEmail);
+        String email = oldUser.getEmail();
 
         // Country changes
         String oldCountry = oldUser.getCountry();
         String formCountry = editedUser.getCountry();
-        String currentEmail = userRepo.getEmailFromName(name);
 
         if (!oldCountry.equals(formCountry))
-            updateRepo.updateCountry(currentEmail, formCountry);
+            updateRepo.updateCountry(email, formCountry);
 
         // ProfilePic changes
         String oldProfilePic = oldUser.getProfilePic();
         String formProfilePic = editedUser.getProfilePic();
 
         if (!oldProfilePic.equals(formProfilePic))
-            updateRepo.updateProfilePic(currentEmail, formProfilePic);
+            updateRepo.updateProfilePic(email, formProfilePic);
     }
 
     public void deleteUser(User user) {
@@ -72,34 +65,15 @@ public class UserService {
         }
     }
 
-    // public Boolean userNameExists(String name) {
-    // System.out.println("Checking is userNameExists >> " + name);
-    // Boolean isMapped = userRepo.isMapped(name);
-    // Boolean isRegisteredName = userRepo.isRegisteredName(name);
-    // return (isMapped && isRegisteredName) ? true : false;
-    // }
-
-    public Boolean userEmailExists(String email) {
+    public Boolean userExists(User user) {
+        String email = user.getEmail();
         Boolean hasEmail = profileRepo.hasEmail(email);
         Boolean isRegisteredEmail = userRepo.isRegisteredEmail(email);
         return (isRegisteredEmail && hasEmail) ? true : false;
     }
 
-    public Boolean userExists(User user) {
-        String email = user.getEmail();
-        return userEmailExists(email);
-    }
-
     public User getUser(String email) {
         return userRepo.getUser(email);
-    }
-
-    public Boolean isRegisteredName(String name) {
-        return userRepo.isRegisteredName(name);
-    }
-
-    public Boolean isRegisteredEmail(String email) {
-        return userRepo.isRegisteredEmail(email);
     }
 
     public String getEmailfromName(String name) {
@@ -109,4 +83,18 @@ public class UserService {
     public String getNamefromEmail(String email) {
         return userRepo.getNameFromEmail(email);
     }
+
+    // public Boolean userEmailExists(String email) {
+    // Boolean hasEmail = profileRepo.hasEmail(email);
+    // Boolean isRegisteredEmail = userRepo.isRegisteredEmail(email);
+    // return (isRegisteredEmail && hasEmail) ? true : false;
+    // }
+
+    // public Boolean isRegisteredName(String name) {
+    // return userRepo.isRegisteredName(name);
+    // }
+
+    // public Boolean isRegisteredEmail(String email) {
+    // return userRepo.isRegisteredEmail(email);
+    // }
 }
