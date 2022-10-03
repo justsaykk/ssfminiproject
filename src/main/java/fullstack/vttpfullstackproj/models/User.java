@@ -87,7 +87,7 @@ public class User {
         this.email = format(form.getFirst("email"));
         this.country = (country.isEmpty()) ? "unknown" : format(country.get());
         this.profilePic = (urlValidator(profilePicUrl.get()))
-                ? profilePicUrl.get().toLowerCase()
+                ? profilePicUrl.get()
                 : "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
     }
 
@@ -99,15 +99,14 @@ public class User {
                 ? "unknown"
                 : format(user.getAttribute("location"));
         this.profilePic = isGoogleAuthenticated
-                ? format(user.getAttribute("picture"))
-                : format(user.getAttribute("avatar_url"));
-        System.out.println("Pic >> " + profilePic);
+                ? user.getAttribute("picture")
+                : user.getAttribute("avatar_url");
     }
 
     public void setOldUser(MultiValueMap<String, String> form) {
         this.name = format(form.getFirst("name"));
         this.email = format(form.getFirst("email"));
         this.country = format(form.getFirst("oldCountry"));
-        this.profilePic = format(form.getFirst("oldProfilePicUrl"));
+        this.profilePic = form.getFirst("oldProfilePicUrl");
     }
 }
