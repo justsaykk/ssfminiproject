@@ -39,8 +39,7 @@ public class FrontEndController {
         if (null == user) {
             model.addAttribute("loggedin", false);
         } else {
-            User curUser = new User();
-            curUser.setOAuthUser(user);
+            User curUser = new User(user);
             model.addAttribute("loggedin", true);
             model.addAttribute("name", curUser.getName());
         }
@@ -56,8 +55,7 @@ public class FrontEndController {
         if (null == user) {
             model.addAttribute("loggedin", false);
         } else {
-            User curUser = new User();
-            curUser.setOAuthUser(user);
+            User curUser = new User(user);
             model.addAttribute("loggedin", true);
             model.addAttribute("name", curUser.getName());
         }
@@ -79,8 +77,7 @@ public class FrontEndController {
         if (null == user) {
             model.addAttribute("loggedin", false);
         } else {
-            User curUser = new User();
-            curUser.setOAuthUser(user);
+            User curUser = new User(user);
             model.addAttribute("loggedin", true);
             model.addAttribute("name", curUser.getName());
         }
@@ -103,8 +100,7 @@ public class FrontEndController {
         if (null == user) {
             model.addAttribute("loggedin", false);
         } else {
-            User curUser = new User();
-            curUser.setOAuthUser(user);
+            User curUser = new User(user);
             model.addAttribute("loggedin", true);
             model.addAttribute("name", curUser.getName());
         }

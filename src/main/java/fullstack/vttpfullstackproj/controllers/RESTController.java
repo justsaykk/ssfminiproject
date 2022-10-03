@@ -25,8 +25,7 @@ public class RESTController {
     private UserService userSvc;
 
     public User getDbUser(OAuth2User user) {
-        User currentUser = new User();
-        currentUser.setOAuthUser(user);
+        User currentUser = new User(user);
         return userSvc.getUser(currentUser.getEmail());
     }
 
@@ -53,8 +52,7 @@ public class RESTController {
             HttpServletResponse response) throws IOException {
         User oldUser = new User();
         oldUser.setOldUser(form);
-        User editedUser = new User();
-        editedUser.setUser(form);
+        User editedUser = new User(form);
         userSvc.editUserProfile(oldUser, editedUser);
         response.sendRedirect("/profile/%s".formatted(editedUser.getName()));
     }
@@ -63,8 +61,7 @@ public class RESTController {
     public void getProfile(
             @AuthenticationPrincipal OAuth2User user,
             HttpServletResponse response) throws IOException {
-        User currentUser = new User();
-        currentUser.setOAuthUser(user);
+        User currentUser = new User(user);
         if (userSvc.userExists(currentUser)) {
             String name = userSvc.getNamefromEmail(currentUser.getEmail());
             response.sendRedirect("/profile/%s".formatted(name));
