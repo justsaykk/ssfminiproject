@@ -101,6 +101,7 @@ public class User {
         this.profilePic = isGoogleAuthenticated
                 ? format(user.getAttribute("picture"))
                 : format(user.getAttribute("avatar_url"));
+        System.out.println("Pic >> " + profilePic);
     }
 
     public void setOldUser(MultiValueMap<String, String> form) {
