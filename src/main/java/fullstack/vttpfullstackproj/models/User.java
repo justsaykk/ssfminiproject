@@ -3,6 +3,7 @@ package fullstack.vttpfullstackproj.models;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.util.MultiValueMap;
@@ -80,12 +81,13 @@ public class User {
     }
 
     public void setUser(MultiValueMap<String, String> form) {
-        String profilePicUrl = form.getFirst("profilePicUrl").toLowerCase();
+        Optional<String> profilePicUrl = Optional.ofNullable(form.getFirst("profilePicUrl"));
+        Optional<String> country = Optional.ofNullable(form.getFirst("country"));
         this.name = format(form.getFirst("name"));
         this.email = format(form.getFirst("email"));
-        this.country = (form.getFirst("country").isEmpty()) ? "unknown" : format(form.getFirst("country"));
-        this.profilePic = (urlValidator(profilePicUrl))
-                ? profilePicUrl
+        this.country = (country.isEmpty()) ? "unknown" : format(country.get());
+        this.profilePic = (urlValidator(profilePicUrl.get()))
+                ? profilePicUrl.get().toLowerCase()
                 : "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
     }
 

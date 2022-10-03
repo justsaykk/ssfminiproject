@@ -1,6 +1,7 @@
 package fullstack.vttpfullstackproj.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,7 +37,8 @@ public class ProfileRepo {
 
     public List<String> getProfile(String name) {
         ListOperations<String, String> listOps = repo.opsForList();
-        return listOps.range(name, 0, listOps.size(name) + 1);
+        Optional<Long> listSize = Optional.ofNullable(listOps.size(name));
+        return listOps.range(name, 0, listSize.get() + 1);
     }
 
     public void deleteName(String name) {
