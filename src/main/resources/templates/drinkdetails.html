@@ -116,7 +116,7 @@
                     <div class="card-body">
                         <h5 class="card-title" data-th-text="${cocktailDetails.strDrink}"></h5>
                     </div>
-                    <form method="post" action="/api/adddrink" data-th-if="${loggedin == true}">
+                    <form method="post" action="/api/drink/new" data-th-if="${loggedin == true}">
                         <div class="container">
                             <div class="input-group mb-3">
                                 <button class="btn btn-outline-primary" type="submit" id="button-addon2"

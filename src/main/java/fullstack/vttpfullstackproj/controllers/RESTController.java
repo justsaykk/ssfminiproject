@@ -29,7 +29,7 @@ public class RESTController {
         return userSvc.getUser(currentUser.getEmail());
     }
 
-    @PostMapping(path = "/adddrink")
+    @PostMapping(path = "/drink/new")
     public void addDrink(
             @AuthenticationPrincipal OAuth2User user,
             @RequestBody MultiValueMap<String, String> form,
@@ -41,12 +41,13 @@ public class RESTController {
         response.sendRedirect("/drink?idDrink=%s&successful=%s".formatted(idDrink, successful));
     }
 
-    @GetMapping(path = "/adddrink")
-    public void redirectToMainPage(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/");
-    }
+    // @GetMapping(path = "/adddrink")
+    // public void redirectToMainPage(HttpServletResponse response) throws
+    // IOException {
+    // response.sendRedirect("/");
+    // }
 
-    @PostMapping(path = "/editprofile")
+    @PostMapping(path = "/profile/edit")
     public void editProfile(
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
@@ -71,9 +72,8 @@ public class RESTController {
         }
     }
 
-    @PostMapping(path = "/delete/{name}/{idDrink}")
+    @PostMapping(path = "/profile/{idDrink}/delete")
     public void deleteDrink(
-            @PathVariable(value = "name") String rawName,
             @PathVariable(value = "idDrink") String idDrink,
             @AuthenticationPrincipal OAuth2User user,
             HttpServletResponse response) throws IOException {
@@ -82,10 +82,8 @@ public class RESTController {
         response.sendRedirect("/profile/%s".formatted(dbUser.getName()));
     }
 
-    @PostMapping(path = "/deleteuser/{name}/{email}")
+    @PostMapping(path = "/user/delete")
     public void deleteUser(
-            @PathVariable(value = "name") String name,
-            @PathVariable(value = "email") String email,
             @AuthenticationPrincipal OAuth2User user,
             HttpServletResponse response) throws IOException {
         User dbUser = getDbUser(user);

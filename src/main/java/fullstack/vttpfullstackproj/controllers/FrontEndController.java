@@ -155,7 +155,7 @@ public class FrontEndController {
         return "profiledetails";
     }
 
-    @PostMapping(path = "/editprofile/{email}")
+    @PostMapping(path = "/profile/{email}/edit")
     public String editProfile(
             @PathVariable(value = "email") String email,
             Model model) {

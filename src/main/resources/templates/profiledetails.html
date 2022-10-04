@@ -64,12 +64,11 @@
                         <h6 class="card-text" data-th-text="${email}"></h6>
                         <p class="card-text" data-th-text="${profileDetails.country}"></p>
                         <div class="d-flex justify-content-between align-items-center">
-                            <form method="post" data-th-action="@{/editprofile/{email}(email = ${email})}">
+                            <form method="post" data-th-action="@{/profile/{email}/edit(email = ${email})}">
                                 <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Edit
                                     Profile</button>
                             </form>
-                            <form data-th-action="@{/api/deleteuser/{name}/{email}(name = ${name}, email = ${email})}"
-                                method="post">
+                            <form action="/api/user/delete" method="post">
                                 <button class="btn btn-outline-danger" type="submit" id="button-addon2">Delete
                                     Profile</button>
                             </form>
@@ -113,7 +112,7 @@
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <form
-                                                        data-th-action="@{/api/delete/{name}/{idDrink}(idDrink = ${cocktail.idDrink}, name = ${name})}"
+                                                        data-th-action="@{/api/profile/{idDrink}/delete(idDrink = ${cocktail.idDrink})}"
                                                         method="post">
                                                         <button class="btn btn-sm btn-outline-danger"
                                                             type="submit">Delete</button>
