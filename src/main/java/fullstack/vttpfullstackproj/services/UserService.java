@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import fullstack.vttpfullstackproj.models.User;
 import fullstack.vttpfullstackproj.repository.ProfileRepo;
-import fullstack.vttpfullstackproj.repository.UpdateRepo;
 import fullstack.vttpfullstackproj.repository.UserRepo;
 
 @Service
@@ -16,9 +15,6 @@ public class UserService {
 
     @Autowired
     private UserRepo userRepo;
-
-    @Autowired
-    private UpdateRepo updateRepo;
 
     @Autowired
     private ProfileRepo profileRepo;
@@ -45,14 +41,14 @@ public class UserService {
         String formCountry = editedUser.getCountry();
 
         if (!oldCountry.equals(formCountry))
-            updateRepo.updateCountry(email, formCountry);
+            profileRepo.updateCountry(email, formCountry);
 
         // ProfilePic changes
         String oldProfilePic = oldUser.getProfilePic();
         String formProfilePic = editedUser.getProfilePic();
 
         if (!oldProfilePic.equals(formProfilePic))
-            updateRepo.updateProfilePic(email, formProfilePic);
+            profileRepo.updateProfilePic(email, formProfilePic);
     }
 
     public void deleteUser(User user) {

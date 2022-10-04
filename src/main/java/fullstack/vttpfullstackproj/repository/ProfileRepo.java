@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,9 @@ public class ProfileRepo {
     @Autowired
     @Qualifier("repository")
     private RedisTemplate<String, String> repo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     public Boolean hasEmail(String email) {
         return repo.hasKey(email);
@@ -48,5 +52,15 @@ public class ProfileRepo {
     public void deleteDrink(String name, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
         listOps.remove(name, 0, value);
+    }
+
+    public void updateCountry(String email, String newCountry) {
+        HashOperations<String, String, String> hmOps = repo.opsForHash();
+        hmOps.put(email, "country", userRepo.repoFormat(newCountry));
+    }
+
+    public void updateProfilePic(String email, String newProfilePic) {
+        HashOperations<String, String, String> hmOps = repo.opsForHash();
+        hmOps.put(email, "profilePic", userRepo.repoFormat(newProfilePic));
     }
 }

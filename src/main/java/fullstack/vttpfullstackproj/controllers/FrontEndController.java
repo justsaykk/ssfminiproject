@@ -135,9 +135,9 @@ public class FrontEndController {
         List<String> listOfidDrink = restSvc.getProfile(name);
 
         // Get list of drinks from name
-        List<Detaileddrink> listOfCocktails = new LinkedList<>();
+        List<Drink> listOfCocktails = new LinkedList<>();
         for (String id : listOfidDrink) {
-            Detaileddrink cocktail = apiSvc.fetchDrinkById(id);
+            Drink cocktail = apiSvc.fetchDrinkById(id);
             listOfCocktails.add(cocktail);
         }
 

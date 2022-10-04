@@ -29,8 +29,6 @@ public class Detaileddrink extends Drink {
     public Detaileddrink(JsonObject jo) {
         super(jo);
         Map<String, String> map = new HashMap<>();
-        this.strInstructions = (jo.getString("strInstructions"));
-
         for (int i = 1; i < 16; i++) {
             String strKey = "strIngredient" + Integer.toString(i);
             String strValue = "strMeasure" + Integer.toString(i);
@@ -40,8 +38,9 @@ public class Detaileddrink extends Drink {
                 break;
             }
             map.put(key.toString().replaceAll("\"", ""),
-                    value.toString().replaceAll("\"", ""));
+            value.toString().replaceAll("\"", ""));
         }
         this.ingredients = map;
+        this.strInstructions = (jo.getString("strInstructions"));
     }
 }
