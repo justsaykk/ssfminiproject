@@ -72,6 +72,26 @@ user01 = ["11121", "12345", "56789"] // <-- stores drink ids
 
 user's `email` and `name` are expected to keep duplicating as more and more users utilize the app. However, the other 3 keys will only expand within.
 
+## Controller Routes
+| HTTP request | URL                   | Description                          |
+| ------------ | :-------------------- | :----------------------------------- |
+| GET          | /                     | Returns home page                    |
+| GET          | /login                | Returns login page                   |
+| GET          | /menu                 | Returns drinks page                  |
+| GET          | /drinkname?drinkName= | Returns drinkname search result page |
+| GET          | /drink?idDrink=       | Returns detailed drink page          |
+| GET          | /profile/{name}       | Returns profile page                 |
+| POST         | /profile/{email}/edit | Returns edit profile page            |
+
+## RESTController Routes
+| HTTP request | URL (/api)                | Description                                           |
+| ------------ | :------------------------ | :---------------------------------------------------- |
+| POST         | /drink/new                | Adds drink to user, redirects to drink detail page    |
+| POST         | /profile/edit             | Edits profile, redirects to profile page              |
+| GET          | /profile                  | Appends user to url, redirects to profile page        |
+| POST         | /profile/{idDrink}/delete | Deletes drink from profile, redirects to profile page |
+| POST         | /user/delete              | Deletes user from DB, redirects to /logout            |
+
 ## Project Requirements
 
 | Requirements                                        |            Status            |
