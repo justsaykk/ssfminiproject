@@ -83,18 +83,4 @@ public class UserService {
     public String getNamefromEmail(String email) {
         return userRepo.getNameFromEmail(email);
     }
-
-    // public Boolean userEmailExists(String email) {
-    // Boolean hasEmail = profileRepo.hasEmail(email);
-    // Boolean isRegisteredEmail = userRepo.isRegisteredEmail(email);
-    // return (isRegisteredEmail && hasEmail) ? true : false;
-    // }
-
-    // public Boolean isRegisteredName(String name) {
-    // return userRepo.isRegisteredName(name);
-    // }
-
-    // public Boolean isRegisteredEmail(String email) {
-    // return userRepo.isRegisteredEmail(email);
-    // }
 }

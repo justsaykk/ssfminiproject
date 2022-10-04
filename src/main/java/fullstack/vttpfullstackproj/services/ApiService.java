@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import fullstack.vttpfullstackproj.models.Cocktail;
+import fullstack.vttpfullstackproj.models.Detaileddrink;
+import fullstack.vttpfullstackproj.models.Drink;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
@@ -39,7 +40,7 @@ public class ApiService {
         return jr.readObject();
     }
 
-    public List<Cocktail> fetchDrinksByIngredients(String ingredient) {
+    public List<Drink> fetchDrinksByIngredients(String ingredient) {
         // Build API call URL
         String uri = "https://www.thecocktaildb.com/api/json/v1/1/filter.php";
         String url = UriComponentsBuilder.fromUriString(uri)
@@ -47,7 +48,7 @@ public class ApiService {
                 .toUriString();
 
         ResponseEntity<String> apiResponse = fetch(url);
-        List<Cocktail> listOfCocktails = new LinkedList<>();
+        List<Drink> listOfCocktails = new LinkedList<>();
         if (null == apiResponse.getBody()) {
             return listOfCocktails;
         }
@@ -56,14 +57,13 @@ public class ApiService {
         JsonObject jo = readApiResponse(apiResponse);
         JsonArray jsonArray = jo.getJsonArray("drinks");
         for (int i = 0; i < jsonArray.size(); i++) {
-            Cocktail n = new Cocktail();
             JsonObject jsonDrinkElement = jsonArray.getJsonObject(i);
-            listOfCocktails.add(n.createSimpleCocktail(jsonDrinkElement));
+            listOfCocktails.add(new Drink(jsonDrinkElement));
         }
         return listOfCocktails;
     }
 
-    public Cocktail fetchDrinkById(String id) {
+    public Detaileddrink fetchDrinkById(String id) {
         // Build API Call URL:
         String uri = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php";
         String url = UriComponentsBuilder.fromUriString(uri)
@@ -71,23 +71,21 @@ public class ApiService {
                 .toUriString();
 
         // Manipulate Response:
-        Cocktail n = new Cocktail();
         ResponseEntity<String> apiResponse = fetch(url);
         JsonObject jo = readApiResponse(apiResponse);
         JsonArray jsonArray = jo.getJsonArray("drinks");
         JsonObject jsonDrinkElement = jsonArray.getJsonObject(0);
-        Cocktail newDetailedCocktail = n.createDetailedCocktail(jsonDrinkElement);
-        return newDetailedCocktail;
+        return new Detaileddrink(jsonDrinkElement);
     }
 
-    public List<Cocktail> fetchDrinksByName(String drinkName) {
+    public List<Drink> fetchDrinksByName(String drinkName) {
         String uri = "https://www.thecocktaildb.com/api/json/v1/1/search.php";
         String url = UriComponentsBuilder.fromUriString(uri)
                 .queryParam("s", drinkName)
                 .toUriString();
         ResponseEntity<String> apiResponse = fetch(url);
 
-        List<Cocktail> listOfCocktails = new LinkedList<>();
+        List<Drink> listOfCocktails = new LinkedList<>();
         if (null == apiResponse.getBody()) {
             return listOfCocktails;
         }
@@ -97,9 +95,8 @@ public class ApiService {
         }
         JsonArray jsonArray = jo.getJsonArray("drinks");
         for (int i = 0; i < jsonArray.size(); i++) {
-            Cocktail n = new Cocktail();
             JsonObject jsonDrinkElement = jsonArray.getJsonObject(i);
-            listOfCocktails.add(n.createSimpleCocktail(jsonDrinkElement));
+            listOfCocktails.add(new Drink(jsonDrinkElement));
         }
         System.out.println(listOfCocktails);
         return listOfCocktails;

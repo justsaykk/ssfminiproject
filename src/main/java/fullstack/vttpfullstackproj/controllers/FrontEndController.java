@@ -41,7 +41,7 @@ public class FrontEndController {
         } else {
             User curUser = new User(user);
             model.addAttribute("loggedin", true);
-            model.addAttribute("name", curUser.getName());
+            model.addAttribute("name", userSvc.getNamefromEmail(curUser.getEmail()));
         }
         return "index";
     }
@@ -51,17 +51,16 @@ public class FrontEndController {
             @RequestParam(defaultValue = "Scotch", name = "drinkFilter") String ingredient,
             @AuthenticationPrincipal OAuth2User user,
             Model model) {
-
         if (null == user) {
             model.addAttribute("loggedin", false);
         } else {
             User curUser = new User(user);
             model.addAttribute("loggedin", true);
-            model.addAttribute("name", curUser.getName());
-        }
+            model.addAttribute("name", userSvc.getNamefromEmail(curUser.getEmail()));
 
+        }
         String searchTerm = ingredient.toLowerCase().replaceAll(" ", "+");
-        List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByIngredients(searchTerm);
+        List<Drink> listOfCocktails = apiSvc.fetchDrinksByIngredients(searchTerm);
         model.addAttribute("ingredient", toCaps(ingredient.toLowerCase()));
         model.addAttribute("listOfCocktails", listOfCocktails);
         model.addAttribute("emptyListOfCocktails", (listOfCocktails.isEmpty()) ? "true" : "false");
@@ -79,11 +78,11 @@ public class FrontEndController {
         } else {
             User curUser = new User(user);
             model.addAttribute("loggedin", true);
-            model.addAttribute("name", curUser.getName());
-        }
+            model.addAttribute("name", userSvc.getNamefromEmail(curUser.getEmail()));
 
+        }
         String searchTerm = drinkName.toLowerCase().replaceAll(" ", "+");
-        List<Cocktail> listOfCocktails = apiSvc.fetchDrinksByName(searchTerm);
+        List<Drink> listOfCocktails = apiSvc.fetchDrinksByName(searchTerm);
         model.addAttribute("ingredient", toCaps(drinkName.toLowerCase()));
         model.addAttribute("listOfCocktails", listOfCocktails);
         model.addAttribute("emptyListOfCocktails", (listOfCocktails.isEmpty()) ? "true" : "false");
@@ -102,10 +101,10 @@ public class FrontEndController {
         } else {
             User curUser = new User(user);
             model.addAttribute("loggedin", true);
-            model.addAttribute("name", curUser.getName());
+            model.addAttribute("name", userSvc.getNamefromEmail(curUser.getEmail()));
         }
 
-        Cocktail cocktail = apiSvc.fetchDrinkById(idDrink);
+        Detaileddrink cocktail = apiSvc.fetchDrinkById(idDrink);
         String message;
         if (null != successful) {
             switch (successful) {
@@ -136,9 +135,9 @@ public class FrontEndController {
         List<String> listOfidDrink = restSvc.getProfile(name);
 
         // Get list of drinks from name
-        List<Cocktail> listOfCocktails = new LinkedList<>();
+        List<Detaileddrink> listOfCocktails = new LinkedList<>();
         for (String id : listOfidDrink) {
-            Cocktail cocktail = apiSvc.fetchDrinkById(id);
+            Detaileddrink cocktail = apiSvc.fetchDrinkById(id);
             listOfCocktails.add(cocktail);
         }
 

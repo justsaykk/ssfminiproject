@@ -115,30 +115,4 @@ public class User {
         this.country = format(form.getFirst("oldCountry"));
         this.profilePic = form.getFirst("oldProfilePicUrl");
     }
-
-    // public void setUser(MultiValueMap<String, String> form) {
-    // Optional<String> profilePicUrl =
-    // Optional.ofNullable(form.getFirst("profilePicUrl"));
-    // Optional<String> country = Optional.ofNullable(form.getFirst("country"));
-    // this.name = format(form.getFirst("name"));
-    // this.email = format(form.getFirst("email"));
-    // this.country = (country.isEmpty()) ? "unknown" : format(country.get());
-    // this.profilePic = (urlValidator(profilePicUrl.get()))
-    // ? profilePicUrl.get()
-    // :
-    // "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
-    // }
-
-    // public void setOAuthUser(OAuth2User user) {
-    // Boolean isGoogleAuthenticated = user.getAttributes().containsKey("at_hash");
-    // this.name = format(user.getAttribute("name"));
-    // this.email = format(user.getAttribute("email"));
-    // this.country = isGoogleAuthenticated
-    // ? "unknown"
-    // : format(user.getAttribute("location"));
-    // this.profilePic = isGoogleAuthenticated
-    // ? user.getAttribute("picture")
-    // : user.getAttribute("avatar_url");
-    // }
-
 }

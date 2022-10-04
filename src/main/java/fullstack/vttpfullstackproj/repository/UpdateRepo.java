@@ -16,25 +16,6 @@ public class UpdateRepo {
     @Autowired
     private UserRepo userRepo;
 
-    // @Autowired
-    // private UserRepo userRepo;
-
-    // public void updateEmail(String name, String oldEmail, String newEmail) {
-    // ListOperations<String, String> listOps = repo.opsForList();
-    // HashOperations<String, String, String> hmOps = repo.opsForHash();
-
-    // // Update registeredProfiles (List)
-    // listOps.remove("registeredprofiles", 1, oldEmail);
-    // userRepo.registerEmail(newEmail);
-
-    // // Update profileMap (Map)
-    // hmOps.put("profilemap", name, newEmail);
-
-    // // Update userHashMap (Map)
-    // repo.rename(oldEmail, newEmail);
-
-    // }
-
     public void updateCountry(String email, String newCountry) {
         HashOperations<String, String, String> hmOps = repo.opsForHash();
         hmOps.put(email, "country", userRepo.repoFormat(newCountry));

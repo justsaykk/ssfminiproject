@@ -111,7 +111,6 @@ public class UserRepo {
         user.setName(hashOps.get(email, "name"));
         user.setCountry(toCaps(hashOps.get(email, "country")));
         user.setProfilePic(hashOps.get(email, "profilePic"));
-
         return user;
     }
 }
