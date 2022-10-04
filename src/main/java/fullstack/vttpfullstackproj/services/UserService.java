@@ -19,7 +19,7 @@ public class UserService {
     @Autowired
     private ProfileRepo profileRepo;
 
-    public void createProfile(User user) {
+    public void create(User user) {
         String name = user.getName();
         String email = user.getEmail();
         userRepo.registerEmail(email);

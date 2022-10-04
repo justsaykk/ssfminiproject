@@ -41,12 +41,6 @@ public class RESTController {
         response.sendRedirect("/drink?idDrink=%s&successful=%s".formatted(idDrink, successful));
     }
 
-    // @GetMapping(path = "/adddrink")
-    // public void redirectToMainPage(HttpServletResponse response) throws
-    // IOException {
-    // response.sendRedirect("/");
-    // }
-
     @PostMapping(path = "/profile/edit")
     public void editProfile(
             @RequestBody MultiValueMap<String, String> form,
@@ -67,7 +61,7 @@ public class RESTController {
             String name = userSvc.getNamefromEmail(currentUser.getEmail());
             response.sendRedirect("/profile/%s".formatted(name));
         } else {
-            userSvc.createProfile(currentUser);
+            userSvc.create(currentUser);
             response.sendRedirect("/profile/%s".formatted(currentUser.getName()));
         }
     }

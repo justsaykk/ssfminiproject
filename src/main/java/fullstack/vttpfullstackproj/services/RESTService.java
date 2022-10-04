@@ -20,7 +20,7 @@ public class RESTService {
     public Boolean addDrink(User currentUser, String idDrink) {
 
         if (!userSvc.userExists(currentUser)) {
-            userSvc.createProfile(currentUser);
+            userSvc.create(currentUser);
         }
         String name = userSvc.getNamefromEmail(currentUser.getEmail());
         return profileRepo.addDrink(name, idDrink);

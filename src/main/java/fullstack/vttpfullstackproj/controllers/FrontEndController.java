@@ -38,11 +38,16 @@ public class FrontEndController {
     public String index(Model model, @AuthenticationPrincipal OAuth2User user) {
         if (null == user) {
             model.addAttribute("loggedin", false);
-        } else {
-            User curUser = new User(user);
-            model.addAttribute("loggedin", true);
-            model.addAttribute("name", userSvc.getNamefromEmail(curUser.getEmail()));
+            return "index";
         }
+
+        User curUser = new User(user);
+        if (!userSvc.userExists(curUser)) {
+            userSvc.create(curUser);
+        }
+
+        model.addAttribute("loggedin", true);
+        model.addAttribute("name", userSvc.getNamefromEmail(curUser.getEmail()));
         return "index";
     }
 
@@ -55,9 +60,11 @@ public class FrontEndController {
             model.addAttribute("loggedin", false);
         } else {
             User curUser = new User(user);
+            if (!userSvc.userExists(curUser)) {
+                userSvc.create(curUser);
+            }
             model.addAttribute("loggedin", true);
             model.addAttribute("name", userSvc.getNamefromEmail(curUser.getEmail()));
-
         }
         String searchTerm = ingredient.toLowerCase().replaceAll(" ", "+");
         List<Drink> listOfCocktails = apiSvc.fetchDrinksByIngredients(searchTerm);
@@ -77,9 +84,11 @@ public class FrontEndController {
             model.addAttribute("loggedin", false);
         } else {
             User curUser = new User(user);
+            if (!userSvc.userExists(curUser)) {
+                userSvc.create(curUser);
+            }
             model.addAttribute("loggedin", true);
             model.addAttribute("name", userSvc.getNamefromEmail(curUser.getEmail()));
-
         }
         String searchTerm = drinkName.toLowerCase().replaceAll(" ", "+");
         List<Drink> listOfCocktails = apiSvc.fetchDrinksByName(searchTerm);
@@ -100,6 +109,9 @@ public class FrontEndController {
             model.addAttribute("loggedin", false);
         } else {
             User curUser = new User(user);
+            if (!userSvc.userExists(curUser)) {
+                userSvc.create(curUser);
+            }
             model.addAttribute("loggedin", true);
             model.addAttribute("name", userSvc.getNamefromEmail(curUser.getEmail()));
         }
