@@ -2,6 +2,7 @@ package fullstack.vttpfullstackproj.services;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,16 +21,23 @@ public class UserService {
     private ProfileRepo profileRepo;
 
     public void create(User user) {
-        String name = user.getName();
         String email = user.getEmail();
-        userRepo.registerEmail(email);
-        userRepo.registerName(name);
-        userRepo.updateProfileMapping(name, email);
-
+        String name = user.getName();
+        String uuid = UUID.randomUUID().toString();
+        // Check if there is existing uuid
+        while (userRepo.isRegisteredUUID(uuid)) {
+            uuid = UUID.randomUUID().toString();
+        }
         Map<String, String> m = new HashMap<>();
         m.put("name", name);
         m.put("country", user.getCountry());
         m.put("profilePic", user.getProfilePic());
+        m.put("uuid", uuid);
+        
+        // Do Stuff
+        userRepo.registerEmail(email);
+        userRepo.registerUUID(uuid);
+        userRepo.updateProfileMapping(uuid, email, name);
         userRepo.createProfile(email, m);
     }
 

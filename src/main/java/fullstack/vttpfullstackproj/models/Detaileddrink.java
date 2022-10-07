@@ -14,17 +14,17 @@ public class Detaileddrink extends Drink {
         return strInstructions;
     }
 
-    public void setStrInstructions(String strInstructions) {
-        this.strInstructions = strInstructions;
-    }
+    // public void setStrInstructions(String strInstructions) {
+    //     this.strInstructions = strInstructions;
+    // }
 
     public Map<String, String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Map<String, String> ingredients) {
-        this.ingredients = ingredients;
-    }
+    // public void setIngredients(Map<String, String> ingredients) {
+    //     this.ingredients = ingredients;
+    // }
 
     public Detaileddrink(JsonObject jo) {
         super(jo);
