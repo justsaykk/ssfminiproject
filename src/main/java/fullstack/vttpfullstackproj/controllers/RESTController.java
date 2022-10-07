@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import fullstack.vttpfullstackproj.models.ExistingUser;
 import fullstack.vttpfullstackproj.models.User;
 import fullstack.vttpfullstackproj.services.RESTService;
 import fullstack.vttpfullstackproj.services.UserService;
@@ -24,7 +25,7 @@ public class RESTController {
     @Autowired
     private UserService userSvc;
 
-    public User getDbUser(OAuth2User user) {
+    public ExistingUser getDbUser(OAuth2User user) {
         User currentUser = new User(user);
         return userSvc.getUser(currentUser.getEmail());
     }
@@ -34,7 +35,7 @@ public class RESTController {
             @AuthenticationPrincipal OAuth2User user,
             @RequestBody MultiValueMap<String, String> form,
             HttpServletResponse response) throws IOException {
-        User dbUser = getDbUser(user);
+        ExistingUser dbUser = getDbUser(user);
         String idDrink = form.getFirst("idDrink");
         Boolean add = restSvc.addDrink(dbUser, idDrink);
         String successful = (add) ? "true" : "false";

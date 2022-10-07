@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fullstack.vttpfullstackproj.models.ExistingUser;
 import fullstack.vttpfullstackproj.models.User;
 import fullstack.vttpfullstackproj.repository.ProfileRepo;
 import fullstack.vttpfullstackproj.repository.UserRepo;
@@ -21,13 +22,12 @@ public class RESTService {
     @Autowired
     private UserService userSvc;
 
-    public Boolean addDrink(User currentUser, String idDrink) {
+    public Boolean addDrink(ExistingUser dbUser, String idDrink) {
 
-        if (!userSvc.userExists(currentUser)) {
-            userSvc.create(currentUser);
+        if (!userSvc.userExists(dbUser)) {
+            userSvc.create(dbUser);
         }
-        String name = userSvc.getNamefromEmail(currentUser.getEmail());
-        return profileRepo.addDrink(name, idDrink);
+        return profileRepo.addDrink(dbUser.getUuid(), idDrink);
     }
 
     public void deleteDrink(User user, String idDrink) {

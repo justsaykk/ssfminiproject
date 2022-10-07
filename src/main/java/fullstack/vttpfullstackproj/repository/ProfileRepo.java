@@ -23,9 +23,8 @@ public class ProfileRepo {
         return repo.hasKey(email);
     }
 
-    public Boolean addDrink(String name, String value) {
+    public Boolean addDrink(String uuid, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
-        String uuid = userRepo.getUUIDFromName(name);
         List<String> listOfValues = getProfile(uuid);
         if (!listOfValues.contains(value)) {
             listOps.rightPush(uuid, value);

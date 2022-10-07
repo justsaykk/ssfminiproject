@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fullstack.vttpfullstackproj.models.ExistingUser;
 import fullstack.vttpfullstackproj.models.User;
 import fullstack.vttpfullstackproj.repository.ProfileRepo;
 import fullstack.vttpfullstackproj.repository.UserRepo;
@@ -76,7 +77,7 @@ public class UserService {
         return (isRegisteredEmail && hasEmail) ? true : false;
     }
 
-    public User getUser(String email) {
+    public ExistingUser getUser(String email) {
         return userRepo.getUser(email);
     }
 
