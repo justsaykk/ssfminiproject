@@ -60,12 +60,13 @@ public class UserService {
             profileRepo.updateProfilePic(email, formProfilePic);
     }
 
-    public void deleteUser(User user) {
+    public void deleteUser(ExistingUser user) {
         if (userExists(user)) {
+            profileRepo.deleteUUID(user.getUuid());
             userRepo.deregisterEmail(user.getEmail());
             userRepo.deregisterName(user.getName());
             userRepo.deleteProfileMapping(user.getName());
-            profileRepo.deleteName(user.getName());
+            userRepo.deleteUUIDMapping(user.getUuid());
             userRepo.deleteEmail(user.getEmail());
         }
     }

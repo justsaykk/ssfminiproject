@@ -81,7 +81,7 @@ public class RESTController {
     public void deleteUser(
             @AuthenticationPrincipal OAuth2User user,
             HttpServletResponse response) throws IOException {
-        User dbUser = getDbUser(user);
+        ExistingUser dbUser = getDbUser(user);
         userSvc.deleteUser(dbUser);
         response.sendRedirect("/logout");
     }

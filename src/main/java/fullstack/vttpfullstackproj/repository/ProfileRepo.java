@@ -40,8 +40,7 @@ public class ProfileRepo {
         return listOps.range(uuid, 0, listSize.get() + 1);
     }
 
-    public void deleteName(String name) {
-        String uuid = userRepo.getUUIDFromName(name);
+    public void deleteUUID(String uuid) {
         repo.delete(uuid);
     }
 

@@ -96,6 +96,11 @@ public class UserRepo {
         HashOperations<String, String, String> hashOps = repo.opsForHash();
         hashOps.delete("profilemap", repoFormat(name));
     }
+    
+    public void deleteUUIDMapping(String uuid) {
+        HashOperations<String, String, String> hashOps = repo.opsForHash();
+        hashOps.delete("uuidmap", uuid);
+    }
 
     /* Queries */
     public String getEmailFromUUID(String uuid) {
