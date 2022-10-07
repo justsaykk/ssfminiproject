@@ -1,7 +1,6 @@
 package fullstack.vttpfullstackproj.repository;
 
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,7 +26,7 @@ public class UserRepo {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
-    /*      Register    */
+    /* Register */
     public void registerEmail(String rawEmail) {
         ListOperations<String, String> listOps = repo.opsForList();
         String email = repoFormat(rawEmail);
@@ -35,7 +34,7 @@ public class UserRepo {
             listOps.leftPush("registeredprofiles", email);
         }
     }
-    
+
     public void registerUUID(String uuid) {
         ListOperations<String, String> listOps = repo.opsForList();
         if (!isRegisteredUUID(uuid)) {
@@ -54,7 +53,7 @@ public class UserRepo {
         hashOps.putAll(repoFormat(email), m);
     }
 
-    /*      Checks      */
+    /* Checks */
     public Boolean isRegisteredEmail(String email) {
         ListOperations<String, String> listOps = repo.opsForList();
         if (listOps.indexOf("registeredprofiles", repoFormat(email)) != null) {
@@ -78,7 +77,7 @@ public class UserRepo {
         return hashOps.hasKey("profilemap", repoFormat(name));
     }
 
-    /*      De-register/Delete  */
+    /* De-register/Delete */
     public void deregisterEmail(String email) {
         ListOperations<String, String> listOps = repo.opsForList();
         listOps.remove("registeredprofiles", 0, repoFormat(email));
@@ -98,7 +97,7 @@ public class UserRepo {
         hashOps.delete("profilemap", repoFormat(name));
     }
 
-    /*  Queries  */
+    /* Queries */
     public String getEmailFromUUID(String uuid) {
         HashOperations<String, String, String> hashOps = repo.opsForHash();
         return hashOps.get("uuidmap", uuid);
@@ -107,6 +106,12 @@ public class UserRepo {
     public String getUUIDFromEmail(String email) {
         HashOperations<String, String, String> hashOps = repo.opsForHash();
         return hashOps.get(repoFormat(email), "uuid");
+    }
+
+    public String getUUIDFromName(String name) {
+        HashOperations<String, String, String> hashOps = repo.opsForHash();
+        String email = getEmailFromName(name);
+        return hashOps.get(email, "uuid");
     }
 
     public String getEmailFromName(String name) {

@@ -23,16 +23,12 @@ public class ProfileRepo {
         return repo.hasKey(email);
     }
 
-    public Boolean hasName(String name) {
-        return repo.hasKey(name);
-    }
-
     public Boolean addDrink(String name, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
-        List<String> listOfValues = getProfile(name);
-
+        String uuid = userRepo.getUUIDFromName(name);
+        List<String> listOfValues = getProfile(uuid);
         if (!listOfValues.contains(value)) {
-            listOps.rightPush(name, value);
+            listOps.rightPush(uuid, value);
             return true;
         } else {
             return false;
@@ -41,17 +37,20 @@ public class ProfileRepo {
 
     public List<String> getProfile(String name) {
         ListOperations<String, String> listOps = repo.opsForList();
-        Optional<Long> listSize = Optional.ofNullable(listOps.size(name));
-        return listOps.range(name, 0, listSize.get() + 1);
+        String uuid = userRepo.getUUIDFromName(name);
+        Optional<Long> listSize = Optional.ofNullable(listOps.size(uuid));
+        return listOps.range(uuid, 0, listSize.get() + 1);
     }
 
     public void deleteName(String name) {
-        repo.delete(name);
+        String uuid = userRepo.getUUIDFromName(name);
+        repo.delete(uuid);
     }
 
     public void deleteDrink(String name, String value) {
         ListOperations<String, String> listOps = repo.opsForList();
-        listOps.remove(name, 0, value);
+        String uuid = userRepo.getUUIDFromName(name);
+        listOps.remove(uuid, 0, value);
     }
 
     public void updateCountry(String email, String newCountry) {
