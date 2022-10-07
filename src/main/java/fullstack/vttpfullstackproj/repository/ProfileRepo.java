@@ -35,9 +35,8 @@ public class ProfileRepo {
         }
     }
 
-    public List<String> getProfile(String name) {
+    public List<String> getProfile(String uuid) {
         ListOperations<String, String> listOps = repo.opsForList();
-        String uuid = userRepo.getUUIDFromName(name);
         Optional<Long> listSize = Optional.ofNullable(listOps.size(uuid));
         return listOps.range(uuid, 0, listSize.get() + 1);
     }

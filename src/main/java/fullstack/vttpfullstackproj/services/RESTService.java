@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 
 import fullstack.vttpfullstackproj.models.User;
 import fullstack.vttpfullstackproj.repository.ProfileRepo;
+import fullstack.vttpfullstackproj.repository.UserRepo;
 
 @Service
 public class RESTService {
 
     @Autowired
     private ProfileRepo profileRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     private UserService userSvc;
@@ -31,6 +35,6 @@ public class RESTService {
     }
 
     public List<String> getProfile(String name) {
-        return profileRepo.getProfile(name);
+        return profileRepo.getProfile(userRepo.getUUIDFromName(name));
     }
 }
