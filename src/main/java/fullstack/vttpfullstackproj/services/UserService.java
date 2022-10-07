@@ -64,7 +64,7 @@ public class UserService {
         if (userExists(user)) {
             profileRepo.deleteUUID(user.getUuid());
             userRepo.deregisterEmail(user.getEmail());
-            userRepo.deregisterName(user.getName());
+            userRepo.deregisterName(user.getUuid());
             userRepo.deleteProfileMapping(user.getName());
             userRepo.deleteUUIDMapping(user.getUuid());
             userRepo.deleteEmail(user.getEmail());

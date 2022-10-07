@@ -83,9 +83,9 @@ public class UserRepo {
         listOps.remove("registeredprofiles", 0, repoFormat(email));
     }
 
-    public void deregisterName(String name) {
+    public void deregisterName(String uuid) {
         ListOperations<String, String> listOps = repo.opsForList();
-        listOps.remove("registerednames", 0, repoFormat(name));
+        listOps.remove("registerednames", 0, uuid);
     }
 
     public void deleteEmail(String email) {
