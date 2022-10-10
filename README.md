@@ -41,8 +41,8 @@
 3. Users do not need to key in any details and profiles will be retrieved automatically.
 4. If it is a new user, a few things will happen automatically:
    - A redis key with the user's email will be created that holds the user's name, uuid, country and profile pic url.
-   - The registeredprofiles, registerednames, uuidmap and profilemap will be updated to have their particulars stored.
-5. The UUID 
+   - The service will check the newly generated UUID for any duplicates in `registereduuid` and if found, will assign another UUID. 
+   - The registeredprofiles, registerednames, uuidmap and profilemap will then be updated to have their particulars stored.
 
 ### Error Handling
 1. 404 Errors have its own cute ghostly page (credits to [Diogo Gomes](https://codepen.io/diogo_ml_gomes/pen/PyWdLb)).
