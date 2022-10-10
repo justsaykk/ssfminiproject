@@ -81,10 +81,10 @@ user's `email` and `name` are expected to keep duplicating as more and more user
 ## Data Retrieval
 The purpose of the maps is sort of like a "content page" to the database. It is a place where we can quickly retrieve information. The flow looks like this:
 
-| Provided/ <br> Retrieved |                                   UUID                                   |          EMAIL           | NAME                                                                       |
-| ------------------------ | :----------------------------------------------------------------------: | :----------------------: | :------------------------------------------------------------------------- |
-| UUID                     |                                   N/A                                    | Retrieve from email key  | 1. Retrieve email from profilemap <br> 2.Retrieve from uuid from email key |
-| EMAIL                    |                          Retrieve from uuidmap                           |           N/A            | Retrieve from profilemap                                                   |
+| Provided/ <br> Retrieved | UUID                                                                     | EMAIL                    | NAME                                                                       |
+| ------------------------ | :----------------------------------------------------------------------- | :----------------------- | :------------------------------------------------------------------------- |
+| UUID                     | N/A                                                                      | Retrieve from email key  | 1. Retrieve email from profilemap <br> 2.Retrieve from uuid from email key |
+| EMAIL                    | Retrieve from uuidmap                                                    | N/A                      | Retrieve from profilemap                                                   |
 | NAME                     | 1. Retrieve email from uuidmap <br> 2. Retrieve from name from email key | Retrieve from profilemap | N/A                                                                        |
 
 Whereas for `registereduuid` and `registeredprofiles` serves as a quick way for logical handlers to screen through the database for existence of the queried user.
