@@ -39,6 +39,10 @@
 1. Login can only be done via Github or Google
 2. With this OAuth2 implementation, the profile creation page & the old login page has been obsoleted.
 3. Users do not need to key in any details and profiles will be retrieved automatically.
+4. If it is a new user, a few things will happen automatically:
+   - A redis key with the user's email will be created that holds the user's name, uuid, country and profile pic url.
+   - The registeredprofiles, registerednames, uuidmap and profilemap will be updated to have their particulars stored.
+5. The UUID 
 
 ### Error Handling
 1. 404 Errors have its own cute ghostly page (credits to [Diogo Gomes](https://codepen.io/diogo_ml_gomes/pen/PyWdLb)).
@@ -47,30 +51,43 @@
 ### Database
 The database has a few *key* keys:
 1. registeredprofiles
-2. registerednames
+2. registereduuid
 3. profilemap (see [here](#data-storage))
-4. user's email
-5. user's name
+4. uuidmap
+5. user's email
+6. user's uuid
 
 
 ```javascript
 // registeredprofiles & registerednames looks like this:
 registeredprofile = ["user01@user.com", "user02@user.com", "user03@user.com"]
-registeredname = ["user01", "user02", "user03"]
+registereduuid = ["uuid-A", "uuid-B", "uuid-C"]
 /* They serve as a quick way to check if a user has been registered in the database */
 
 // user's email looks like this:
 user01@user.com = {
     name: "user01",
     profilePic: "https://someurl.com.jpg",
-    country: "Singapore"
+    country: "Singapore",
+    uuid: "9218f200-a8b1-4451-b0a8-18a976eba845"
 }
 
-// user's name looks like this:
-user01 = ["11121", "12345", "56789"] // <-- stores drink ids
+// user's uuid looks like this:
+"9218f200-a8b1-4451-b0a8-18a976eba845" = ["11121", "12345", "56789"] // <-- stores drink ids
 ```
 
-user's `email` and `name` are expected to keep duplicating as more and more users utilize the app. However, the other 3 keys will only expand within.
+user's `email` and `name` are expected to keep duplicating as more and more users utilize the app. However, the other 4 keys will only expand within.
+
+## Data Retrieval
+The purpose of the maps is sort of like a "content page" to the database. It is a place where we can quickly retrieve information. The flow looks like this:
+
+| Provided/ <br> Retrieved |                                   UUID                                   |          EMAIL           | NAME                                                                       |
+| ------------------------ | :----------------------------------------------------------------------: | :----------------------: | :------------------------------------------------------------------------- |
+| UUID                     |                                   N/A                                    | Retrieve from email key  | 1. Retrieve email from profilemap <br> 2.Retrieve from uuid from email key |
+| EMAIL                    |                          Retrieve from uuidmap                           |           N/A            | Retrieve from profilemap                                                   |
+| NAME                     | 1. Retrieve email from uuidmap <br> 2. Retrieve from name from email key | Retrieve from profilemap | N/A                                                                        |
+
+Whereas for `registereduuid` and `registeredprofiles` serves as a quick way for logical handlers to screen through the database for existence of the queried user.
 
 ## Controller Routes
 | HTTP request | URL                   | Description                          |

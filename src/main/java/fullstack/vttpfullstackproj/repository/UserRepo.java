@@ -38,7 +38,7 @@ public class UserRepo {
     public void registerUUID(String uuid) {
         ListOperations<String, String> listOps = repo.opsForList();
         if (!isRegisteredUUID(uuid)) {
-            listOps.leftPush("registerednames", uuid);
+            listOps.leftPush("registerednuuid", uuid);
         }
     }
 
@@ -65,7 +65,7 @@ public class UserRepo {
 
     public Boolean isRegisteredUUID(String uuid) {
         ListOperations<String, String> listOps = repo.opsForList();
-        if (listOps.indexOf("registerednames", uuid) != null) {
+        if (listOps.indexOf("registereduuid", uuid) != null) {
             return true;
         } else {
             return false;
@@ -85,7 +85,7 @@ public class UserRepo {
 
     public void deregisterName(String uuid) {
         ListOperations<String, String> listOps = repo.opsForList();
-        listOps.remove("registerednames", 0, uuid);
+        listOps.remove("registereduuid", 0, uuid);
     }
 
     public void deleteEmail(String email) {
@@ -96,7 +96,7 @@ public class UserRepo {
         HashOperations<String, String, String> hashOps = repo.opsForHash();
         hashOps.delete("profilemap", repoFormat(name));
     }
-    
+
     public void deleteUUIDMapping(String uuid) {
         HashOperations<String, String, String> hashOps = repo.opsForHash();
         hashOps.delete("uuidmap", uuid);
